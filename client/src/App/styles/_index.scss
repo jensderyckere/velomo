@@ -1,0 +1,10 @@
+// Basics
+@import './abstracts/functions';
+@import './abstracts/variables';
+@import './abstracts/mixins';
+@import './abstracts/animations';
+@import './abstracts/classes';
+
+// Pages
+@import './pages/home';
+@import './pages/authentication';

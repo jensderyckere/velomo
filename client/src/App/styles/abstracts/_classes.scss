@@ -1,0 +1,31 @@
+/** TYPOGRAPHY **/
+.standard-title {
+  @include d-title;
+};
+
+.standard-text {
+  @include d-text;
+};
+
+/** FORMS **/
+.input-field.lg-input {
+  @include d-input;
+};
+
+.input-field.xl-input {
+  @include d-input;
+};
+
+.input-field.large-length {
+  input {
+    width: 100% !important;
+  };
+};
+
+.submit-button {
+  @include submit;
+};
+
+.checkbox {
+  @include checkbox;
+};

@@ -1,0 +1,34 @@
+// Importing fonts
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+/** FONT FAMILIES **/
+
+$primary-family: 'DM Serif Display', serif;
+$secundary-family: 'Montserrat', sans-serif;
+$tertiary-family: 'Open Sans', sans-serif;
+
+/** FONTSIZES **/
+
+// Desktop
+$d-quote-title: rem(45px);
+$d-quote-author: rem(25px);
+$d-title: rem(20px);
+$d-text: rem(12px);
+
+// Mobile
+
+
+/** COLORS **/
+
+// Basic
+$orange: #F3A734;
+$white: #FFF;
+$black: #000;
+$grey: #F4F4F4;
+
+// Gradients
+$orange-gradient: linear-gradient(180deg, #FFE920 0%, #FFBC44 50.52%, #FF9A23 100%);
+
+/** SHADOWS **/
+
+$standard-shadow: 0px 0px 10px rgba(96, 96, 96, 0.1);

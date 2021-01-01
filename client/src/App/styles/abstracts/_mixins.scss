@@ -1,0 +1,118 @@
+/** TYPOGRAPHY **/
+
+// Title used on desktops
+@mixin d-title {
+  font-family: $secundary-family;
+  color: $black;
+  font-weight: 900;
+  font-size: $d-title;
+};
+
+// Text used on desktops
+@mixin d-text {
+  font-family: $tertiary-family;
+  color: $black;
+  font-weight: normal;
+  font-style: normal;
+  font-size: $d-text;
+};
+
+/** FORMS **/
+
+// Input used on desktop
+@mixin d-input {
+  label, input {
+    display: block;
+  };
+
+  label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+  }
+
+  input {
+    background: $white;    
+    border: 0.5px solid $grey;
+    box-sizing: border-box;    
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    margin-bottom: 20px;
+  };
+
+  input:focus {
+    border: 2px solid rgba($color: $orange, $alpha: 0.3);
+    outline: none;
+  };
+};
+
+@mixin submit {
+  background-color: $orange;
+  width: 100%;
+  border-radius: 10px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-family: $secundary-family;
+  color: $white;
+  font-size: $d-text;
+  font-weight: bold;
+};
+
+@mixin checkbox {
+  display: flex;
+  align-items: center;
+  margin: 0 0 15px 20px;
+
+  label {
+    position: relative;
+    width: rem(23px);
+    height: rem(23px);
+    margin-right: 10px;;
+
+    span {
+      width: 100%;
+      height: 100%;
+      background-color: $orange;
+      border-radius: 6px;
+      display: inline-block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      img {
+        height: 10px;
+      };
+    };
+
+    input {
+      opacity: 0;
+      position: absolute;
+      width: rem(23px);
+      height: rem(23px);
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    };
+  };
+
+  p {
+    margin: 0;
+    font-family: $secundary-family;
+    font-size: $d-text;
+
+    a {
+      color: $orange;
+      font-weight: 700;
+    };
+  };
+};
