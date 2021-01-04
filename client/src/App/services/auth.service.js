@@ -30,7 +30,7 @@ const AuthProvider = ({children}) => {
 
   const signIn = async (email, password) => {
     const url = `${Config.clientConfig.apiUrl}login`;
-
+    
     const res = await fetch(url, {
       method: 'POST',
       headers: {
@@ -43,10 +43,13 @@ const AuthProvider = ({children}) => {
       }),
     });
 
-    return await res.json(res);
+    const result = await res.json();
+    Cookies.set('token', result.token);
+
+    return result;
   };
 
-  const signUp = async (firstName, lastName, email, password, role) => {
+  const signUp = async (firstname, lastname, email, password, role) => {
     const url = `${Config.clientConfig.apiUrl}register`;
 
     const res = await fetch(url, {
@@ -56,15 +59,37 @@ const AuthProvider = ({children}) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
+        firstName: firstname,
+        lastName: lastname,
         email: email,
         password: password,
         role: role,
       }),
     });
 
-    return await res.json(res);
+    const result = await res.json();
+    Cookies.set('token', result.token);
+
+    return result;
+  };
+
+  const signUpControl = async (email, password, passwordRepeat) => {
+    const url = `${Config.clientConfig.apiUrl}register/first-check`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        passwordRepeat: passwordRepeat,
+      }),
+    });
+
+    return await res.json();
   };
 
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
@@ -76,6 +101,7 @@ const AuthProvider = ({children}) => {
       verifyUser,
       signIn,
       signUp,
+      signUpControl,
     }}>
       {children}
     </AuthContext.Provider>

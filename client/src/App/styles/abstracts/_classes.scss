@@ -51,3 +51,7 @@
 .checkbox {
   @include checkbox;
 };
+
+.radio {
+  @include radio;
+};

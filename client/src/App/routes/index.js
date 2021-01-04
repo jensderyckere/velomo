@@ -1,7 +1,10 @@
 export const HOME = '/';
 export const SIGNUP = '/signup';
+export const SIGNUP_ROLE = '/signup/add-role';
 export const SIGNIN = '/signin';
 export const RESET_PASSWORD = '/reset-password';
 export const EDIT_PASSWORD = '/reset-password/:token';
 export const SUCCES_PASSWORD = '/reset-password/:token/success';
 export const TERMS_CONDITIONS = '/terms-and-conditions';
+export const DASHBOARD = '/dashboard';
+export const ERROR = '/somethings-wrong';

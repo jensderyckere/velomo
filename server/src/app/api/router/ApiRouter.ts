@@ -31,6 +31,7 @@ export default class ApiRouter {
         this.router.get('/users', this.userController.all);
         this.router.post('/login', this.userController.login);
         this.router.post('/register', this.userController.register);
+        this.router.post('/register/first-check', this.userController.firstCheck);
 
         // Reset routes
         this.router.post('/reset', this.resetController.send);

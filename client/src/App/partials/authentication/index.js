@@ -5,3 +5,5 @@ export * from './RegisterSection';
 export * from './ResetPassword';
 export * from './EditPassword';
 export * from './SuccessPassword';
+export * from './RegisterRoleSection';
+export * from './AuthError';
