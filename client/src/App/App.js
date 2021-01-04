@@ -39,19 +39,19 @@ const App = () => {
           </Route>
           <Route exact path={Routes.RESET_PASSWORD}>
             <Authentication 
-              auth="signup"
+              auth="reset-password"
               quote={Context.QUOTES[2]}
             />
           </Route>
           <Route exact path={Routes.EDIT_PASSWORD}>
             <Authentication 
-              auth="signup"
+              auth="edit-password"
               quote={Context.QUOTES[2]}
             />
           </Route>
           <Route exact path={Routes.SUCCES_PASSWORD}>
             <Authentication 
-              auth="signup"
+              auth="success-password"
               quote={Context.QUOTES[2]}
             />
           </Route>

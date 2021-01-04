@@ -24,14 +24,14 @@ export default class App {
 
         Middleware.load(this.app, this.config);
 
-        this.startRouter();
         this.startAuth();
+        this.startRouter();
     };
 
     private initServer(): void {
         this.server = createServer(this.app);
         this.server.on('error', (e?: Error) => {
-            console.log(e);
+            this.gracefullShutdown(e);
         });
         this.server.on('close', () => {
             console.log('Closing the server');

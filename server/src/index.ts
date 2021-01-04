@@ -2,9 +2,9 @@ import { App } from './app';
 import { IConfig, Config, Mongo } from './app/services';
 
 (async () => {
-    try {
-        const config: IConfig = new Config();
+    const config: IConfig = new Config();
 
+    try {
         const mongo = new Mongo(config);
         await mongo.connect();
 

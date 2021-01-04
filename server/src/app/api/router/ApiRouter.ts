@@ -28,6 +28,7 @@ export default class ApiRouter {
 
     private initRoutes(): void {
         // User routes
+        this.router.get('/users', this.userController.all);
         this.router.post('/login', this.userController.login);
         this.router.post('/register', this.userController.register);
 

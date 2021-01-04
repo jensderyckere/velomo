@@ -20,6 +20,7 @@ export default class Mongo {
             .then(() => {
                 this.db = mongoose.connection;
                 console.log('Connected to MongoDB');
+                resolve(true);
             })
             .catch((e) => {
                 console.log('Can not connect to MongoDB');

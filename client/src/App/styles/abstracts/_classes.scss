@@ -5,9 +5,31 @@
 
 .standard-text {
   @include d-text;
+
+  a {
+    color: $orange;
+    font-weight: bold;
+    text-decoration: underline;
+  }
 };
 
 /** FORMS **/
+.input-field.xs-input {
+  @include d-input;
+};
+
+.input-field.xl-input {
+  @include d-input;
+};
+
+.input-field.md-input {
+  @include d-input;
+};
+
+.input-field.sm-input {
+  @include d-input;
+};
+
 .input-field.lg-input {
   @include d-input;
 };

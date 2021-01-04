@@ -66,10 +66,25 @@
           a {
             color: $orange;
             font-weight: 700;
-          }
-        }
-      }
+          };
+        };
+      };
     };
+  };
+
+  &__form.xs-auth {
+    width: 100% !important;
+    padding: 50px 20px 20px 30px;
+  };
+
+  &__form.sm-auth {
+    width: 100% !important;
+    padding: 60px 30px 30px 30px;
+  };
+
+  &__form.md-auth {
+    width: 100% !important;
+    padding: 60px 50px 30px 50px;
   };
 
   &__form.lg-auth {

@@ -12,6 +12,12 @@ export default class UserController {
         this.config = config;
     };
 
+    all = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        const users = await User.find().exec();
+
+        return res.status(200).json(users);
+    };
+
     register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
             const {email, password, firstName, lastName, role} = req.body;
