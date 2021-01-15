@@ -92,6 +92,41 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const submitReset = async (email) => {
+    const url = `${Config.clientConfig.apiUrl}reset`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+
+    return await res.json();
+  };
+
+  const resetPassword = async (token, password) => {
+    const url = `${Config.clientConfig.apiUrl}reset/submit`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password: password,
+        token: token,
+      }),
+    });
+
+    return await res.json();
+  };
+
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
 
   return (
@@ -102,6 +137,8 @@ const AuthProvider = ({children}) => {
       signIn,
       signUp,
       signUpControl,
+      submitReset,
+      resetPassword,
     }}>
       {children}
     </AuthContext.Provider>

@@ -28,7 +28,7 @@ export const RegisterRoleSection = ({quote}) => {
     const result = await signUp(credentials.firstname, credentials.lastname, credentials.email, credentials.password, role);
     
     if (result.redirect) {
-      history.push(Routes.HOME);
+      history.push(Routes.DASHBOARD);
     } else {
       history.push(Routes.ERROR);
     };
