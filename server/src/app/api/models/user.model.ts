@@ -2,14 +2,49 @@ import { default as mongoose, Schema, Document } from 'mongoose';
 import { default as bcrypt } from 'bcrypt';
 import { default as validator } from 'validator';
 
+import { INotification, IClub, IParent, ICyclist, IMember } from '../models';
+
+interface IProfile {
+    avatar: string;
+    bio: string;
+    uniqueCode: string;
+    _notificationIds: Array<INotification['_id']>;
+};
+
+interface ICyclistInfo {
+    _clubId: IClub['_id'];
+    _parentIds: Array<IParent['_id']>;
+};
+
+interface IMemberInfo {
+    _clubId: IClub['_id'];
+};
+
+interface IClubInfo {
+    name: string;
+    cover: string;
+    location: string;
+    _cyclistIds: Array<ICyclist['_id']>;
+    _memberIds: Array<IMember['_id']>;
+};
+
+interface IParentInfo {
+    _cyclistIds: Array<ICyclist['_id']>;
+};
+
 interface IUser extends Document {
     firstName: string;
     lastName: string;
     email:string;
     password: string;
     role: string;
+    profile: IProfile;
+    cyclist: ICyclistInfo,
+    member: IMemberInfo,
+    club: IClubInfo,
+    parent: IParentInfo,
     comparePassword(candidatePass: String, cb: Function): void;
-}
+};
 
 const userSchema: Schema = new Schema({
     firstName: {
@@ -40,6 +75,43 @@ const userSchema: Schema = new Schema({
         default: 'cyclist',
         required: true,
     },
+    profile: {
+        avatar: {
+            type: String,
+            required: false,
+            unique: true,
+        },
+        bio: {
+            type: String,
+            required: false,
+            unique: false,
+        },
+        uniqueCode: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        _notificationIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Notification',
+            unique: false,
+            required: false,
+        }],
+    },
+    cyclist: {
+        _clubId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Club',
+            required: false,
+            unique: false,
+        },
+        _parentIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Parent',
+            required: false,
+            unique: false,
+        }],
+    },
     _createdAt: {
         type: Number,
         required: true,
@@ -55,7 +127,7 @@ const userSchema: Schema = new Schema({
         required: false,
         default: null,       
     },
-});
+}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
 
 userSchema.pre('save', function (next) {
     const user: IUser = this as IUser;
@@ -92,6 +164,27 @@ userSchema.methods.comparePassword = function(candidatePass: String, cb: Functio
         return cb(null, match);
     });
 };
+
+userSchema.virtual('notification', {
+    ref: 'Notification',
+    localField: '_notificationIds',
+    foreignField: '_id',
+    justOne: false,
+});
+
+userSchema.virtual('club', {
+    ref: 'Club',
+    localField: '_clubId',
+    foreignField: '_id',
+    justOne: true,
+});
+
+userSchema.virtual('parent', {
+    ref: 'Parent',
+    localField: '_parentsId',
+    foreignField: '_id',
+    justOne: false,
+});
 
 const User = mongoose.model<IUser>('User', userSchema);
 
