@@ -1,13 +1,18 @@
-import { App } from './app';
-import { IConfig, Config, Mongo } from './app/services';
+import { App } from "./app";
+import { IConfig, Config, Mongo, Storage } from "./app/services";
 
 (async () => {
     const config: IConfig = new Config();
 
     try {
+        // Initialize mongoDB
         const mongo = new Mongo(config);
         await mongo.connect();
 
+        // Initialize image storage
+        Storage.initStream('uploads');
+
+        // Initialize express
         const app: App = new App(config);
         app.startServer();
 
@@ -20,5 +25,5 @@ import { IConfig, Config, Mongo } from './app/services';
         process.on('SIGTERM', () => stop());
     } catch (e) {
         console.log(e);
-    }
+    };
 })();

@@ -7,6 +7,8 @@ import { INotification, IClub, IParent, ICyclist, IMember } from '../models';
 interface IProfile {
     avatar: string;
     bio: string;
+    category: string;
+    setupCompleted: boolean;
     uniqueCode: string;
     _notificationIds: Array<INotification['_id']>;
 };
@@ -39,10 +41,10 @@ interface IUser extends Document {
     password: string;
     role: string;
     profile: IProfile;
-    cyclist: ICyclistInfo,
-    member: IMemberInfo,
-    club: IClubInfo,
-    parent: IParentInfo,
+    cyclist: ICyclistInfo;
+    member: IMemberInfo;
+    club: IClubInfo;
+    parent: IParentInfo;
     comparePassword(candidatePass: String, cb: Function): void;
 };
 
@@ -86,6 +88,16 @@ const userSchema: Schema = new Schema({
             required: false,
             unique: false,
         },
+        category: {
+            type: String,
+            required: false,
+            unique: false,
+        },
+        setupCompleted: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
         uniqueCode: {
             type: String,
             required: true,
@@ -103,13 +115,52 @@ const userSchema: Schema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Club',
             required: false,
-            unique: false,
         },
         _parentIds: [{
             type: Schema.Types.ObjectId,
             ref: 'Parent',
             required: false,
+        }],
+    },
+    member: {
+        _clubId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Club',
+            required: false,
+        },
+    },
+    club: {
+        name: {
+            type: String,
+            required: false,
             unique: false,
+        },
+        location: {
+            type: String,
+            required: false,
+            unique: false,
+        },
+        cover: {
+            type: String,
+            required: false,
+            unique: false,
+        },
+        _cyclistIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Cyclist',
+            required: false,
+        }],
+        _memberIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Member',
+            required: false,
+        }],
+    },
+    parent: {
+        _cyclistIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Cyclist',
+            required: false,
         }],
     },
     _createdAt: {
@@ -172,16 +223,30 @@ userSchema.virtual('notification', {
     justOne: false,
 });
 
-userSchema.virtual('club', {
+userSchema.virtual('clubInfo', {
     ref: 'Club',
     localField: '_clubId',
     foreignField: '_id',
     justOne: true,
 });
 
-userSchema.virtual('parent', {
+userSchema.virtual('parentInfo', {
     ref: 'Parent',
-    localField: '_parentsId',
+    localField: '_parentIds',
+    foreignField: '_id',
+    justOne: false,
+});
+
+userSchema.virtual('cyclistInfo', {
+    ref: 'Cyclist',
+    localField: '_cyclistIds',
+    foreignField: '_id',
+    justOne: false,
+});
+
+userSchema.virtual('memberInfo', {
+    ref: 'Member',
+    localField: '_memberIds',
     foreignField: '_id',
     justOne: false,
 });
