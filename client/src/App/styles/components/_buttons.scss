@@ -1,0 +1,48 @@
+/** BUTTONS USED IN THE HEADER **/
+
+.header-button {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
+  padding: 0 10px;
+  height: 80px;
+  position: relative;
+  
+  a {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 18px;
+      margin-right: 10px;
+    };
+
+    text-decoration: none;
+    color: $darkgrey;
+    font-style: normal;
+    font-weight: bold;  
+    font-family: $secundary-family;
+    font-size: $d-nav;
+  };
+};
+
+.header-button.current-button {
+  a {
+    color: $orange;
+
+    svg, path {
+      fill: $orange;
+    };
+  };
+
+  .header-button__bar {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    background-color: $orange;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+  };
+};

@@ -9,14 +9,11 @@ $tertiary-family: 'Open Sans', sans-serif;
 
 /** FONTSIZES **/
 
-// Desktop
 $d-quote-title: rem(45px);
 $d-quote-author: rem(25px);
 $d-title: rem(20px);
+$d-nav: rem(13px);
 $d-text: rem(12px);
-
-// Mobile
-
 
 /** COLORS **/
 
@@ -25,6 +22,7 @@ $orange: #F3A734;
 $white: #FFF;
 $black: #000;
 $grey: #F4F4F4;
+$darkgrey: #C4C4C4;
 $red: #fe4a4a;
 
 // Gradients

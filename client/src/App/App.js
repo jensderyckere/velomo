@@ -11,10 +11,16 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Authentication } from './pages';
+import { Authentication, Dashboard } from './pages';
 
 // Context
 import * as Context from './context';
+
+// Utils
+import { NeedsAuth } from './utils';
+
+// Layouts
+import { StandardLayout } from './layouts';
 
 // Initializing router
 const App = () => {
@@ -62,6 +68,13 @@ const App = () => {
                 quote={Context.QUOTES[2]}
               />
             </Route>
+            <StandardLayout>
+              <Route exact path={Routes.DASHBOARD}>
+                <NeedsAuth>
+                  <Dashboard />
+                </NeedsAuth>
+              </Route>
+            </StandardLayout>
           </Switch>
         </BrowserRouter>
       </StylingProvider>

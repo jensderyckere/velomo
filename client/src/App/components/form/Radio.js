@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // Importing services
 import { useStyling } from '../../services';

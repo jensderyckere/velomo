@@ -9,8 +9,8 @@ import { useAuth } from '../../services';
 
 export const RegisterRoleSection = ({quote}) => {
   const { state } = useLocation();
-  const history = useHistory();
   const credentials = state.credentials;
+  const history = useHistory();
   const { signUp } = useAuth();
 
   const [ checked, setChecked ] = useState();

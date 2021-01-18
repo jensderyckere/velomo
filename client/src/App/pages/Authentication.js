@@ -7,6 +7,7 @@ import { LoginSection, RegisterSection, ResetPassword, EditPassword, SuccessPass
 // Some services
 import { useAuth } from '../services';
 
+// Routes
 import * as Routes from '../routes';
 
 export const Authentication = ({auth, quote}) => {

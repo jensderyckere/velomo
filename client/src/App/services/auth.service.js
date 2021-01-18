@@ -11,7 +11,7 @@ const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({children}) => {
   const verifyUser = () => {
     const token = Cookies.get('token');
-
+    
     if (token) {
       try {
         const decoded = jwt.verify(token, 'velomo-secret');
@@ -127,12 +127,28 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const getCurrentUser = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}current-user`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
 
   return (
     <AuthContext.Provider value={{
       currentUser,
       setCurrentUser,
+      getCurrentUser,
       verifyUser,
       signIn,
       signUp,
