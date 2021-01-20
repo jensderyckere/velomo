@@ -28,12 +28,7 @@ export default class UserController {
         try {
             const { userId } = req.params;
 
-            const user = await User.findById(userId)
-            .populate({path: 'clubInfo'})
-            .populate({path: 'memberInfo'})
-            .populate({path: 'cyclistInfo'})
-            .populate({path: 'parentInfo'})
-            .exec();
+            const user = await User.findById(userId).exec();
 
             if (!user) return res.status(404).json({
                 message: "Deze gebruiker werd niet gevonden.",
@@ -70,6 +65,36 @@ export default class UserController {
             next(e);
         };
     };
+
+    updateClub = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // Get users id
+            const contentToken = this.auth.checkId(req, res);
+
+            // Changing following fields
+            const { name, location, cover, bio, avatar } = req.body;
+
+            const user = await User.findOneAndUpdate({'_id': contentToken}, {
+                $set: {
+                    'club.name': name,
+                    'club.location': location,
+                    'club.cover': cover,
+                    'profile.bio': bio,
+                    'profile.avatar': avatar,
+                },
+            }, {new: true}).exec();        
+
+            if (!user) return res.status(400).json({
+                message: "Deze gebruiker kon niet worden bijgewerkt.",
+                redirect: false,
+                status: 400,
+            });
+
+            return res.status(200).json(user);
+        } catch (e) {
+            next(e);
+        };
+    }; 
 
     updateProfile = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -185,6 +210,16 @@ export default class UserController {
                     });
                     break;
                 case "parent":
+                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        $push: {
+                            'cyclist._parentIds': sender._id,
+                        },
+                    });
+                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        $push: {
+                            'parent._cyclistIds': sender._id,
+                        },
+                    });
                     break;
                 default:
                     break;
@@ -194,6 +229,16 @@ export default class UserController {
         if (sender.role === 'clubmember') {
             switch (receiver.role) {
                 case "club":
+                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        $push: {
+                            'member._clubId': receiver._id,
+                        },
+                    });
+                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        $push: {
+                            'club._memberIds': sender._id,
+                        },
+                    });
                     break;
                 default:
                     break;
@@ -203,6 +248,14 @@ export default class UserController {
         if (sender.role === 'parent') {
             switch (receiver.role) {
                 case "cyclist":
+                    connectionReceiver = await User.findOneAndUpdate({_id: sender._id}, {
+                        $push: {
+                            'club._cyclistIds': receiver._id,
+                        },
+                    });
+                    connectionSender = await User.findOneAndUpdate({_id: receiver._id}, {
+                        'cyclist._clubId': sender._id,
+                    });
                     break;
                 default:
                     break;
@@ -212,6 +265,16 @@ export default class UserController {
         if (sender.role === 'club') {
             switch (receiver.role) {
                 case "cyclist":
+                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        $push: {
+                            'member._clubId': receiver._id,
+                        },
+                    });
+                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        $push: {
+                            'club._memberIds': sender._id,
+                        },
+                    });
                     break;
                 case "clubmember":
                     break;

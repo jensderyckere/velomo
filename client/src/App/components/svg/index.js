@@ -7,3 +7,4 @@ export * from './SearchSVG';
 export * from './ArrowSVG';
 export * from './MoreSVG';
 export * from './ExitSVG';
+export * from './LoaderSVG';

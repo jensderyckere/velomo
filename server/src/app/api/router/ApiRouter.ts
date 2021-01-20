@@ -38,6 +38,7 @@ export default class ApiRouter {
         this.router.patch('/users/settings', this.userController.checkToken, this.userController.updateSettings);
         this.router.patch('/users/password', this.userController.checkToken, this.userController.updatePassword);
         this.router.patch('/users/connections', this.userController.checkToken, this.userController.connectUsers);
+        this.router.patch('/users/club', this.userController.checkToken, this.userController.updateClub)
 
         // Authentication
         this.router.post('/login', this.userController.login);
@@ -46,7 +47,7 @@ export default class ApiRouter {
 
         // Storage
         this.router.get('/picture/:avatar', this.pictureController.showAvatar);
-        this.router.post('/picture/avatar', this.pictureController.uploadAvatar, multer({storage: memoryStorage()}).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
+        this.router.post('/picture/upload', multer({storage: memoryStorage()}).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
         this.router.delete('/picture/:avatar');
 
         // Reset

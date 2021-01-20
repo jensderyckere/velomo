@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // Components
-import { DashboardCard } from '../components';
+import { DashboardCard, LoaderSVG } from '../components';
 
 // Partials
 import { Welcome } from '../partials';
@@ -26,18 +26,25 @@ export const Dashboard = () => {
 
   return (
     user ? (
-      <div className="row">
-        <div className="col-12 col-lg-8">
-          <Welcome 
-            screenSize={screenSize}
-          />
+      <>
+        <div className="row">
+          <div className="col-12 col-lg-8">
+            <Welcome 
+              screenSize={screenSize}
+            />
+          </div>
+          <div className="col-4 d-lg-flex d-none">
+            <DashboardCard 
+              user={user}
+            />
+          </div>
         </div>
-        <div className="col-4 d-lg-flex d-none">
-          <DashboardCard 
-            user={user}
-          />
+        <div className="row">
+          <div className="col-lg-8 col-12">
+            
+          </div>
         </div>
-      </div>
-    ) : 'LOADING'
+      </>
+    ) : <LoaderSVG />
   );
 };

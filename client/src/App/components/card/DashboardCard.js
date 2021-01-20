@@ -1,14 +1,16 @@
 import React from 'react';
 
 // Components
-import { ConnectCard } from '.';
+import { ConnectCard, ClubCard } from '.';
 
 export const DashboardCard = ({ user }) => {
   return (
     <section className="grey-card dashboard-card">
       {
         user.role === 'cyclist' ? user.cyclist._clubId ? (
-          ''
+          <ClubCard 
+            clubid={user.cyclist._clubId}
+          />
         ) : (
           <ConnectCard 
             user={user}
@@ -19,7 +21,9 @@ export const DashboardCard = ({ user }) => {
       }
       {
         user.role === 'member' ? user.member._clubId ? (
-          ''
+          <ClubCard 
+            clubid={user.cyclist._clubId}
+          />
         ) : (
           <ConnectCard 
             user={user}

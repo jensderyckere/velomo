@@ -142,6 +142,21 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const getUser = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}users/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
 
   return (
@@ -149,6 +164,7 @@ const AuthProvider = ({children}) => {
       currentUser,
       setCurrentUser,
       getCurrentUser,
+      getUser,
       verifyUser,
       signIn,
       signUp,

@@ -124,9 +124,30 @@
   margin-top: 20px;
 };
 
+.margin-top-50 {
+  margin-top: 50px;
+};
+
 .padding-50-30 {
   padding: 50px 30px;
 };
+
+.avatar {
+  @include avatar;
+};
+
+.avatar-big {
+  width: 100px;
+  height: 100px;
+};
+
+.cover {
+  @include cover;
+};
+
+.loader {
+  @include loader;
+}
 
 .error {
   color: $red;

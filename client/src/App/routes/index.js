@@ -11,6 +11,7 @@ export const CHAT = '/chat';
 export const TEAM = '/team';
 export const GOALS = '/goals';
 export const PROFILE = '/profile';
+export const CLUB = '/club/:name/:id';
 export const SETTINGS = '/settings';
 export const NOTIFICATIONS = '/notifications';
 export const CHALLENGES = '/challenges';

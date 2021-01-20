@@ -55,11 +55,10 @@ class Storage {
               message: "Afbeeldingen kon niet worden upgeload",
               redirect: false,
               status: 500,
-            })
-            .on('finish', () => {
-              req.file.filename = name;
-              next();
             });
+          }).on('finish', () => {
+            req.file.filename = name;
+            next();
           }));
         });
       });
