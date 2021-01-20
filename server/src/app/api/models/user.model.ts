@@ -81,7 +81,7 @@ const userSchema: Schema = new Schema({
         avatar: {
             type: String,
             required: false,
-            unique: true,
+            unique: false,
         },
         bio: {
             type: String,

@@ -37,7 +37,7 @@ export default class ApiRouter {
         this.router.patch('/users/profile', this.userController.checkToken, this.userController.updateProfile);
         this.router.patch('/users/settings', this.userController.checkToken, this.userController.updateSettings);
         this.router.patch('/users/password', this.userController.checkToken, this.userController.updatePassword);
-        this.router.patch('/users/connections', this.userController.checkToken);
+        this.router.patch('/users/connections', this.userController.checkToken, this.userController.connectUsers);
 
         // Authentication
         this.router.post('/login', this.userController.login);

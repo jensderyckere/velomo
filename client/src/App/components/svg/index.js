@@ -5,3 +5,5 @@ export * from './GoalsSVG';
 export * from './TeamSVG';
 export * from './SearchSVG';
 export * from './ArrowSVG';
+export * from './MoreSVG';
+export * from './ExitSVG';

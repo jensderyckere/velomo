@@ -44,6 +44,10 @@
   };
 };
 
+.standard-button {
+  @include standard-button;
+};
+
 .submit-button {
   @include submit;
 };
@@ -56,6 +60,81 @@
   @include radio;
 };
 
+.code {
+  @include code;
+};
+
 .more-view {
   @include more-view;
+};
+
+.giant-title-size {
+  font-size: $d-quote-author;
+};
+
+.title-size {
+  font-size: $d-title;
+};
+
+.subtitle-size {
+  font-size: $d-subtitle;
+};
+
+.text-size {
+  font-size: $d-text;
+};
+
+.primary-font {
+  font-family: $primary-family;
+};
+
+.secundary-font {
+  font-family: $secundary-family;
+};
+
+.tertiary-font {
+  font-family: $tertiary-family;
+};
+
+.bold-font {
+  font-weight: bold;
+};
+
+.radius-10 {
+  border-radius: 10px;
+};
+
+.radius-20 {
+  border-radius: 20px;
+};
+
+.white-color {
+  color: #ffffff;
+};
+
+.text-shadow {
+  text-shadow: 0px 0px 24px rgba(0, 0, 0, 0.15);
+};
+
+.grey-card {
+  @include grey-card;
+};
+
+.margin-top-20 {
+  margin-top: 20px;
+};
+
+.padding-50-30 {
+  padding: 50px 30px;
+};
+
+.error {
+  color: $red;
+  text-align: center;
+  font-family: $secundary-family;
+  font-size: $d-text;
+};
+
+main {
+  padding: 60px 0;
 };

@@ -46,3 +46,42 @@
     height: 4px;
   };
 };
+
+.hamburger-button {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
+  padding: 20px 10px;
+  border-bottom: 1px solid $grey;
+  position: relative;
+  
+  a {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 18px;
+      margin-right: 10px;
+    };
+
+    text-decoration: none;
+    color: $darkgrey;
+    font-style: normal;
+    font-weight: bold;  
+    font-family: $secundary-family;
+    font-size: $d-nav;
+  };
+}
+
+.hamburger-button.current-button {  
+  a {
+    display: flex;
+    align-items: center;
+
+    svg, path {
+      fill: $orange;
+    };
+
+    color: $orange;
+  };
+}

@@ -28,6 +28,10 @@
   };
 };
 
+.mobile-header {
+  padding: 30px;
+};
+
 .search-engine-header {
   background-color: $grey;
   border-radius: 5px;
@@ -102,5 +106,49 @@
     svg {
       transform: rotate(180deg);
     };
+  };
+};
+
+.mobile-profile {
+  display: flex;
+  align-items: center;
+
+  &__avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    background-size: cover;
+    margin-right: 10px;
+    cursor: pointer;
+  };
+
+  &__more {
+    cursor: pointer;
+
+    svg {
+      height: 20px;
+    };
+  };
+
+  &__exit {
+    cursor: pointer;
+
+    svg {
+      height: 20px;
+    };
+  };
+};
+
+.hamburger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #FFFFFF;
+  padding: 30px;
+
+  &__content {
+    padding: 80px 30px;
   };
 };

@@ -4,7 +4,7 @@ import React from 'react';
 import { useStyling } from '../../services';
 
 // Partials
-import { DesktopHeader } from '.';
+import { DesktopHeader, MobileHeader } from '.';
 
 export const Header = ({ user }) => {
   const { screenSize } = useStyling();
@@ -15,7 +15,7 @@ export const Header = ({ user }) => {
         screenSize === 'xl' || screenSize === 'lg' ? (
           <DesktopHeader user={user} />
         ) : (
-          ''
+          <MobileHeader user={user} />
         )
       }
     </header>

@@ -163,6 +163,78 @@ export default class UserController {
         };
     };
 
+    connectUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        const { id, code } = req.body;
+
+        let connectionReceiver;
+        let connectionSender;
+
+        const sender = await User.findOne({'_id': id});
+        const receiver = await User.findOne({'profile.uniqueCode': code});
+
+        if (sender.role === 'cyclist') {
+            switch (receiver.role) {
+                case "club":
+                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        'cyclist._clubId': receiver._id,
+                    });
+                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        $push: {
+                            'club._cyclistIds': sender._id,
+                        },
+                    });
+                    break;
+                case "parent":
+                    break;
+                default:
+                    break;
+            };
+        };
+
+        if (sender.role === 'clubmember') {
+            switch (receiver.role) {
+                case "club":
+                    break;
+                default:
+                    break;
+            };
+        };
+
+        if (sender.role === 'parent') {
+            switch (receiver.role) {
+                case "cyclist":
+                    break;
+                default:
+                    break;
+            };
+        };
+
+        if (sender.role === 'club') {
+            switch (receiver.role) {
+                case "cyclist":
+                    break;
+                case "clubmember":
+                    break;
+                default:
+                    break;
+            };
+        };
+
+        if (!connectionReceiver) return res.status(400).json({
+            message: "De ontvanger kon niet worden bijgewerkt.",
+            redirect: false,
+            status: 400,
+        });
+
+        if (!connectionSender) return res.status(400).json({
+            message: "De zender kon niet worden bijgewerkt.",
+            redirect: false,
+            status: 400,
+        });
+
+        return res.status(200).json(connectionSender);
+    };
+
     checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             // Check if user has admin role
@@ -258,9 +330,19 @@ export default class UserController {
                 email: email,
                 role: role,
                 password: password,
+                profile: {
+                    uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
+                },
             });
     
             const user: IUser = await createUser.save();
+
+            if (!user) return res.status(400).json({
+                message: "Could not register user",
+                redirect: false,
+                status: 400,
+            });
+
             const token = this.auth.createToken(user);
 
             return res.status(200).json({

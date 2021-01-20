@@ -167,6 +167,44 @@
   };
 };
 
+@mixin standard-button {
+  background-color: $orange;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: $white;
+  font-family: $secundary-family;
+  font-weight: bold;
+  font-size: $d-text;
+  cursor: pointer;
+};
+
+@mixin code {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 30px;
+
+  input {
+    width: 23%;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: $secundary-family;
+    font-size: $d-text;
+    font-weight: bold;
+  };
+
+  input:focus {
+    outline: none;
+  };
+};
+
+/** LINKS **/
+
 @mixin more-view {
   background: #FFFFFF;  
   border: 1px solid #F4F4F4;
@@ -191,4 +229,12 @@
       };
     };
   };
+};
+
+/** CARDS **/ 
+
+@mixin grey-card {
+  background-color: $lightgrey;
+  border-radius: 10px;
+  width: 100%;
 };
