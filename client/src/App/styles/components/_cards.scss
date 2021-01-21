@@ -4,3 +4,13 @@
     margin-bottom: -80px; 
   };
 };
+
+.cyclists-card {
+  padding: 50px 30px 50px 30px;
+
+  &__overview {
+    padding-bottom: 20px;
+    max-height: 200px;
+    overflow-y: scroll;
+  };
+};

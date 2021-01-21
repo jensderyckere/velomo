@@ -157,6 +157,46 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const getMultipleUsers = async (token, ids) => {
+    let array = [];
+
+    for (const id of ids) {
+      const url = `${Config.clientConfig.apiUrl}users/${id}`;
+
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+  
+      array.push(await res.json())
+    };
+
+    return array;
+  };
+
+  const createConnection = async (token, senderId, code) => {
+    const url = `${Config.clientConfig.apiUrl}users/connections`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        id: senderId,
+        code: code,
+      }),
+    });
+
+    return await res.json();
+  };
+
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
 
   return (
@@ -165,6 +205,8 @@ const AuthProvider = ({children}) => {
       setCurrentUser,
       getCurrentUser,
       getUser,
+      getMultipleUsers,
+      createConnection,
       verifyUser,
       signIn,
       signUp,

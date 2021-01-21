@@ -5,7 +5,9 @@ const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
   return (
-    <ApiContext.Provider>
+    <ApiContext.Provider value={{
+
+    }}>
       {children}
     </ApiContext.Provider>
   )

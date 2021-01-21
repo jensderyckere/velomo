@@ -11,6 +11,9 @@ import { ArrowSVG } from '../../components';
 // Routes
 import * as Routes from '../../routes';
 
+// Config
+import * as Config from '../../config';
+
 export const Profile = ({ user }) => {
   const history = useHistory();
 
@@ -20,7 +23,7 @@ export const Profile = ({ user }) => {
   return (
     <div className="profile">
       <div className="profile__avatar" onClick={() => history.push(Routes.PROFILE)} style={{
-        backgroundImage: `url(${user.profile.avatar ? user.profile.avatar : User})`
+        backgroundImage: `url(${user.profile.avatar ? `${Config.clientConfig.apiUrl}picture/${user.profile.avatar}`: User})`
       }}></div>
       <div className={`profile__more ${more ? 'active-more' : ''}`} onClick={() => setMore(!more)}>
         <span>{user.firstName}</span>
@@ -30,7 +33,7 @@ export const Profile = ({ user }) => {
         more && (
           <div className="profile__more--show more-view">
             <div className="more-view__link">
-              <NavLink to={Routes.PROFILE}>
+              <NavLink to={Routes.MY_PROFILE}>
                 <img src={MyProfile} alt="profile" />
                 <span>Mijn profiel</span>
               </NavLink>

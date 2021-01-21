@@ -3,7 +3,7 @@ import { default as passwordValidator } from "password-validator";
 import { default as bcrypt } from "bcrypt";
 
 import { Auth, IConfig } from "../../services";
-import { IUser, User } from "../models";
+import { Club, Cyclist, IClub, ICyclist, IMember, IParent, IUser, Member, Parent, User } from "../models";
 
 export default class UserController {
     private auth: Auth;
@@ -17,7 +17,7 @@ export default class UserController {
     all = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
             // Get all users
-            const users = await User.find().exec();
+            const users = await User.find().populate('cyclistInfo').populate('clubInfo').exec();
             return res.status(200).json(users);
         } catch (e) {
             next(e);
@@ -28,7 +28,65 @@ export default class UserController {
         try {
             const { userId } = req.params;
 
-            const user = await User.findById(userId).exec();
+            const user = await User.findById(userId)
+            .populate({
+                path: 'club',
+                populate: {
+                    path: '_cyclistIds',
+                    populate: {
+                        path: '_userId',
+                        populate: {
+                            path: 'cyclist',
+                        },
+                    },
+                },
+            })
+            .populate({
+                path: 'club',
+                populate: {
+                    path: '_memberIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'cyclist',
+                populate: {
+                    path: '_clubId',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'cyclist',
+                populate: {
+                    path: '_parentIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'member',
+                populate: {
+                    path: '_clubId',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'parent',
+                populate: {
+                    path: '_cyclistIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .exec();
 
             if (!user) return res.status(404).json({
                 message: "Deze gebruiker werd niet gevonden.",
@@ -48,10 +106,63 @@ export default class UserController {
             const userId = this.auth.checkId(req, res);
 
             const user = await User.findById(userId)
-            .populate({path: 'clubInfo'})
-            .populate({path: 'memberInfo'})
-            .populate({path: 'cyclistInfo'})
-            .populate({path: 'parentInfo'})
+            .populate({
+                path: 'club',
+                populate: {
+                    path: '_cyclistIds',
+                    populate: {
+                        path: '_userId',
+                        populate: {
+                            path: 'cyclist',
+                        },
+                    },
+                },
+            })
+            .populate({
+                path: 'club',
+                populate: {
+                    path: '_memberIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'cyclist',
+                populate: {
+                    path: '_clubId',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'cyclist',
+                populate: {
+                    path: '_parentIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'member',
+                populate: {
+                    path: '_clubId',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
+            .populate({
+                path: 'parent',
+                populate: {
+                    path: '_cyclistIds',
+                    populate: {
+                        path: '_userId',
+                    },
+                },
+            })
             .exec();
 
             if (!user) return res.status(404).json({
@@ -194,28 +305,65 @@ export default class UserController {
         let connectionReceiver;
         let connectionSender;
 
-        const sender = await User.findOne({'_id': id});
-        const receiver = await User.findOne({'profile.uniqueCode': code});
+        const sendCode = await User.findOne({'_id': id});
+        const placedCode = await User.findOne({'profile.uniqueCode': code});
 
-        if (sender.role === 'cyclist') {
-            switch (receiver.role) {
+        let receiver;
+        let sender;
+
+        switch (placedCode.role) {
+            case "club":
+                receiver = await Club.findOne({_userId: placedCode._id});
+                break;
+            case "cyclist":
+                receiver = await Cyclist.findOne({_userId: placedCode._id});
+                break;
+            case "parent":
+                receiver = await Parent.findOne({_userId: placedCode._id});
+                break;   
+            case "clubmember":
+                receiver = await Member.findOne({_userId: placedCode._id});
+                break;
+            default:
+                break;
+        };
+
+        switch (sendCode.role) {
+            case "club":
+                sender = await Club.findOne({_userId: sendCode._id});
+                break;
+            case "cyclist":
+                sender = await Cyclist.findOne({_userId: sendCode._id});
+                break;
+            case "parent":
+                sender = await Parent.findOne({_userId: sendCode._id});
+                break;   
+            case "clubmember":
+                sender = await Member.findOne({_userId: sendCode._id});
+                break;
+            default:
+                break;
+        };
+
+        if (sendCode.role === 'cyclist') {
+            switch (placedCode.role) {
                 case "club":
-                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
                         'cyclist._clubId': receiver._id,
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
                         $push: {
                             'club._cyclistIds': sender._id,
                         },
                     });
                     break;
                 case "parent":
-                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
                         $push: {
                             'cyclist._parentIds': sender._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
                         $push: {
                             'parent._cyclistIds': sender._id,
                         },
@@ -226,15 +374,15 @@ export default class UserController {
             };
         };
 
-        if (sender.role === 'clubmember') {
-            switch (receiver.role) {
+        if (sendCode.role === 'clubmember') {
+            switch (placedCode.role) {
                 case "club":
-                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
                         $push: {
                             'member._clubId': receiver._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
                         $push: {
                             'club._memberIds': sender._id,
                         },
@@ -245,15 +393,15 @@ export default class UserController {
             };
         };
 
-        if (sender.role === 'parent') {
-            switch (receiver.role) {
+        if (sendCode.role === 'parent') {
+            switch (placedCode.role) {
                 case "cyclist":
-                    connectionReceiver = await User.findOneAndUpdate({_id: sender._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({_id: sendCode._id}, {
                         $push: {
                             'club._cyclistIds': receiver._id,
                         },
                     });
-                    connectionSender = await User.findOneAndUpdate({_id: receiver._id}, {
+                    connectionSender = await User.findOneAndUpdate({_id: placedCode._id}, {
                         'cyclist._clubId': sender._id,
                     });
                     break;
@@ -262,15 +410,15 @@ export default class UserController {
             };
         };
 
-        if (sender.role === 'club') {
-            switch (receiver.role) {
+        if (sendCode.role === 'club') {
+            switch (placedCode.role) {
                 case "cyclist":
-                    connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
                         $push: {
                             'member._clubId': receiver._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
                         $push: {
                             'club._memberIds': sender._id,
                         },
@@ -283,14 +431,16 @@ export default class UserController {
             };
         };
 
-        if (!connectionReceiver) return res.status(400).json({
-            message: "De ontvanger kon niet worden bijgewerkt.",
+        console.log(connectionReceiver, connectionSender);
+
+        if (!connectionSender) return res.status(400).json({
+            message: "De zender kon niet worden bijgewerkt.",
             redirect: false,
             status: 400,
         });
 
-        if (!connectionSender) return res.status(400).json({
-            message: "De zender kon niet worden bijgewerkt.",
+        if (!connectionReceiver) return res.status(400).json({
+            message: "De ontvanger kon niet worden bijgewerkt.",
             redirect: false,
             status: 400,
         });
@@ -386,8 +536,8 @@ export default class UserController {
                 redirect: false,
                 status: 409,
             });
-    
-            const createUser: IUser = new User({
+
+            let createUser : IUser = new User({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -397,6 +547,35 @@ export default class UserController {
                     uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
                 },
             });
+    
+            switch (role) {
+                case "cyclist":
+                    const createCyclistDoc : ICyclist = new Cyclist({
+                        _userId: createUser._id,
+                    });
+                    await createCyclistDoc.save();
+                    break;
+                case "parent":
+                    const createParentDoc : IParent = new Parent({
+                        _userId: createUser._id,
+                    });
+                    await createParentDoc.save();
+                    break;
+                case "clubmember":
+                    const createMemberDoc : IMember = new Member({
+                        _userId: createUser._id,
+                    });
+                    await createMemberDoc.save();
+                    break;
+                case "club":
+                    const createClubDoc : IClub = new Club({
+                        _userId: createUser._id,
+                    });
+                    await createClubDoc.save();
+                    break;
+                default:
+                    break;
+            };
     
             const user: IUser = await createUser.save();
 

@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 // Components
 import { Code, StandardButton } from '../../components';
 
-export const ConnectCard = ({user, title, text, type}) => {
+// Services
+import { useAuth } from '../../services';
+
+export const ConnectCard = ({user, title, text}) => {
+  const { createConnection, currentUser } = useAuth();
+
   const [ error, setError ] = useState({
     visible: false,
     text: 'Deze bestaat nie',
@@ -16,8 +21,26 @@ export const ConnectCard = ({user, title, text, type}) => {
     3: '',
   });
 
-  const submitConnection = () => {
-    
+  const submitConnection = async () => {
+    try {
+      const result = await createConnection(currentUser, user._id, `${code[0]}${code[1]}${code[2]}${code[3]}`);
+
+      if (!result.redirect) {
+        setError({
+          visible: true,
+          text: result.message,
+        });
+
+        return;
+      };
+
+      window.location.reload();
+    } catch (e) {
+      setError({
+        visible: true,
+        text: 'Er is iets verkeerd gelopen',
+      });
+    };
   };
 
   return (
@@ -26,7 +49,7 @@ export const ConnectCard = ({user, title, text, type}) => {
         {title}
       </h1>
       <p className="text-center secundary-font text-size margin-top-20">
-        {title}
+        {text}
       </p>
       <form id="connect-form">
         <Code setCode={setCode} code={code} />
@@ -40,6 +63,7 @@ export const ConnectCard = ({user, title, text, type}) => {
         <div className="d-flex justify-content-center connect-card__button margin-top-20">
           <StandardButton 
             text="Bevestig"
+            action={submitConnection}
           />
         </div>
       </form>

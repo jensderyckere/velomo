@@ -120,8 +120,16 @@
   @include grey-card;
 };
 
+.margin-0 {
+  margin: 0;
+};
+
 .margin-top-20 {
   margin-top: 20px;
+};
+
+.margin-top-30 {
+  margin-top: 30px;
 };
 
 .margin-top-50 {
@@ -132,6 +140,18 @@
   padding: 50px 30px;
 };
 
+.p-relative {
+  position: relative;
+};
+
+.p-absolute {
+  position: absolute;
+};
+
+.p-fixed {
+  position: fixed;
+};
+
 .avatar {
   @include avatar;
 };
@@ -139,6 +159,16 @@
 .avatar-big {
   width: 100px;
   height: 100px;
+};
+
+.avatar-standard {
+  width: 50px;
+  height: 50px;
+};
+
+.avatar-small {
+  width: 30px;
+  height: 30px;
 };
 
 .cover {
@@ -158,4 +188,61 @@
 
 main {
   padding: 60px 0;
+};
+
+.w-100 {
+  width: 100%;
+  padding: 0 20px;
+};
+
+.w-70 {
+  width: 70%;
+  padding: 0 20px;
+};
+
+.w-30 {
+  width: 30%;
+  padding: 0 20px;
+};
+
+.left-sided {
+  left: 0;
+};
+
+.right-sided {
+  right: 0;
+};
+
+.no-scroll {
+  .scroll::-webkit-scrollbar {
+    display: none;
+  };
+
+  .scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  };
+};
+
+.custom-scroll {
+  .scroll {
+    scrollbar-color: $orange $grey;
+  }
+
+  .scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .scroll::-webkit-scrollbar-track {
+    background: $orange;
+  }
+  
+  /* Handle */
+  .scroll::-webkit-scrollbar-thumb {
+    background: $orange;
+  }
+  
+  .scroll::-webkit-scrollbar-thumb:hover {
+    background: $orange;
+  }
 };

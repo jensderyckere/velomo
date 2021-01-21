@@ -11,11 +11,11 @@ const clubSchema: Schema = new Schema({
   _userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
   },
   _createdAt: {
     type: Number,
-    required: true,
+    required: false,
     default: Date.now(),
   },
 }, {toJSON: {virtuals: true}, toObject: {virtuals: true}});

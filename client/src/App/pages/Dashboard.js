@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DashboardCard, LoaderSVG } from '../components';
 
 // Partials
-import { Welcome } from '../partials';
+import { Activitites, MessagesTeaser, Welcome } from '../partials';
 
 // Services
 import { useAuth, useStyling } from '../services';
@@ -27,23 +27,29 @@ export const Dashboard = () => {
   return (
     user ? (
       <>
-        <div className="row">
-          <div className="col-12 col-lg-8">
-            <Welcome 
-              screenSize={screenSize}
-            />
-          </div>
-          <div className="col-4 d-lg-flex d-none">
-            <DashboardCard 
-              user={user}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-8 col-12">
-            
-          </div>
-        </div>
+      <div className={`container d-flex ${screenSize === 'lg' || screenSize === 'xl' ? 'p-relative': ''}`}>
+        <section className={`left-sided ${screenSize === 'lg' || screenSize === 'xl' ? 'w-70': 'w-100'}`}>
+          <Welcome 
+            screenSize={screenSize}
+          />
+          <MessagesTeaser 
+            screenSize={screenSize}
+          />
+          <Activitites 
+            screenSize={screenSize}
+            user={user}
+          />
+        </section>
+        {
+          screenSize === 'lg' || screenSize === 'xl' && (
+            <section className="right-sided w-30 p-absolute">
+              <DashboardCard 
+                user={user}
+              />
+            </section>
+          )
+        }
+      </div>
       </>
     ) : <LoaderSVG />
   );

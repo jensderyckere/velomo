@@ -43,7 +43,7 @@ export const StandardLayout = ({ children }) => {
           <Header user={user} />
         )
       }
-      <main className="container">
+      <main>
         {children}
       </main>
     </div>

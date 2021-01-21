@@ -1,0 +1,30 @@
+.short-user-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px 0;
+  position: relative;
+
+  &__left {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      margin-right: 20px;
+    };
+  };
+
+  &__right {
+    cursor: pointer;
+     svg {
+       height: 20px;
+     };
+  };
+
+  &__more {
+    position: absolute;
+    right: 0;
+    top: 40px;
+  };
+};

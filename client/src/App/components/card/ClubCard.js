@@ -13,11 +13,11 @@ import * as Config from '../../config';
 // Images
 import CoverDefault from '../../assets/images/cover_default.jpg';
 import UserDefault from '../../assets/icons/user.svg';
-import { StandardButton } from '../button';
 
 // Components
 import { SlugText } from '../text';
 import { LoaderSVG } from '../svg';
+import { StandardButton } from '../button';
 
 export const ClubCard = ({ clubid }) => {
   const history = useHistory();
@@ -27,12 +27,12 @@ export const ClubCard = ({ clubid }) => {
 
   const fetchClub = useCallback(async () => {
     try {
-      const data = await getUser(currentUser, clubid);
+      const data = await getUser(currentUser, clubid._userId._id);
       setClub(data);
     } catch (e) {
       history.push(Routes.ERROR);
     };
-  }, [getUser, currentUser, Routes, history]);
+  }, [getUser, currentUser, clubid, history]);
 
   useEffect(() => {
     fetchClub();
