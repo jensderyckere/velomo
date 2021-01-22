@@ -7,8 +7,13 @@ import User from '../../assets/icons/user.svg';
 export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
   const [ otherUser, setOtherUser ] = useState(false);
 
+  const changeSelected = (element) => {
+    setSelected(element);
+    setOtherUser(!otherUser);
+  };
+
   return (
-    <>
+    <div className="p-relative no-scroll">
       <div className="activities-switch d-flex align-items-center">
         <div className="activities-switch__image" onClick={() => setOtherUser(!otherUser)}>
           <span className="avatar avatar-small" style={{
@@ -23,18 +28,25 @@ export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
       </div>
       {
         otherUser && (
-          <div className="more-view">
-            <h2 className="orange-color secundary-font bold-font title-size margin-0">Wissel naar een andere renner</h2>
+          <div className="activities-switch__more more-view scroll">
+            <h2 className="orange-color secundary-font bold-font subtitle-size margin-0 margin-bottom-20">Wissel om naar...</h2>
             {users && users.map((element, index) => {
               return (
-                <div className="more-view__user">
-
+                <div key={index} onClick={() => changeSelected(element)} className="more-view__user d-flex align-items-center">
+                  <span className="more-view__user--avatar avatar avatar-small" style={{
+                    backgroundImage: `url(${element._userId.profile.avatar ? element._userId.profile.avatar : User})`
+                  }}></span>
+                  <span className="more-view__user--info secundary-font bold-font text-size margin-left-20">
+                    <strong>
+                      {element._userId.firstName + ' ' + element._userId.lastName}
+                    </strong>
+                  </span>
                 </div>
               )
             })}
           </div>
         )
       }
-    </>
+    </div>
   );
 };

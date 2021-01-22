@@ -22,7 +22,7 @@ export const Profile = ({ user }) => {
 
   return (
     <div className="profile">
-      <div className="profile__avatar" onClick={() => history.push(Routes.PROFILE)} style={{
+      <div className="profile__avatar" onClick={() => history.push(Routes.MY_PROFILE)} style={{
         backgroundImage: `url(${user.profile.avatar ? `${Config.clientConfig.apiUrl}picture/${user.profile.avatar}`: User})`
       }}></div>
       <div className={`profile__more ${more ? 'active-more' : ''}`} onClick={() => setMore(!more)}>

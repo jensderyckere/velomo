@@ -8,7 +8,7 @@ export const Activitites = ({ screenSize, user }) => {
     user.role === 'club' ? user.club._cyclistIds.length !== 0 ? user.club._cyclistIds[0] : false :
     user.role === 'parent' ? user.parent._cyclistIds.length !== 0 ? user.parent._cyclistIds[0] : false : false
   );
-
+  
   return (
     <section className="activities margin-top-50">
       {
@@ -20,7 +20,7 @@ export const Activitites = ({ screenSize, user }) => {
           user.club._cyclistIds.length !== 0 ? (
             <ActivitiesSwitch 
               user={user}
-              users={user.role === 'club' ? user.club._cyclistIds.length !== 0 ? user.club_cyclistIds : false : false}
+              users={user.role === 'club' ? user.club._cyclistIds.length !== 0 ? user.club._cyclistIds : false : false}
               selected={selected}
               setSelected={setSelected}
             />

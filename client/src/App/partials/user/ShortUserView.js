@@ -11,7 +11,6 @@ import { ChatSVG, MoreSVG, SlugText } from '../../components';
 import * as Routes from '../../routes';
 
 // Images
-import Chat from '../../assets/icons/chat.svg';
 import MyProfile from '../../assets/icons/profile.svg';
 
 export const ShortUserView = ({ user, club, cred }) => {

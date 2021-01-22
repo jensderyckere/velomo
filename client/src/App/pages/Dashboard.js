@@ -27,7 +27,7 @@ export const Dashboard = () => {
   return (
     user ? (
       <>
-      <div className={`container d-flex ${screenSize === 'lg' || screenSize === 'xl' ? 'p-relative': ''}`}>
+      <div className={`container d-flex`}>
         <section className={`left-sided ${screenSize === 'lg' || screenSize === 'xl' ? 'w-70': 'w-100'}`}>
           <Welcome 
             screenSize={screenSize}
@@ -42,7 +42,7 @@ export const Dashboard = () => {
         </section>
         {
           screenSize === 'lg' || screenSize === 'xl' && (
-            <section className="right-sided w-30 p-absolute">
+            <section className="right-sided w-30">
               <DashboardCard 
                 user={user}
               />

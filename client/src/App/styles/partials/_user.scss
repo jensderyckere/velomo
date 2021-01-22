@@ -28,3 +28,70 @@
     top: 40px;
   };
 };
+
+.user-card {
+  width: 100%;
+
+  &__cover {
+    background-size: cover;
+    background-position: center center;
+    height: 200px;
+    width: 100%;
+  };
+
+  &__bio {
+    margin-top: 30px;
+  };
+
+  &__extra {
+    margin-top: 10px;
+    padding: 10px;
+  };
+};
+
+.user-overview {
+  &__top {
+    margin-bottom: 40px;
+
+    &--left {
+      &--switch {
+        margin-top: 20px;
+
+        strong.darkgrey-color {
+          cursor: pointer;
+        };
+
+        strong:nth-of-type(1) {
+          margin-right: 10px;
+        };
+      };
+    };
+  };
+
+  &__content {
+    &--paginate-wrapper {
+      margin-top: 10px;
+      height: 20px;
+    };
+
+    &--paginate {
+      position: absolute;
+      cursor: pointer;
+      transition: ease-in-out 0.2s;
+    };
+
+    &--paginate:hover {
+      color: $orange;
+    };
+
+    &--paginate.previous-paginate {
+      left: 0;
+      top: 0;
+    };
+
+    &--paginate.next-paginate {
+      right: 0;
+      top: 0;
+    };
+  };
+};

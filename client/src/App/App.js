@@ -11,7 +11,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Authentication, Dashboard } from './pages';
+import { Authentication, Dashboard, MyProfile } from './pages';
 
 // Context
 import * as Context from './context';
@@ -73,6 +73,11 @@ const App = () => {
                 <Route exact path={Routes.DASHBOARD}>
                   <NeedsAuth>
                     <Dashboard />
+                  </NeedsAuth>
+                </Route>
+                <Route exact path={Routes.MY_PROFILE}>
+                  <NeedsAuth>
+                    <MyProfile />
                   </NeedsAuth>
                 </Route>
               </StandardLayout>

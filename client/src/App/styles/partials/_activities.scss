@@ -11,4 +11,13 @@
       bottom: -5px;
     };
   };
+
+  &__more {
+    top: 30px;
+    position: absolute;
+    padding: 20px;
+    max-height: 200px;
+    width: 300px;
+    overflow: scroll;
+  };
 };

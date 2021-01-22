@@ -17,6 +17,16 @@
   font-size: $d-text;
 };
 
+@mixin none {
+  font-family: $secundary-family;
+  color: $black;
+  font-size: $d-text;
+  margin: 20px 0;
+  background-color: $lightgrey;
+  padding: 10px 20px;
+  border-radius: 10px;
+};
+
 /** FORMS **/
 
 // Input used on desktop
@@ -240,6 +250,11 @@
       };
     };
   };
+
+  &__user {
+    cursor: pointer;
+    margin: 10px 0;
+  };
 };
 
 /** CARDS **/ 
@@ -278,3 +293,5 @@
   margin-right: auto; 
   z-index: 1000;
 }
+
+/** TEXT **/
