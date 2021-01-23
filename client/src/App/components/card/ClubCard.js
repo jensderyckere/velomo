@@ -39,9 +39,9 @@ export const ClubCard = ({ clubid }) => {
   }, [fetchClub]);
 
   return (
-    <div className="club-card">
+    <div className="grey-card club-card">
       {
-        club ? (
+        club && (
           <>
             <div className="club-card--cover cover" style={{
               backgroundImage: `url(${club.club.cover ? `${Config.clientConfig.apiUrl}picture/${club.club.cover}` : CoverDefault})`
@@ -62,7 +62,7 @@ export const ClubCard = ({ clubid }) => {
               />
             </div>
           </>
-        ) : <LoaderSVG />
+        )
       }
     </div>
   );

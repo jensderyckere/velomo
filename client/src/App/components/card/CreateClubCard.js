@@ -11,7 +11,7 @@ export const CreateClubCard = () => {
   const history = useHistory();
 
   return (
-    <div className="create-card padding-50-30">
+    <div className="grey-card create-card padding-50-30">
       <h1 className="text-center secundary-font title-size bold-font">
         Jouw club is nog niet geconfigureerd. Doe dit zo snel mogelijk.
       </h1>

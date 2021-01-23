@@ -6,7 +6,7 @@
   color: $black;
   font-weight: 900;
   font-size: $d-title;
-};
+}
 
 // Text used on desktops
 @mixin d-text {
@@ -15,7 +15,20 @@
   font-weight: normal;
   font-style: normal;
   font-size: $d-text;
-};
+}
+
+@mixin section-title {
+  h5 {
+    font-family: $secundary-family;
+    text-transform: uppercase;
+    color: $darkgrey;
+    font-size: $d-text;
+    font-weight: bold;
+    margin: 30px 0;
+    border-bottom: $grey 1px solid;
+    padding: 0px 0px 15px 0;
+  }
+}
 
 @mixin none {
   font-family: $secundary-family;
@@ -25,15 +38,17 @@
   background-color: $lightgrey;
   padding: 10px 20px;
   border-radius: 10px;
-};
+}
 
 /** FORMS **/
 
 // Input used on desktop
 @mixin d-input {
-  label, input {
+
+  label,
+  input {
     display: block;
-  };
+  }
 
   label {
     font-family: $secundary-family;
@@ -43,9 +58,9 @@
   }
 
   input {
-    background: $white;    
+    background: $white;
     border: 0.5px solid $grey;
-    box-sizing: border-box;    
+    box-sizing: border-box;
     box-shadow: $standard-shadow;
     border-radius: 10px;
     height: 45px;
@@ -54,13 +69,49 @@
     font-size: $d-text;
     transition: ease-in-out 0.2s;
     margin-bottom: 20px;
-  };
+  }
 
   input:focus {
     border: 2px solid rgba($color: $orange, $alpha: 0.3);
     outline: none;
-  };
-};
+  }
+}
+
+@mixin textarea {
+  label,
+  textarea {
+    display: block;
+  }
+
+  label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+  }
+
+  textarea {
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 10px 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    margin-bottom: 20px;
+    width: 100%;
+    resize: none;
+    min-height: 120px;
+  }
+
+  textarea:focus {
+    border: 2px solid rgba($color: $orange, $alpha: 0.3);
+    outline: none;
+  }
+}
 
 @mixin submit {
   background-color: $orange;
@@ -75,7 +126,7 @@
   color: $white;
   font-size: $d-text;
   font-weight: bold;
-};
+}
 
 @mixin checkbox {
   display: flex;
@@ -86,7 +137,7 @@
     position: relative;
     width: rem(23px);
     height: rem(23px);
-    margin-right: 10px;;
+    margin-right: 10px;
 
     span {
       width: 100%;
@@ -101,8 +152,8 @@
 
       img {
         height: 10px;
-      };
-    };
+      }
+    }
 
     input {
       opacity: 0;
@@ -112,8 +163,8 @@
       top: 0;
       left: 0;
       cursor: pointer;
-    };
-  };
+    }
+  }
 
   p {
     margin: 0;
@@ -123,9 +174,25 @@
     a {
       color: $orange;
       font-weight: 700;
-    };
-  };
-};
+    }
+  }
+}
+
+@mixin file {
+  position: relative;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 900;
+    cursor: pointer;
+  }
+}
 
 @mixin radio {
   display: flex;
@@ -136,7 +203,7 @@
     position: relative;
     width: rem(23px);
     height: rem(23px);
-    margin-right: 10px;;
+    margin-right: 10px;
 
     span {
       width: 100%;
@@ -151,8 +218,8 @@
 
       img {
         height: 10px;
-      };
-    };
+      }
+    }
 
     input {
       opacity: 0;
@@ -162,8 +229,8 @@
       top: 0;
       left: 0;
       cursor: pointer;
-    };
-  };
+    }
+  }
 
   p {
     margin: 0;
@@ -173,9 +240,9 @@
     a {
       color: $orange;
       font-weight: 700;
-    };
-  };
-};
+    }
+  }
+}
 
 @mixin standard-button {
   background-color: $orange;
@@ -186,7 +253,29 @@
   font-weight: bold;
   font-size: $d-text;
   cursor: pointer;
-};
+}
+
+@mixin grey-button {
+  background-color: $lightgrey;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: $black;
+  font-family: $secundary-family;
+  font-weight: bold;
+  font-size: $d-text;
+  cursor: pointer;
+}
+
+@mixin delete-button {
+  background-color: $red;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  font-family: $secundary-family;
+  font-weight: bold;
+  font-size: $d-text;
+  cursor: pointer;
+}
 
 @mixin code {
   width: 100%;
@@ -206,19 +295,19 @@
     font-family: $secundary-family;
     font-size: $d-text;
     font-weight: bold;
-  };
+  }
 
   input:focus {
     outline: none;
-  };
-};
+  }
+}
 
 /** LINKS **/
 
 @mixin more-view {
-  background: #FFFFFF;  
+  background: #FFFFFF;
   border: 1px solid #F4F4F4;
-  box-sizing: border-box;  
+  box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(96, 96, 96, 0.1);
   border-radius: 9px;
   top: 60px;
@@ -228,36 +317,61 @@
     border-bottom: 1px solid $grey;
     padding: 10px 10px;
 
-    a {
-      text-decoration: none;
-      color: black;
+    &--delete {
+      padding: 10px 10px;
       font-family: $tertiary-family;
       font-size: $d-text;
-
+      color: $red;
+  
       img {
         height: 20px;
         margin-right: 10px;
-      };
-
+      }
+  
       svg {
         height: 20px;
         width: 20px;
         margin-right: 10px;
-      };
+      }
+  
+      svg,
+      path {
+        fill: $red;
+      }
+    }
 
-      svg, path {
-        fill: $orange;
-      };
-    };
-  };
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    font-family: $tertiary-family;
+    font-size: $d-text;
+
+    img {
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+      margin-right: 10px;
+    }
+
+    svg,
+    path {
+      fill: $orange;
+    }
+  }
 
   &__user {
     cursor: pointer;
     margin: 10px 0;
-  };
-};
+  }
+}
 
-/** CARDS **/ 
+/** CARDS **/
 
 @mixin grey-card {
   background-color: $lightgrey;
@@ -266,7 +380,8 @@
   overflow: hidden;
   position: relative;
   z-index: 1;
-};
+  margin-bottom: 20px;
+}
 
 /** IMAGES **/
 
@@ -275,7 +390,7 @@
   border-radius: 100%;
   background-size: cover;
   background-position: center center;
-};
+}
 
 @mixin cover {
   width: 100%;
@@ -287,11 +402,9 @@
 
 @mixin loader {
   position: fixed;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   z-index: 1000;
 }
-
-/** TEXT **/

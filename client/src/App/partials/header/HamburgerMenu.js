@@ -58,7 +58,7 @@ export const HamburgerMenu = ({ user, hide }) => {
           )
         }
         {
-          user.role === 'parent' || user.role === 'member' || user.role == 'club' && (
+          user.role == 'club' && (
             <HamburgerButton 
               title="Gesprekken"
               icon={<ChatSVG />}
@@ -68,7 +68,37 @@ export const HamburgerMenu = ({ user, hide }) => {
           )
         }
         {
-          user.role === 'member' || user.role == 'club' && (
+          user.role === 'member' && (
+            <HamburgerButton 
+              title="Gesprekken"
+              icon={<ChatSVG />}
+              slug="chat"
+              route={Routes.CHAT}
+            />
+          )
+        }
+        {
+          user.role === 'parent' && (
+            <HamburgerButton 
+              title="Gesprekken"
+              icon={<ChatSVG />}
+              slug="chat"
+              route={Routes.CHAT}
+            />
+          )
+        }
+        {
+          user.role === 'member' && (
+            <HamburgerButton 
+              title="Team"
+              icon={<TeamSVG />}
+              slug="team"
+              route={Routes.TEAM}
+            />
+          )
+        }
+        {
+          user.role == 'club' && (
             <HamburgerButton 
               title="Team"
               icon={<TeamSVG />}

@@ -197,7 +197,60 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const editProfile = async (token, context) => {
+    const url = `${Config.clientConfig.apiUrl}users/profile`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(context),
+    });
+
+    return await res.json();
+  };
+
+  const editUser = async (token, context) => {
+    const url = `${Config.clientConfig.apiUrl}users/settings`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(context),
+    });
+
+    return await res.json();
+  };
+
+  const editPassword = async (token, context) => {
+    const url = `${Config.clientConfig.apiUrl}users/password`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(context),
+    });
+
+    return await res.json();
+  };
+
   const [ currentUser, setCurrentUser ] = useState(verifyUser);
+
+  const logOut = () => {
+    Cookies.remove('token', null);
+    return true;
+  };
 
   return (
     <AuthContext.Provider value={{
@@ -207,10 +260,14 @@ const AuthProvider = ({children}) => {
       getUser,
       getMultipleUsers,
       createConnection,
+      editProfile,
+      editUser,
+      editPassword,
       verifyUser,
       signIn,
       signUp,
       signUpControl,
+      logOut,
       submitReset,
       resetPassword,
     }}>

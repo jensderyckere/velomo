@@ -5,7 +5,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import UserDefault from '../../assets/icons/user.svg';
 
 // Components
-import { ChatSVG, MoreSVG, SlugText } from '../../components';
+import { ChatSVG, LoaderSVG, MoreSVG, SlugText, TrashSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -15,10 +15,11 @@ import MyProfile from '../../assets/icons/profile.svg';
 
 export const ShortUserView = ({ user, club, cred }) => {
   const history = useHistory();
+  console.log(user);
 
   const [ more, setMore ] = useState(false);
 
-  return (
+  return user ? (
     <div className="short-user-view">
       <div className="short-user-view__left" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id))}>
         <span className="avatar avatar-standard" style={{
@@ -49,9 +50,17 @@ export const ShortUserView = ({ user, club, cred }) => {
                 <span>Stuur bericht</span>
               </NavLink>
             </div>
+            {
+              cred && (
+                <div className="more-view__link--delete">
+                  <TrashSVG />
+                  <span>Verwijder</span>
+                </div>
+              )
+            }
           </div>
         )
       }
     </div>
-  );
+  ) : ''
 };

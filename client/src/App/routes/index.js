@@ -6,16 +6,26 @@ export const RESET_PASSWORD = '/reset-password';
 export const EDIT_PASSWORD = '/reset-password/:token';
 export const SUCCES_PASSWORD = '/reset-password/:token/success';
 export const TERMS_CONDITIONS = '/terms-and-conditions';
+
 export const DASHBOARD = '/dashboard';
+
 export const CHAT = '/chat';
 export const CREATE_CHAT = '/create-message';
+
+export const NOTIFICATIONS = '/notifications';
+
 export const TEAM = '/team';
+export const CLUB = '/club/:name/:id';
+
+export const CHALLENGES = '/challenges';
+
 export const GOALS = '/goals';
+
 export const MY_PROFILE = '/my-profile';
 export const PROFILE = '/profile/:name/:id';
-export const CLUB = '/club/:name/:id';
+export const SETTINGS = '/settings/:setting';
+
 export const ADD_CONNECTION = '/add-connection';
-export const SETTINGS = '/settings';
-export const NOTIFICATIONS = '/notifications';
-export const CHALLENGES = '/challenges';
+export const REMOVE_CONNECTION = '/remove-connection';
+
 export const ERROR = '/somethings-wrong';

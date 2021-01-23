@@ -46,7 +46,7 @@ export const DesktopHeader = ({ user }) => {
           )
         }
         {
-          user.role === 'parent' || user.role === 'member' || user.role == 'club' && (
+          user.role === 'parent' && (
             <HeaderButton 
               title="Gesprekken"
               icon={<ChatSVG />}
@@ -56,7 +56,37 @@ export const DesktopHeader = ({ user }) => {
           )
         }
         {
-          user.role === 'member' || user.role == 'club' && (
+          user.role === 'clubmember' && (
+            <HeaderButton 
+              title="Gesprekken"
+              icon={<ChatSVG />}
+              slug="chat"
+              route={Routes.CHAT}
+            />
+          )
+        }
+        {
+          user.role == 'club' && (
+            <HeaderButton 
+              title="Gesprekken"
+              icon={<ChatSVG />}
+              slug="chat"
+              route={Routes.CHAT}
+            />
+          )
+        }
+        {
+          user.role == 'club' && (
+            <HeaderButton 
+              title="Team"
+              icon={<TeamSVG />}
+              slug="team"
+              route={Routes.TEAM}
+            />
+          )
+        }
+        {
+          user.role === 'clubmember' && (
             <HeaderButton 
               title="Team"
               icon={<TeamSVG />}

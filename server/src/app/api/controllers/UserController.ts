@@ -28,65 +28,120 @@ export default class UserController {
         try {
             const { userId } = req.params;
 
-            const user = await User.findById(userId)
-            .populate({
-                path: 'club',
-                populate: {
-                    path: '_cyclistIds',
+            const user = await User.findById(userId);
+
+            let giveSpecificProps;
+
+            if (user.role === "clubmember") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'member',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
                         populate: {
-                            path: 'cyclist',
+                            path: '_userId',
+                            populate: {
+                                path: 'club',
+                                populate: {
+                                    path: '_cyclistIds',
+                                    populate: {
+                                        path: '_userId',
+                                        populate: {
+                                            path: 'cyclist',
+                                            popuplate: '_clubId',
+                                        }
+                                    },
+                                },
+                            },
                         },
                     },
-                },
-            })
-            .populate({
-                path: 'club',
-                populate: {
-                    path: '_memberIds',
+                })
+                .populate({
+                    path: 'member',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
+                        populate: {
+                            path: '_userId',
+                            populate: {
+                                path: 'club',
+                                populate: {
+                                    path: '_memberIds',
+                                    populate: {
+                                        path: '_userId',
+                                    },
+                                },
+                            },
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'cyclist',
-                populate: {
-                    path: '_clubId',
+                })
+                .exec();
+            };
+
+
+            if (user.role === "cyclist") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'cyclist',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'cyclist',
-                populate: {
-                    path: '_parentIds',
+                })
+                .populate({
+                    path: 'cyclist',
                     populate: {
-                        path: '_userId',
+                        path: '_parentIds',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'member',
-                populate: {
-                    path: '_clubId',
+                })
+                .exec();
+            };
+
+
+            if (user.role === "club") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'club',
                     populate: {
-                        path: '_userId',
+                        path: '_cyclistIds',
+                        populate: {
+                            path: '_userId',
+                            populate: {
+                                path: 'cyclist',
+                            },
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'parent',
-                populate: {
-                    path: '_cyclistIds',
+                })
+                .populate({
+                    path: 'club',
                     populate: {
-                        path: '_userId',
+                        path: '_memberIds',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .exec();
+                })
+                .exec();
+            };
+
+
+            if (user.role === "parent") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'parent',
+                    populate: {
+                        path: '_cyclistIds',
+                        populate: {
+                            path: '_userId',
+                        },
+                    },
+                })
+                .exec();
+            };
 
             if (!user) return res.status(404).json({
                 message: "Deze gebruiker werd niet gevonden.",
@@ -94,7 +149,7 @@ export default class UserController {
                 status: 404,
             });
 
-            return res.status(200).json(user);
+            return res.status(200).json(giveSpecificProps);
         } catch (e) {
             next(e);
         };
@@ -105,65 +160,116 @@ export default class UserController {
             // Get current logged in user
             const userId = this.auth.checkId(req, res);
 
-            const user = await User.findById(userId)
-            .populate({
-                path: 'club',
-                populate: {
-                    path: '_cyclistIds',
+            const user = await User.findById(userId);
+
+            let giveSpecificProps;
+
+            if (user.role === "clubmember") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'member',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
                         populate: {
-                            path: 'cyclist',
+                            path: '_userId',
+                            populate: {
+                                path: 'club',
+                                populate: {
+                                    path: '_cyclistIds',
+                                    populate: {
+                                        path: '_userId',
+                                    },
+                                },
+                            },
                         },
                     },
-                },
-            })
-            .populate({
-                path: 'club',
-                populate: {
-                    path: '_memberIds',
+                })
+                .populate({
+                    path: 'member',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
+                        populate: {
+                            path: '_userId',
+                            populate: {
+                                path: 'club',
+                                populate: {
+                                    path: '_memberIds',
+                                    populate: {
+                                        path: '_userId',
+                                    },
+                                },
+                            },
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'cyclist',
-                populate: {
-                    path: '_clubId',
+                })
+                .exec();
+            };
+
+
+            if (user.role === "cyclist") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'cyclist',
                     populate: {
-                        path: '_userId',
+                        path: '_clubId',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'cyclist',
-                populate: {
-                    path: '_parentIds',
+                })
+                .populate({
+                    path: 'cyclist',
                     populate: {
-                        path: '_userId',
+                        path: '_parentIds',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'member',
-                populate: {
-                    path: '_clubId',
+                })
+                .exec();
+            };
+
+
+            if (user.role === "club") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'club',
                     populate: {
-                        path: '_userId',
+                        path: '_cyclistIds',
+                        populate: {
+                            path: '_userId',
+                            populate: {
+                                path: 'cyclist',
+                            },
+                        },
                     },
-                },
-            })
-            .populate({
-                path: 'parent',
-                populate: {
-                    path: '_cyclistIds',
+                })
+                .populate({
+                    path: 'club',
                     populate: {
-                        path: '_userId',
+                        path: '_memberIds',
+                        populate: {
+                            path: '_userId',
+                        },
                     },
-                },
-            })
-            .exec();
+                })
+                .exec();
+            };
+
+
+            if (user.role === "parent") {
+                giveSpecificProps = await User.findById(userId)
+                .populate({
+                    path: 'parent',
+                    populate: {
+                        path: '_cyclistIds',
+                        populate: {
+                            path: '_userId',
+                        },
+                    },
+                })
+                .exec();
+            };
 
             if (!user) return res.status(404).json({
                 message: "Deze gebruiker werd niet gevonden.",
@@ -171,41 +277,11 @@ export default class UserController {
                 status: 404,
             });
 
-            return res.status(200).json(user);
+            return res.status(200).json(giveSpecificProps);
         } catch (e) {
             next(e);
         };
     };
-
-    updateClub = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            // Get users id
-            const contentToken = this.auth.checkId(req, res);
-
-            // Changing following fields
-            const { name, location, cover, bio, avatar } = req.body;
-
-            const user = await User.findOneAndUpdate({'_id': contentToken}, {
-                $set: {
-                    'club.name': name,
-                    'club.location': location,
-                    'club.cover': cover,
-                    'profile.bio': bio,
-                    'profile.avatar': avatar,
-                },
-            }, {new: true}).exec();        
-
-            if (!user) return res.status(400).json({
-                message: "Deze gebruiker kon niet worden bijgewerkt.",
-                redirect: false,
-                status: 400,
-            });
-
-            return res.status(200).json(user);
-        } catch (e) {
-            next(e);
-        };
-    }; 
 
     updateProfile = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -213,25 +289,61 @@ export default class UserController {
             const contentToken = this.auth.checkId(req, res);
 
             // Changing following fields
-            const { avatar, firstName, lastName, bio, category } = req.body;
+            const { name, location, cover, bio, avatar, firstName, lastName, _clubId } = req.body;
 
-            const user = await User.findOneAndUpdate({'_id': contentToken}, {
+            const user = await User.findById(contentToken);
+
+            let updatedUser;
+
+            if (user.role === 'club') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
                 $set: {
+                    'club.name': name,
+                    'club.location': location,
+                    'club.cover': cover,
+                    'profile.bio': bio,
+                    'profile.avatar': avatar,
                     'firstName': firstName,
                     'lastName': lastName,
-                    'profile.avatar': avatar,
-                    'profile.category': category,
-                    'profile.bio': bio,
                 },
-            }, {new: true}).exec();
+            }, {new: true}).exec();   
+            
+            if (user.role === 'clubmember') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+                $set: {
+                    'member._clubId': _clubId,
+                    'profile.bio': bio,
+                    'profile.avatar': avatar,
+                    'firstName': firstName,
+                    'lastName': lastName,
+                },
+            }, {new: true}).exec();   
 
-            if (!user) return res.status(400).json({
+            if (user.role === 'cyclist') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+                $set: {
+                    'cyclist._clubId': _clubId,
+                    'profile.bio': bio,
+                    'profile.avatar': avatar,
+                    'firstName': firstName,
+                    'lastName': lastName,
+                },
+            }, {new: true}).exec();  
+
+
+            if (user.role === 'parent') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+                $set: {
+                    'profile.bio': bio,
+                    'profile.avatar': avatar,
+                    'firstName': firstName,
+                    'lastName': lastName,
+                },
+            }, {new: true}).exec();  
+
+            if (!updatedUser) return res.status(400).json({
                 message: "Deze gebruiker kon niet worden bijgewerkt.",
                 redirect: false,
                 status: 400,
             });
 
-            return res.status(200).json(user);
+            return res.status(200).json(updatedUser);
         } catch (e) {
             next(e);
         };
@@ -430,8 +542,6 @@ export default class UserController {
                     break;
             };
         };
-
-        console.log(connectionReceiver, connectionSender);
 
         if (!connectionSender) return res.status(400).json({
             message: "De zender kon niet worden bijgewerkt.",

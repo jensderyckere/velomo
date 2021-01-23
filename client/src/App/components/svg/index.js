@@ -8,3 +8,4 @@ export * from './ArrowSVG';
 export * from './MoreSVG';
 export * from './ExitSVG';
 export * from './LoaderSVG';
+export * from './TrashSVG';

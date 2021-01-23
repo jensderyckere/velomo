@@ -3,7 +3,7 @@ import React from 'react';
 // Import screensize
 import { useStyling } from '../../services';
 
-export const Inputfield = ({label, id, name, type, size, value, placeholder, changeInput}) => {
+export const Inputfield = ({label, id, name, type, size, value, placeholder, changeInput, required}) => {
   const { screenSize } = useStyling();
 
   return (
@@ -11,7 +11,13 @@ export const Inputfield = ({label, id, name, type, size, value, placeholder, cha
       <label htmlFor={name}>
         {label}
       </label>
-      <input onChange={changeInput} type={type} id={id} name={name} defaultValue={value ? value : ''} placeholder={placeholder ? placeholder : ''}  required/>
+      {
+        required ? (
+          <input onChange={changeInput} type={type} id={id} name={name} defaultValue={value ? value : ''} placeholder={placeholder ? placeholder : ''} required/>
+        ) : (
+          <input onChange={changeInput} type={type} id={id} name={name} defaultValue={value ? value : ''} placeholder={placeholder ? placeholder : ''} />
+        )
+      }
     </span>
   );
 };

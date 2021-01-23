@@ -44,7 +44,7 @@ export const ConnectCard = ({user, title, text}) => {
   };
 
   return (
-    <div className="connect-card padding-50-30">
+    <div className="grey-card connect-card padding-50-30">
       <h1 className="text-center secundary-font title-size bold-font">
         {title}
       </h1>

@@ -15,7 +15,7 @@ export const MyUserContent = ({ user, screenSize }) => {
           screenSize={screenSize}
         />
       </>
-    )
+    );
   };
 
   const ParentContent = () => {
@@ -28,7 +28,20 @@ export const MyUserContent = ({ user, screenSize }) => {
           screenSize={screenSize}
         />
       </>
-    )
+    );
+  };
+
+  const MemberContent = () => {
+    return (
+      <>
+        <UserOverview 
+          user={user}
+          cyclists={user.member._clubId._userId.club._cyclistIds}
+          cred={true}
+          screenSize={screenSize}
+        />
+      </>
+    );
   };
 
   return (
@@ -38,6 +51,9 @@ export const MyUserContent = ({ user, screenSize }) => {
       }
       {
         user.role === 'parent' && <ParentContent />
+      }
+      {
+        user.role === 'clubmember' && <MemberContent />
       }
     </div>
   );

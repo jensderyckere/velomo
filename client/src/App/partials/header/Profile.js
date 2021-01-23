@@ -39,7 +39,7 @@ export const Profile = ({ user }) => {
               </NavLink>
             </div>
             <div className="more-view__link">
-              <NavLink to={Routes.SETTINGS}>
+              <NavLink to={Routes.SETTINGS.replace(':setting', 'profile')}>
                 <img src={Settings} alt="settings" />
                 <span>Instellingen</span>
               </NavLink>

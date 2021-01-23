@@ -8,7 +8,7 @@ import { StandardButton } from '../button';
 
 export const CyclistsCard = ({ title, cyclists, club, action, cred }) => {
   return (
-    <div className="cyclists-card no-scroll">
+    <div className="grey-card cyclists-card no-scroll">
       <h1 className="text-center secundary-font title-size bold-font">
         {title}
       </h1>
@@ -21,7 +21,7 @@ export const CyclistsCard = ({ title, cyclists, club, action, cred }) => {
               club={club} 
               cred={cred} 
             />
-          }) : ''
+          }) : <span className="none d-flex text-center justify-content-center">Er zijn nog geen renners toegevoegd.<br/>Voeg renners toe via onderstaande knop.</span>
         }
       </div>
       <div className="d-flex margin-top-30 justify-content-center">

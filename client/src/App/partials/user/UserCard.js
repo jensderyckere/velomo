@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
 // Components
 import { ImageUrl } from '../../components';
@@ -8,11 +8,6 @@ import User from '../../assets/icons/user.svg';
 import Cover from '../../assets/images/cover_default.jpg';
 
 export const UserCard = ({ user, screenSize }) => {
-  const [ clubInfo, setClubInfo ] = useState();
-
-  const fetchTeam = useCallback(async () => {
-  }, []);
-
   return (
     <div className={`user-card radius-10 box-shadow no-overflow ${screenSize === 'xl' || screenSize === 'lg' ? '' : 'p-relative'}`}>
       {
@@ -40,8 +35,8 @@ export const UserCard = ({ user, screenSize }) => {
           {
             user.role === 'club' ? user.club.location ? user.club.location : 'Een mysterieus eiland' : 
             user.role === 'parent' ? 'Ouder van' : 
-            user.role === 'cyclist' ? user.cyclist._clubId ? clubInfo : 'Individueel' : 
-            user.role === 'clubmember' ? user.member._clubId ? clubInfo : 'Nog niet aangesloten' : false
+            user.role === 'cyclist' ? user.cyclist._clubId ? user.cyclist._clubId._userId.club.name : 'Individueel' : 
+            user.role === 'clubmember' ? user.member._clubId ? user.member._clubId._userId.club.name : 'Nog niet aangesloten' : false
           }
         </p>
         {

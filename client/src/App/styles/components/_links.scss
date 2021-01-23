@@ -1,0 +1,23 @@
+.side-switch {
+  width: 100%;
+
+  &__link {
+    padding: 5px 40px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &--border {
+      width: 5px;
+      height: 100%;
+      position: absolute;
+      background-color: $orange;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  &__link.active-link {
+    background-color: $lightgrey;
+  }
+}
