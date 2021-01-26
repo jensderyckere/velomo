@@ -58,7 +58,7 @@ export const HamburgerMenu = ({ user, hide }) => {
           )
         }
         {
-          user.role == 'club' && (
+          user.role === 'club' && (
             <HamburgerButton 
               title="Gesprekken"
               icon={<ChatSVG />}
@@ -98,7 +98,7 @@ export const HamburgerMenu = ({ user, hide }) => {
           )
         }
         {
-          user.role == 'club' && (
+          user.role === 'club' && (
             <HamburgerButton 
               title="Team"
               icon={<TeamSVG />}

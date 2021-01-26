@@ -289,12 +289,14 @@
     border: none;
     border-radius: 10px;
     display: flex;
+    border: solid rgba($color: $orange, $alpha: 0.3) 2px;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-family: $secundary-family;
     font-size: $d-text;
     font-weight: bold;
+    box-shadow: $standard-shadow;
   }
 
   input:focus {

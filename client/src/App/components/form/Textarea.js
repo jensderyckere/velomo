@@ -1,8 +1,5 @@
 import React from 'react';
 
-// Import screensize
-import { useStyling } from '../../services';
-
 export const Textarea = ({label, id, name, value, placeholder, changeInput, required}) => {
   return (
     <span className={`textarea-field`}>

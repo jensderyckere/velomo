@@ -66,7 +66,7 @@ export const DesktopHeader = ({ user }) => {
           )
         }
         {
-          user.role == 'club' && (
+          user.role === 'club' && (
             <HeaderButton 
               title="Gesprekken"
               icon={<ChatSVG />}
@@ -76,7 +76,7 @@ export const DesktopHeader = ({ user }) => {
           )
         }
         {
-          user.role == 'club' && (
+          user.role === 'club' && (
             <HeaderButton 
               title="Team"
               icon={<TeamSVG />}

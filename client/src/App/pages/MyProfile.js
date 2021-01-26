@@ -28,7 +28,7 @@ export const MyProfile = () => {
     } catch (e) {
       history.push(Routes.ERROR);
     };
-  }, [getCurrentUser, currentUser]);
+  }, [getCurrentUser, currentUser, history]);
 
   useEffect(() => {
     fetchUser();
@@ -48,6 +48,7 @@ export const MyProfile = () => {
             <MyUserContent 
               user={user}
               screenSize={screenSize}
+              cred={true}
             />
           </section>
         </div>

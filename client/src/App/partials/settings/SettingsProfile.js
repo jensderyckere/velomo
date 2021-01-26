@@ -124,6 +124,7 @@ export const SettingsProfile = ({ user }) => {
           firstName: fields.firstName,
           lastName: fields.lastName,
         });
+        break;
       default:
         break;
     };

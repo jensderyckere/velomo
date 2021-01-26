@@ -3,7 +3,7 @@ import React from 'react';
 // Partials
 import { UserOverview } from '.';
 
-export const MyUserContent = ({ user, screenSize }) => {
+export const MyUserContent = ({ user, screenSize, cred }) => {
   const ClubContent = () => {
     return (
       <>
@@ -11,7 +11,7 @@ export const MyUserContent = ({ user, screenSize }) => {
           user={user}
           cyclists={user.club._cyclistIds}
           members={user.club._memberIds}
-          cred={true}
+          cred={cred}
           screenSize={screenSize}
         />
       </>
@@ -24,7 +24,7 @@ export const MyUserContent = ({ user, screenSize }) => {
         <UserOverview 
           user={user}
           cyclists={user.parent._cyclistIds}
-          cred={true}
+          cred={cred}
           screenSize={screenSize}
         />
       </>
@@ -37,7 +37,7 @@ export const MyUserContent = ({ user, screenSize }) => {
         <UserOverview 
           user={user}
           cyclists={user.member._clubId._userId.club._cyclistIds}
-          cred={true}
+          cred={cred}
           screenSize={screenSize}
         />
       </>

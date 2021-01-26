@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+// Components
 import { StandardButton } from '../../components';
+
+// Partials
 import { ShortUserView } from './ShortUserView';
 
-export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
+// Routes
+import * as Routes from '../../routes';
+
+export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {  
   const history = useHistory();
-  
+
   const [ switchTarget, setSwitchTarget ] = useState(true);
   const [ paginateIndex, setPaginateIndex ] = useState(2);
 
@@ -24,11 +31,16 @@ export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
               </strong> 
             </span>
           </div>
-          <div className="user-overview__top--right d-flex justify-content-end align-items-center">
-            <StandardButton 
-              text={`${switchTarget ? 'Renner' : 'Staff'} toevoegen`}
-            />
-          </div>
+          {
+            cred && (
+              <div className="user-overview__top--right d-flex justify-content-end align-items-center">
+                <StandardButton 
+                  text={`${switchTarget ? 'Renner' : 'Staff'} toevoegen`}
+                  action={() => history.push(Routes.ADD_CONNECTION, {'receiver': switchTarget ? 'renner' : 'stafflid'})}
+                />
+              </div>
+            )
+          }
         </div>
         <div className="user-overview__content">
           {
@@ -38,7 +50,7 @@ export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
                   <div key={index} className="user-overview__content--user">
                     <ShortUserView 
                       user={cyclist._userId}
-                      cred={true}
+                      cred={cred}
                     />
                     <hr className="standard-hr" />
                   </div>
@@ -50,7 +62,7 @@ export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
                   <div key={index} className="user-overview__content--user">
                     <ShortUserView 
                       user={member._userId}
-                      cred={true}
+                      cred={cred}
                     />
                     <hr className="standard-hr" />
                   </div>
@@ -107,11 +119,15 @@ export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
         <div className="user-overview__top--left">
           <h2 className="secundary-font title-size bold-font">Verbonden {switchTarget ? 'renners' : 'staff'}</h2>
         </div>
-        <div className="user-overview__top--right d-flex justify-content-end align-items-center">
-          <StandardButton 
-            text={`Renner toevoegen`}
-          />
-        </div>
+        {
+          cred && (
+            <div className="user-overview__top--right d-flex justify-content-end align-items-center">
+              <StandardButton 
+                text={`Renner toevoegen`}
+              />
+            </div>
+          )
+        }
       </div>
       <div className="user-overview__content">
         {
@@ -121,7 +137,8 @@ export const UserOverview = ({ user, cyclists, members, cred, screenSize }) => {
                 <div key={index} className="user-overview__content--user">
                   <ShortUserView 
                     user={cyclist._userId}
-                    cred={true}
+                    cred={cred}
+                    action={() => history.push(Routes.ADD_CONNECTION, {'receiver': 'renner'})}
                   />
                   <hr className="standard-hr" />
                 </div>
