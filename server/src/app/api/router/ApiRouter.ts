@@ -2,7 +2,9 @@ import { default as express, Router } from "express";
 import { default as multer, memoryStorage } from "multer";
 
 import { Auth, IConfig, Storage } from "../../services";
-import {PictureController, ResetController, UserController} from "../controllers";
+import { PictureController, ResetController, UserController, ActivityController } from "../controllers";
+
+var upload = multer();
 
 export default class ApiRouter {
     public router: Router;
@@ -12,6 +14,7 @@ export default class ApiRouter {
     private userController: UserController;
     private resetController: ResetController;
     private pictureController: PictureController;
+    private activityController: ActivityController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -27,6 +30,7 @@ export default class ApiRouter {
         this.userController = new UserController(this.auth, this.config);
         this.resetController = new ResetController(this.config);
         this.pictureController = new PictureController();
+        this.activityController = new ActivityController();
     };
 
     private initRoutes(): void {
@@ -48,6 +52,9 @@ export default class ApiRouter {
         this.router.get('/picture/:avatar', this.pictureController.showAvatar);
         this.router.post('/picture/upload', multer({storage: memoryStorage()}).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
         this.router.delete('/picture/:avatar');
+
+        // Activity
+        this.router.post('/activity', multer({storage: memoryStorage()}).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

@@ -4,10 +4,16 @@ import { default as path } from "path";
 import { default as crypto } from "crypto";
 import { default as sharp } from "sharp";
 import { default as stream } from "stream";
+import { default as fs } from "fs";
+import { default as converter } from "xml-js";
+
+import { Calculator } from "../../utils";
 
 interface MulterRequest extends Request {
   file: any;
 };
+
+const calculate = new Calculator();
 
 class Storage {
   private bucket: any;
@@ -21,6 +27,62 @@ class Storage {
       console.log('Stream initialized');
     } else {
       console.log('Stream not initialized');
+    };
+  };
+
+  public uploadGPX = async (req: MulterRequest, res: Response, next: NextFunction) => {
+    try {
+      const input = req.file.buffer;
+
+      fs.readFile(input, (e: any, data: any) => {
+        const xml = e.path;
+        const result = converter.xml2json(xml);
+        const resultInJson = JSON.parse(result);
+        const coordinates = resultInJson.elements[0].elements[1].elements[2].elements;
+
+        let arrayOfSpeed = [];
+        let arrayOfCheckpoints = [];
+        let numberOfSpeed = 0;
+        let numberOfDistance = 0;
+
+        for (let i = 0; i < coordinates.length; i++) {
+          if (coordinates[i+1]) {
+            const distanceBetween = calculate.calculateDistanceBetween(coordinates[i].attributes.lat, coordinates[i].attributes.lon, coordinates[i+1].attributes.lat, coordinates[i+1].attributes.lon);
+
+            numberOfDistance = numberOfDistance + distanceBetween;
+
+            const timeBetween = (Date.parse(coordinates[i+1].elements[1].elements[0].text) - Date.parse(coordinates[i].elements[1].elements[0].text)) /1000;
+            const speed_mph = distanceBetween / timeBetween;
+            const speed_kph = (speed_mph * 3600) / 1000;
+            numberOfSpeed = numberOfSpeed + speed_kph;
+            arrayOfSpeed.push(speed_kph);
+
+            const object = {
+              "lat": coordinates[i].attributes.lat,
+              "lon": coordinates[i].attributes.lon,
+              "speedBetween": speed_kph,
+              "distanceBetween": distanceBetween,
+            };
+
+            arrayOfCheckpoints.push(object);
+          };
+        };
+
+        const totalDistance = numberOfDistance / 1000;
+        const avgSpeed = numberOfSpeed / arrayOfSpeed.length;
+
+        const activity = {
+          "total_distance": totalDistance,
+          "avg_speed": avgSpeed,
+          "starting_time": coordinates[0].elements[1].elements[0].text,
+          "checkpoints": arrayOfCheckpoints,
+        };
+
+        req.body = activity;
+        next();
+      });
+    } catch (e) {
+      next();
     };
   };
 
