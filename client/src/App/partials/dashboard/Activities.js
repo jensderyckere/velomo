@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 // Partials
-import { ActivitiesSwitch } from '.';
+import { ActivitiesSwitch, ActivitiesOverview } from '.';
+
+// Services
+import { useAuth } from '../../services';
 
 export const Activitites = ({ screenSize, user }) => {
   const [ selected, setSelected ] = useState(
     user.role === 'club' ? user.club._cyclistIds.length !== 0 ? user.club._cyclistIds[0] : false :
     user.role === 'parent' ? user.parent._cyclistIds.length !== 0 ? user.parent._cyclistIds[0] : false : false
   );
+  const [ selectedUser, setSelectedUser ] = useState();
+
+  const { currentUser, getUser } = useAuth();
+
+  const fetchUser = useCallback(async () => {
+    if (user.role !== 'cyclist') {
+      const result = await getUser(currentUser, selected._userId._id);
+      setSelectedUser(result);
+    };
+  }, [getUser, user, currentUser, selected]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
   
   return (
     <section className="activities margin-top-50">
@@ -27,6 +44,9 @@ export const Activitites = ({ screenSize, user }) => {
           ) : ''
         )
       }
+      <ActivitiesOverview 
+        user={user.role === 'cyclist' ? user : selectedUser ? selectedUser : ''}
+      />
     </section>
   );
 };

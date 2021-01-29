@@ -78,7 +78,7 @@ class Storage {
           "checkpoints": arrayOfCheckpoints,
         };
 
-        req.body = activity;
+        req.body.object = activity;
         next();
       });
     } catch (e) {

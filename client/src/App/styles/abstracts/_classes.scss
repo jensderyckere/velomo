@@ -115,6 +115,10 @@
   font-size: $d-text;
 };
 
+.smallest-size {
+  font-size: $d-small;
+}
+
 .primary-font {
   font-family: $primary-family;
 };
@@ -181,6 +185,10 @@
 
 .margin-right-10 {
   margin-right: 10px;
+};
+
+.margin-right-20 {
+  margin-right: 20px;
 };
 
 .margin-left-10 {

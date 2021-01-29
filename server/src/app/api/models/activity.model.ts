@@ -5,7 +5,8 @@ interface IActivity extends Document {
   title: string;
   description: string;
   type: string;
-  activity: object,
+  activity: object;
+  images: Array<string>;
   _userId: IUser['_id'];
   _createdAt: number;
   _modifiedAt: number;
@@ -16,6 +17,7 @@ const activitySchema: Schema = new Schema({
     type: String,
     unique: false,
     required: true,
+    default: "Jouw activiteit"
   },
   description: {
     type: String,
@@ -32,6 +34,11 @@ const activitySchema: Schema = new Schema({
     unique: false,
     required: true,
   },
+  images: [{
+    type: String,
+    required: false,
+    unique: false,
+  }],
   _userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',

@@ -2,7 +2,7 @@ import { default as mongoose, Schema, Document } from 'mongoose';
 import { default as bcrypt } from 'bcrypt';
 import { default as validator } from 'validator';
 
-import { INotification, IClub, IParent, ICyclist, IMember } from '../models';
+import { INotification, IClub, IParent, ICyclist, IMember, IActivity } from '../models';
 
 interface IProfile {
     avatar: string;
@@ -16,6 +16,7 @@ interface IProfile {
 interface ICyclistInfo {
     _clubId: IClub['_id'];
     _parentIds: Array<IParent['_id']>;
+    _activityIds: Array<IActivity['_id']>
 };
 
 interface IMemberInfo {
@@ -119,6 +120,11 @@ const userSchema: Schema = new Schema({
         _parentIds: [{
             type: Schema.Types.ObjectId,
             ref: 'Parent',
+            required: false,
+        }],
+        _activityIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Activity',
             required: false,
         }],
     },
@@ -247,6 +253,13 @@ userSchema.virtual('cyclistInfo', {
 userSchema.virtual('memberInfo', {
     ref: 'Member',
     localField: '_memberIds',
+    foreignField: '_id',
+    justOne: false,
+});
+
+userSchema.virtual('activityInfo', {
+    ref: 'Activity',
+    localField: '_activityIds',
     foreignField: '_id',
     justOne: false,
 });

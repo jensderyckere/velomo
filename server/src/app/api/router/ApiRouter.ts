@@ -30,7 +30,7 @@ export default class ApiRouter {
         this.userController = new UserController(this.auth, this.config);
         this.resetController = new ResetController(this.config);
         this.pictureController = new PictureController();
-        this.activityController = new ActivityController();
+        this.activityController = new ActivityController(this.auth);
     };
 
     private initRoutes(): void {
@@ -54,7 +54,10 @@ export default class ApiRouter {
         this.router.delete('/picture/:avatar');
 
         // Activity
-        this.router.post('/activity', multer({storage: memoryStorage()}).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
+        this.router.post('/activity', this.userController.checkToken, multer({storage: memoryStorage()}).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
+        this.router.patch('/activity/:id', this.userController.checkToken, this.activityController.editActivity);
+        this.router.post('/manual-activity', this.userController.checkToken, this.activityController.createActivity);
+        this.router.delete('/activity/:id', this.userController.checkToken, this.activityController.deleteActivity);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

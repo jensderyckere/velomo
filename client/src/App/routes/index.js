@@ -28,4 +28,7 @@ export const SETTINGS = '/settings/:setting';
 export const ADD_CONNECTION = '/add-connection';
 export const REMOVE_CONNECTION = '/remove-connection';
 
+export const ACTIVITY = '/activity/:id';
+export const ACTIVITIES = '/activities';
+
 export const ERROR = '/somethings-wrong';

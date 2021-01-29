@@ -98,6 +98,12 @@ export default class UserController {
                         },
                     },
                 })
+                .populate({
+                    path: 'cyclist',
+                    populate: {
+                        path: '_activityIds',
+                    },
+                })
                 .exec();
             };
 
@@ -226,6 +232,12 @@ export default class UserController {
                         },
                     },
                 })
+                .populate({
+                    path: 'cyclist',
+                    populate: {
+                        path: '_activityIds',
+                    },
+                })
                 .exec();
             };
 
@@ -255,7 +267,6 @@ export default class UserController {
                 })
                 .exec();
             };
-
 
             if (user.role === "parent") {
                 giveSpecificProps = await User.findById(userId)

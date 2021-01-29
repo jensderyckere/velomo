@@ -9,3 +9,4 @@ export * from './MoreSVG';
 export * from './ExitSVG';
 export * from './LoaderSVG';
 export * from './TrashSVG';
+export * from './DistanceSVG';

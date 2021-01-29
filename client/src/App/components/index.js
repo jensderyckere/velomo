@@ -4,3 +4,4 @@ export * from './svg';
 export * from './card';
 export * from './text';
 export * from './links';
+export * from './map';
