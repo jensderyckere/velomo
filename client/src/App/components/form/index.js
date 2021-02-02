@@ -4,3 +4,7 @@ export * from './Checkbox';
 export * from './Radio';
 export * from './Code';
 export * from './Textarea';
+export * from './GPXUpload';
+export * from './IMGUpload';
+export * from './Distance';
+export * from './Duration';

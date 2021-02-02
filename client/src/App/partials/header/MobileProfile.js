@@ -20,7 +20,7 @@ export const MobileProfile = ({ user }) => {
 
   return (
     <div className="mobile-profile">
-      <div className="mobile-profile__avatar" onClick={() => history.push(Routes.PROFILE)} style={{
+      <div className="mobile-profile__avatar" onClick={() => history.push(Routes.MY_PROFILE)} style={{
           backgroundImage: `url(${user.profile.avatar ? user.profile.avatar : User})`
       }}></div>
       <div className="mobile-profile__more" onClick={() => setDisplayMenu(true)}>

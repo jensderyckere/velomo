@@ -30,5 +30,7 @@ export const REMOVE_CONNECTION = '/remove-connection';
 
 export const ACTIVITY = '/activity/:id';
 export const ACTIVITIES = '/activities';
+export const EDIT_ACTIVITY = '/edit-activity';
+export const CREATE_ACTIVITY = '/create-activity';
 
 export const ERROR = '/somethings-wrong';

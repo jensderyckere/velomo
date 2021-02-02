@@ -10,3 +10,5 @@ export * from './ExitSVG';
 export * from './LoaderSVG';
 export * from './TrashSVG';
 export * from './DistanceSVG';
+export * from './SpeedSVG';
+export * from './EditSVG';

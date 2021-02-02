@@ -10,6 +10,31 @@ export default class ActivityController {
     this.auth = auth;
   };
 
+  showActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Get id
+      const { id } = req.params;
+
+      if (!id) return res.status(404).json({
+        message: "No activity has been found",
+        redirect: false,
+        status: 404,
+      });
+
+      const activity = await Activity.findOne({_id: id}).populate('user').exec();
+
+      if (!activity) return res.status(404).json({
+        message: "No activity has been found",
+        redirect: false,
+        status: 404,
+      });
+
+      return res.status(200).json(activity);
+    } catch (e) {
+      next();
+    };
+  };
+
   deleteActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
       const activityId = req.params.id;

@@ -54,6 +54,7 @@ export default class ApiRouter {
         this.router.delete('/picture/:avatar');
 
         // Activity
+        this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);
         this.router.post('/activity', this.userController.checkToken, multer({storage: memoryStorage()}).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
         this.router.patch('/activity/:id', this.userController.checkToken, this.activityController.editActivity);
         this.router.post('/manual-activity', this.userController.checkToken, this.activityController.createActivity);

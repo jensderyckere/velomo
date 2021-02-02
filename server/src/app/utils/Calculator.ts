@@ -2,6 +2,7 @@ export default class Calculator {
   constructor() {
     this.calculateDistanceBetween;
   };
+  
   calculateDistanceBetween = (lat1: any, lon1: any, lat2: any, lon2: any) => {
     lat1 = lat1 * Math.PI / 180;
     lon1 = lon1 * Math.PI / 180;

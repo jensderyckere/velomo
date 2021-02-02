@@ -44,7 +44,6 @@
 
 // Input used on desktop
 @mixin d-input {
-
   label,
   input {
     display: block;
@@ -194,6 +193,116 @@
   }
 }
 
+@mixin duration {
+  label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+    display: block;
+  }
+
+  .duration__field {
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    input {
+      display: flex;
+      text-align: center;
+      border: none;
+      outline: none;
+      margin-right: 0px 5px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
+}
+
+@mixin distance {
+  label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+    display: block;
+  }
+
+  .distance__field {
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    input {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      border: none;
+      outline: none;
+      width: 60%;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    &--button {
+      width: 25px;
+      height: 25px;
+      background-color: $orange;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      span {
+        font-family: $primary-family;
+        font-size: $d-subtitle;
+        color: white;
+        font-weight: 800;
+      }
+    }
+  }
+}
+
 @mixin radio {
   display: flex;
   align-items: center;
@@ -318,12 +427,14 @@
   &__link {
     border-bottom: 1px solid $grey;
     padding: 10px 10px;
+    cursor: pointer;
 
     &--delete {
       padding: 10px 10px;
       font-family: $tertiary-family;
       font-size: $d-text;
       color: $red;
+      cursor: pointer;
   
       img {
         height: 20px;
@@ -364,6 +475,7 @@
     svg,
     path {
       fill: $orange;
+      height: 15px;
     }
   }
 
