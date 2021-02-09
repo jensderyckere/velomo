@@ -102,6 +102,22 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const editActivity = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}activity/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
   return (
     <ApiContext.Provider value={{
       uploadPicture,
@@ -109,6 +125,7 @@ const ApiProvider = ({children}) => {
       deleteActivity,
       uploadActivity,
       createActivity,
+      editActivity,
     }}>
       {children}
     </ApiContext.Provider>

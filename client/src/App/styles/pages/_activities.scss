@@ -226,3 +226,52 @@
     }
   }
 }
+
+.activities-overview {
+  margin-top: 50px;
+  position: relative;
+
+  &__paginate {
+    position: relative;
+
+    .left-paginate {
+      position: absolute;
+      left: 0;
+      cursor: pointer;
+    }
+
+    .right-paginate {
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+
+  &__item {
+    border-bottom: 1px solid #F6F6F6;
+    padding: 20px 0;
+
+    a {
+      text-decoration: none;
+    }
+
+    h5 {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      color: black;
+      text-decoration: none;
+    }
+
+    &--more {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      cursor: pointer;
+    }
+
+    .more-view {
+      right: 20px;
+    }
+  }
+}

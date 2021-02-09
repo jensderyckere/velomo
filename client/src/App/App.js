@@ -11,7 +11,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activity, AddConnection, Authentication, CreateActivity, Dashboard, MyProfile, MyProfileSettings, Profile } from './pages';
+import { Activities, Activity, AddConnection, Authentication, CreateActivity, Dashboard, EditActivity, MyProfile, MyProfileSettings, Profile } from './pages';
 
 // Context
 import * as Context from './context';
@@ -104,6 +104,16 @@ const App = () => {
                   <Route exact path={Routes.CREATE_ACTIVITY}>
                     <NeedsAuth>
                       <CreateActivity />
+                    </NeedsAuth>
+                  </Route>
+                  <Route exact path={Routes.EDIT_ACTIVITY}>
+                    <NeedsAuth>
+                      <EditActivity />
+                    </NeedsAuth>
+                  </Route>
+                  <Route exact path={Routes.ACTIVITIES}>
+                    <NeedsAuth>
+                      <Activities />
                     </NeedsAuth>
                   </Route>
                 </StandardLayout>

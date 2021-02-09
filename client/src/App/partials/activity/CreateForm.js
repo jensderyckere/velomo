@@ -9,7 +9,6 @@ import { useApi, useAuth } from '../../services';
 
 // Routes
 import * as Routes from '../../routes';
-import { min } from 'moment';
 
 export const CreateForm = ({ user }) => {
   // Routing

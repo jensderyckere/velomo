@@ -6,3 +6,5 @@ export * from './Profile';
 export * from './AddConnection';
 export * from './Activity';
 export * from './CreateActivity';
+export * from './EditActivity';
+export * from './Activities';
