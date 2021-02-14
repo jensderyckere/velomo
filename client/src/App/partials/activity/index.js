@@ -5,3 +5,4 @@ export * from './CreateForm';
 export * from './EditForm';
 export * from './ActivitiesOverview';
 export * from './ActivityItem';
+export * from './ActivityImages';

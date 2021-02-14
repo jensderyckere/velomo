@@ -57,7 +57,11 @@ export const Activity = () => {
               <ActivityBio user={user} activity={activity} />
             </section>
             <section className="right-sided w-40">
-              <ActivityMap activity={activity} />
+              {
+                activity.activity.checkpoints && (
+                  <ActivityMap activity={activity} />
+                )
+              }
             </section>
           </div>
         ) : (

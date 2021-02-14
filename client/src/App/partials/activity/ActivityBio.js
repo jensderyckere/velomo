@@ -14,7 +14,8 @@ import { MoreActivity } from '.';
 import * as Routes from '../../routes';
 
 // Services
-import { useApi, useAuth } from '../../services';
+import { AuthContext, useApi, useAuth } from '../../services';
+import { ActivityImages } from './ActivityImages';
 
 export const ActivityBio = ({user, activity}) => {
   // States
@@ -67,13 +68,13 @@ export const ActivityBio = ({user, activity}) => {
         <div className="activities__bio--details--item d-flex align-items-center">
           <SpeedSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.avg_speed.toFixed(2)}<span className="smallest-size">km/u</span>
+            {activity.activity.checkpoints ? activity.activity.avg_speed.toFixed(2) : activity.activity.avg_speed}<span className="smallest-size">km/u</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <DistanceSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.total_distance.toFixed(2)}<span className="smallest-size">km</span>
+            {activity.activity.checkpoints ? activity.activity.total_distance.toFixed(2) : activity.activity.total_distance}<span className="smallest-size">km</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
@@ -94,6 +95,13 @@ export const ActivityBio = ({user, activity}) => {
           {activity.user.firstName + ' ' + activity.user.lastName}
         </p>
       </div>
+      {
+        activity.images && (
+          <div className="m-top-30">
+            <ActivityImages images={activity.images} />
+          </div>
+        )
+      }
     </div>
   );
 };

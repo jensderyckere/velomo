@@ -590,7 +590,6 @@ export default class UserController {
         try {
             // Check if token has valid user
             const contentToken = this.auth.checkId(req, res);
-
             const user = await User.findById(contentToken).exec();
 
             if (!user) return res.status(404).json({

@@ -21,3 +21,36 @@
     overflow: scroll;
   };
 };
+
+.activity-images {
+  margin-top: 30px;
+  flex-wrap: wrap;
+  margin-right: 10px;
+
+  &__wrapper.view-full {
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  &__img-small {
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-position: center center;
+    cursor: pointer;
+    border: 1px solid $orange;
+  }
+
+  &--full {
+    margin-top: 20px;
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 10px;
+  }
+}

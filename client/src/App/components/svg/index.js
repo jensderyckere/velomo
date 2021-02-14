@@ -12,3 +12,7 @@ export * from './TrashSVG';
 export * from './DistanceSVG';
 export * from './SpeedSVG';
 export * from './EditSVG';
+export * from './ActivitySVG';
+export * from './TotalDistanceSVG';
+export * from './TotalSpeedSVG';
+export * from './TotalAchievementsSVG';

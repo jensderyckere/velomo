@@ -11,43 +11,47 @@ export const ActivityItem = ({activity}) => {
   const [ coordinates, setCoordinates ] = useState();
 
   useEffect(() => {
-    const checkpoints = activity.activity.checkpoints;
-    let array = [];
-
-    for (let i = 0; i < checkpoints.length; i++) {
-      const coordinate = [checkpoints[i].lon, checkpoints[i].lat];
-      array.push(coordinate);
+    if (activity.activity.checkpoints) {
+      const checkpoints = activity.activity.checkpoints;
+      let array = [];
+  
+      for (let i = 0; i < checkpoints.length; i++) {
+        const coordinate = [checkpoints[i].lon, checkpoints[i].lat];
+        array.push(coordinate);
+      };
+  
+      setCoordinates(array);
     };
+  }, [activity.activity]);
 
-    setCoordinates(array);
-  }, [activity.activity.checkpoints]);
   return (
     <div className="activities__overview--item">
       <div className="row">
-        <div className="col-12 col-md-6">
-          <div className="activities__overview--item--map">
-            {
-            coordinates && 
-              <>
-              <Map coordinates={coordinates} />
-              <div className="activities__overview--item--map__details d-flex align-items-center">
-                <div className="activities__overview--item--map__details--item margin-right-20">
-                  <TeamSVG />
-                  <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
-                    {activity.type}
-                  </span>
-                </div>
-                <div className="activities__overview--item--map__details--item margin-right-20">
-                  <DistanceSVG />
-                  <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
-                    {activity.activity.total_distance.toFixed(2)}<span className="smallest-size"> km</span>
-                  </span>
-                </div>
+        {
+          coordinates && (
+            <div className="col-12 col-md-6">
+              <div className="activities__overview--item--map">
+                <>
+                  <Map coordinates={coordinates} />
+                  <div className="activities__overview--item--map__details d-flex align-items-center">
+                    <div className="activities__overview--item--map__details--item margin-right-20">
+                      <TeamSVG />
+                      <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
+                        {activity.type}
+                      </span>
+                    </div>
+                    <div className="activities__overview--item--map__details--item margin-right-20">
+                      <DistanceSVG />
+                      <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
+                        {activity.activity.total_distance.toFixed(2)}<span className="smallest-size"> km</span>
+                      </span>
+                    </div>
+                  </div>
+                </>
               </div>
-              </>
-            }
-          </div>
-        </div>
+            </div>
+          )
+        }
         <div className="col-12 col-md-6">
           <div className="activities__overview--item--content">
             <span className="activities__overview--item--content--date tertiary-font smallest-size">
@@ -64,6 +68,29 @@ export const ActivityItem = ({activity}) => {
             </NavLink>
           </div>
         </div>
+        {
+          !activity.activity.checkpoints && (
+            <div className="col-12 col-md-6">
+              <div className="activities__overview--item--details">
+                <div className="activities__overview--item--details__wrapper">
+                    <h5 className="secundary-font bold-font text-size">Jouw activiteit samengevat</h5>
+                    <div className="activities__overview--item--details__wrapper--item">
+                      <TeamSVG />
+                      <span className="activities__overview--item--details__wrapper--item--text text-size secundary-font bold-font margin-left-10">
+                        {activity.type}
+                      </span>
+                    </div>
+                    <div className="activities__overview--item--details__wrapper--item">
+                      <DistanceSVG />
+                      <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
+                        {activity.activity.total_distance}<span className="smallest-size"> km</span>
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   )

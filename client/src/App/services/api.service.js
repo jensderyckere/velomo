@@ -79,24 +79,16 @@ const ApiProvider = ({children}) => {
   };
 
   const createActivity = async (token, content) => {
-    const url = `${Config.clientConfig.apiUrl}manuel-activity`;
-
-    const formData = new FormData();
-    formData.append('title', content.title);
-    formData.append('description', content.description);
-    formData.append('type', content.type);
-    formData.append('object', content.object);
-
-    if (content.images) formData.append('images', content.images);
+    const url = `${Config.clientConfig.apiUrl}manual-activity`;
 
     const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,      
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
       },
-      body: formData,
+      body: JSON.stringify(content),
     });
 
     return await res.json();

@@ -94,6 +94,8 @@ export const CreateForm = ({ user }) => {
           return;
         };
       };
+
+      history.push(Routes.ACTIVITIES);
     };
 
     return (

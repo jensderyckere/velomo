@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { StandardButton } from '../components';
 
 // Partials
 import { ActivitiesOverview } from '../partials/activity';
@@ -44,9 +45,15 @@ export const Activities = () => {
     <>
     <div className="container d-flex">
       <div className="left-sided w-100">
-        <h1 className="standard-title">
-          Alle activiteiten
-        </h1>
+        <div className="d-flex justify-content-between align-items-center">
+          <h1 className="standard-title">
+            Alle activiteiten
+          </h1>
+          <StandardButton 
+            text="Activiteit maken"
+            action={() => history.push(Routes.CREATE_ACTIVITY)}
+          />
+        </div>
         <ActivitiesOverview 
           activities={user.cyclist._activityIds}
           cred={true}

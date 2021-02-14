@@ -47,13 +47,13 @@ export const ActivityItem = ({ user, cred, activity }) => {
         <div className="activities__bio--details--item d-flex align-items-center">
           <SpeedSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.avg_speed.toFixed(2)}<span className="smallest-size">km/u</span>
+            {activity.activity.checkpoints ? activity.activity.avg_speed.toFixed(2) : activity.activity.avg_speed}<span className="smallest-size">km/u</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <DistanceSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.total_distance.toFixed(2)}<span className="smallest-size">km</span>
+            {activity.activity.checkpoints ? activity.activity.total_distance.toFixed(2) : activity.activity.total_distance}<span className="smallest-size">km</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">

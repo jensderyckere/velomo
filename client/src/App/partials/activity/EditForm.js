@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 // Components
 import { Radio, Inputfield, Textarea, IMGUpload, StandardButton, Message, Distance, Duration } from '../../components';
@@ -6,7 +7,13 @@ import { Radio, Inputfield, Textarea, IMGUpload, StandardButton, Message, Distan
 // Services
 import { useApi, useAuth } from '../../services';
 
+// Routes
+import * as Routes from '../../routes';
+
 export const EditForm = ({ activity }) => {
+  // Routing
+  const history = useHistory();
+
   // States
   const [ typeTraining, setTypeTraining ] = useState(activity.type);
   const [ images, setImages ] = useState(activity.images);
@@ -61,6 +68,8 @@ export const EditForm = ({ activity }) => {
           return;
         };
       };
+
+      history.push(Routes.ACTIVITIES);
     };
 
     return (
@@ -141,8 +150,8 @@ export const EditForm = ({ activity }) => {
     const [ form, setForm ] = useState({
       'title': activity.title,
       'description': activity.description,
-      'distance': activity.total_distance,
-      'duration': activity.duration,
+      'distance': activity.activity.total_distance,
+      'duration': activity.activity.duration,
     });
 
     // Change states
@@ -179,7 +188,7 @@ export const EditForm = ({ activity }) => {
       };
 
       if (images) {
-        const result = await editActivity(currentUser, {
+        const result = await editActivity(currentUser, activity._id, {
           title: form.title,
           description: form.description,
           type: typeTraining,
@@ -192,7 +201,7 @@ export const EditForm = ({ activity }) => {
           return;
         };
       } else {
-        const result = await editActivity(currentUser, {
+        const result = await editActivity(currentUser, activity._id, {
           title: form.title,
           description: form.description,
           type: typeTraining,
@@ -205,6 +214,8 @@ export const EditForm = ({ activity }) => {
           return;
         };
       };
+
+      history.push(Routes.ACTIVITIES);
     };
 
     return (
@@ -264,9 +275,13 @@ export const EditForm = ({ activity }) => {
             defaultValue={form.distance}
             setForm={setForm}
           />
+          {console.log(form)}
           <Duration 
             changeFully={setForm}
             form={form}
+            defaultHours={form.duration.split(':')[0]}
+            defaultMinutes={form.duration.split(':')[1]}
+            defaultSeconds={form.duration.split(':')[2]}
           />
         </div>
       </div>

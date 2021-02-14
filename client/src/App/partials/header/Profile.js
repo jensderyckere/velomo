@@ -6,7 +6,7 @@ import User from '../../assets/icons/user.svg';
 import MyProfile from '../../assets/icons/profile.svg';
 import Settings from '../../assets/icons/settings.svg';
 
-import { ArrowSVG } from '../../components';
+import { ActivitySVG, ArrowSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -44,6 +44,16 @@ export const Profile = ({ user }) => {
                 <span>Instellingen</span>
               </NavLink>
             </div>
+            {
+              user.role === 'cyclist' && (
+                <div className="more-view__link">
+                  <NavLink to={Routes.ACTIVITIES}>
+                    <ActivitySVG />
+                    <span>Activiteiten</span>
+                  </NavLink>
+                </div>
+              )
+            }
           </div>
         )
       }

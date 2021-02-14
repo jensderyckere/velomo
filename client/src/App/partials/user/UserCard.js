@@ -6,6 +6,7 @@ import { ImageUrl } from '../../components';
 // Images
 import User from '../../assets/icons/user.svg';
 import Cover from '../../assets/images/cover_default.jpg';
+import { UserStats } from './UserStats';
 
 export const UserCard = ({ user, screenSize }) => {
   return (
@@ -42,7 +43,7 @@ export const UserCard = ({ user, screenSize }) => {
         {
           user.role === 'cyclist' && (
             <div className="user-card__extra radius-10 bg-lightgrey d-flex justify-content-between align-items-center">
-
+              <UserStats user={user} />
             </div>
           )
         }

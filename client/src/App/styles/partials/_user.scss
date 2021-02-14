@@ -95,3 +95,30 @@
     };
   };
 };
+
+.user-stats {
+  padding: 10px 0;
+  width: 100%;
+  flex-wrap: wrap;
+
+  &__item {
+    display: inline-block;
+    padding: 0px 20px;
+    svg {
+      height: 35px;
+      width: 35px;
+    }
+
+    h5 {
+      margin: 10px 0 0 0; 
+      text-align: center;
+    }
+  }
+
+  &__line {
+    height: 80px;
+    width: 1px;
+    background-color: $darkgrey;
+    border-radius: 100%;
+  }
+}
