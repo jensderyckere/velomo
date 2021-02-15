@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { DateText, DistanceSVG, ImageUrl, MoreSVG, SpeedSVG, TeamSVG, TimeText } from '../../components';
+import { DateText, DistanceSVG, ImageUrl, MoreSVG, SlugText, SpeedSVG, TeamSVG, TimeText } from '../../components';
 
 // Images
 import DefaultUser from '../../assets/icons/user.svg';
@@ -14,7 +14,7 @@ import { MoreActivity } from '.';
 import * as Routes from '../../routes';
 
 // Services
-import { AuthContext, useApi, useAuth } from '../../services';
+import { useApi, useAuth } from '../../services';
 import { ActivityImages } from './ActivityImages';
 
 export const ActivityBio = ({user, activity}) => {
@@ -87,7 +87,7 @@ export const ActivityBio = ({user, activity}) => {
       <p className="tertiary-font text-size light-font margin-top-30">
         {activity.description}
       </p>
-      <div className="activities__bio--details--user margin-top-30">
+      <div onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${activity.user.firstName + ' ' + activity.user.lastName}`)).replace(':id', activity.user._id))} className="activities__bio--details--user margin-top-30">
         <span className="avatar avatar-standard" style={{
           backgroundImage: `url(${ImageUrl(activity.user.profile.avatar ? activity.user.profile.avatar : false, DefaultUser)})`
         }}></span>

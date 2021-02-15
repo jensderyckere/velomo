@@ -58,7 +58,7 @@ export const ClubCard = ({ clubid }) => {
             <div className="d-flex justify-content-center margin-top-50">
               <StandardButton 
                 text="Bekijk club"
-                action={() => history.push(Routes.CLUB.replace(':name', SlugText(club.club.name)).replace(':id', club._id))}
+                action={() => history.push(Routes.PROFILE.replace(':name', SlugText(club.club.name)).replace(':id', club._id))}
               />
             </div>
           </>

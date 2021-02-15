@@ -36,6 +36,7 @@ export default class ApiRouter {
     private initRoutes(): void {
         // User
         this.router.get('/users', this.userController.checkAdmin, this.userController.all);
+        this.router.get('/users-charts/:userId', this.userController.checkToken, this.userController.getCharts);
         this.router.get('/users/:userId', this.userController.checkToken, this.userController.show);
         this.router.get('/current-user/', this.userController.checkToken, this.userController.current);
         this.router.patch('/users/profile', this.userController.checkToken, this.userController.updateProfile);

@@ -15,9 +15,8 @@ export const UserStats = ({ user }) => {
       let totalSpeed = 0;
 
       for (let i = 0; i < user.cyclist._activityIds.length; i++) {
-        totalDistance += user.cyclist._activityIds[i].activity.total_distance;
+        totalDistance +=Number(user.cyclist._activityIds[i].activity.total_distance);
         totalSpeed += Number(user.cyclist._activityIds[i].activity.avg_speed);
-        console.log(user.cyclist._activityIds[i].activity.avg_speed)
       };
 
       totalSpeed = totalSpeed / user.cyclist._activityIds.length;
@@ -38,21 +37,21 @@ export const UserStats = ({ user }) => {
         <div className="d-flex justify-content-center">
           <TotalDistanceSVG />
         </div>
-        <h5 className="text-size secundary-font bold-font">{Number(distance).toFixed(2)}km</h5>
+        <h5 className="smallest-size secundary-font bold-font">{Number(distance).toFixed(2)}km</h5>
       </div>
       <div className="user-stats__line"></div>
       <div className="user-stats__item">
         <div className="d-flex justify-content-center">
           <TotalSpeedSVG />
         </div>
-        <h5 className="text-size secundary-font bold-font">{Number(avgSpeed).toFixed(2)}km/u</h5>
+        <h5 className="smallest-size secundary-font bold-font">{Number(avgSpeed).toFixed(2)}km/u</h5>
       </div>
       <div className="user-stats__line"></div>
       <div className="user-stats__item">
         <div className="d-flex justify-content-center">
           <TotalAchievementsSVG />
         </div>
-        <h5 className="text-size secundary-font bold-font">{Number(achievements)}</h5>
+        <h5 className="smallest-size secundary-font bold-font">{Number(achievements)}</h5>
       </div>
     </div>
   );

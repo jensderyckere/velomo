@@ -19,7 +19,7 @@ export const MoreActivity = ({ownership, user, activity, deleteRide}) => {
       <div className="more-view__link">
         <NavLink to={Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id)}>
             <img src={MyProfile} alt="profile" />
-            <span>Mijn profiel</span>
+            <span>Bekijk profiel</span>
         </NavLink>
       </div>
       {

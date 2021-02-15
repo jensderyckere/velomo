@@ -142,6 +142,21 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const getCurrentCharts = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}users-charts/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const getUser = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}users/${id}`;
 
@@ -257,6 +272,7 @@ const AuthProvider = ({children}) => {
       currentUser,
       setCurrentUser,
       getCurrentUser,
+      getCurrentCharts,
       getUser,
       getMultipleUsers,
       createConnection,

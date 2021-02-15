@@ -76,13 +76,13 @@ export const ActivityItem = ({activity}) => {
                     <h5 className="secundary-font bold-font text-size">Jouw activiteit samengevat</h5>
                     <div className="activities__overview--item--details__wrapper--item">
                       <TeamSVG />
-                      <span className="activities__overview--item--details__wrapper--item--text text-size secundary-font bold-font margin-left-10">
+                      <span className="activities__overview--item--details__wrapper--item--text text-size secundary-font margin-left-10">
                         {activity.type}
                       </span>
                     </div>
                     <div className="activities__overview--item--details__wrapper--item">
                       <DistanceSVG />
-                      <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
+                      <span className="activities__overview--item--map__details--item__text text-size secundary-font margin-left-10">
                         {activity.activity.total_distance}<span className="smallest-size"> km</span>
                       </span>
                     </div>

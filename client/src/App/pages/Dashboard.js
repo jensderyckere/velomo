@@ -17,6 +17,7 @@ export const Dashboard = () => {
 
   const fetchUser = useCallback(async () => {
     const data = await getCurrentUser(currentUser);
+    console.log(data)
     setUser(data);
   }, [getCurrentUser, currentUser]);
 

@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response} from "express";
 import { default as passwordValidator } from "password-validator";
 import { default as bcrypt } from "bcrypt";
+import { default as Moment } from "moment";
 
 import { Auth, IConfig } from "../../services";
 import { Club, Cyclist, IClub, ICyclist, IMember, IParent, IUser, Member, Parent, User } from "../models";
+
+import 'moment/locale/nl-be';
 
 export default class UserController {
     private auth: Auth;
@@ -77,7 +80,6 @@ export default class UserController {
                 .exec();
             };
 
-
             if (user.role === "cyclist") {
                 giveSpecificProps = await User.findById(userId)
                 .populate({
@@ -102,11 +104,11 @@ export default class UserController {
                     path: 'cyclist',
                     populate: {
                         path: '_activityIds',
+                        options: { sort: {_createdAt: -1} }
                     },
                 })
                 .exec();
             };
-
 
             if (user.role === "club") {
                 giveSpecificProps = await User.findById(userId)
@@ -133,7 +135,6 @@ export default class UserController {
                 })
                 .exec();
             };
-
 
             if (user.role === "parent") {
                 giveSpecificProps = await User.findById(userId)
@@ -236,6 +237,7 @@ export default class UserController {
                     path: 'cyclist',
                     populate: {
                         path: '_activityIds',
+                        options: { sort: {_createdAt: -1} }
                     },
                 })
                 .exec();
@@ -289,6 +291,87 @@ export default class UserController {
             });
 
             return res.status(200).json(giveSpecificProps);
+        } catch (e) {
+            next(e);
+        };
+    };
+
+    getCharts = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // Array of months
+            const months = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"];
+
+            // Get users id
+            const contentToken = req.params.userId;
+            
+            const user = await User.findById(contentToken)
+            .populate({
+                path: 'cyclist',
+                populate: {
+                    path: '_activityIds',
+                    options: { sort: {_createdAt: -1} }
+                },
+            })
+
+            // Get last 6 months
+            const date = new Date();
+            const currentMonth = date.getMonth();
+
+            let arrayOfMonths = [];
+
+            let reserve = 12;
+            let current = currentMonth;
+
+            arrayOfMonths.push(current);
+
+            // Deciding which month
+            for (let i = 0; i < 5; i++) {
+                current -= 1;
+                if (current < 0 ){
+                    reserve -= 1;
+                    arrayOfMonths.unshift(reserve);
+                } else {
+                    arrayOfMonths.unshift(current);
+                };
+            };
+
+            let results = [];
+
+            // Searching for rides trough these moments
+            for (let i = 0; i < arrayOfMonths.length; i++) {
+                let object = {
+                    index: arrayOfMonths[i],
+                    month: months[arrayOfMonths[i]],
+                    totalDistance: 0,
+                };
+
+                for (let j = 0; j < user.cyclist._activityIds.length; j++) {
+                    const fullDate = Moment(user.cyclist._activityIds[j]._createdAt).format('L');
+                    const splittedToMonth = fullDate.split('/')[1];
+                    const setToIndex = Number(splittedToMonth) - 1;
+                    
+                    if (setToIndex === arrayOfMonths[i]) {
+                        object.totalDistance += Number(user.cyclist._activityIds[j].activity.total_distance);
+                    };
+                };
+
+                results.push(object);
+            };
+
+            // Decide max factors
+            let maxDist = 0;
+
+            for (let i = 0; i < results.length; i++) {
+                const maxDistMonth = results[i].totalDistance;
+                if (maxDist < maxDistMonth) maxDist = maxDistMonth;
+            };
+
+            const result = {
+                maximum_distance: maxDist.toFixed(2),
+                results: results,
+            };
+
+            return res.status(200).json(result);
         } catch (e) {
             next(e);
         };
