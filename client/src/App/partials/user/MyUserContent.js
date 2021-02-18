@@ -70,7 +70,7 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
       } catch (e) {
         console.log(e);
       };
-    }, [getCurrentCharts, currentUser, user]);
+    }, [getCurrentCharts, currentUser]);
 
     useEffect(() => {
       fetchData();

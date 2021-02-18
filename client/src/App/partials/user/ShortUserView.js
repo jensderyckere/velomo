@@ -5,7 +5,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import UserDefault from '../../assets/icons/user.svg';
 
 // Components
-import { ChatSVG, LoaderSVG, MoreSVG, SlugText, TrashSVG } from '../../components';
+import { ChatSVG, ImageUrl, LoaderSVG, MoreSVG, SlugText, TrashSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -15,7 +15,6 @@ import MyProfile from '../../assets/icons/profile.svg';
 
 export const ShortUserView = ({ user, club, cred }) => {
   const history = useHistory();
-  console.log(user);
 
   const [ more, setMore ] = useState(false);
 
@@ -23,7 +22,7 @@ export const ShortUserView = ({ user, club, cred }) => {
     <div className="short-user-view">
       <div className="short-user-view__left" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id))}>
         <span className="avatar avatar-standard" style={{
-          backgroundImage: `url(${user.profile.avatar ? user.profile.avatar: UserDefault})`,
+          backgroundImage: `url(${ImageUrl(user.profile.avatar, UserDefault)})`,
         }}></span>
         <span className="tertiary-font text-size">
           <strong className="secundary-font">{user.firstName + ' ' + user.lastName}</strong><br/>
