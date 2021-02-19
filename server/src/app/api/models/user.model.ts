@@ -2,21 +2,24 @@ import { default as mongoose, Schema, Document } from 'mongoose';
 import { default as bcrypt } from 'bcrypt';
 import { default as validator } from 'validator';
 
-import { INotification, IClub, IParent, ICyclist, IMember, IActivity } from '../models';
+import { INotification, IClub, IParent, ICyclist, IMember, IActivity, IMilestone, IChallenge } from '../models';
 
 interface IProfile {
     avatar: string;
     bio: string;
-    category: string;
-    setupCompleted: boolean;
     uniqueCode: string;
     _notificationIds: Array<INotification['_id']>;
 };
 
 interface ICyclistInfo {
+    level: number;
+    level_name: string;
+    xp: number;
+    _milestoneIds: Array<IMilestone['_id']>;
+    _challengeIds: Array<IChallenge['_id']>;
     _clubId: IClub['_id'];
     _parentIds: Array<IParent['_id']>;
-    _activityIds: Array<IActivity['_id']>
+    _activityIds: Array<IActivity['_id']>;
 };
 
 interface IMemberInfo {
@@ -38,7 +41,7 @@ interface IParentInfo {
 interface IUser extends Document {
     firstName: string;
     lastName: string;
-    email:string;
+    email: string;
     password: string;
     role: string;
     profile: IProfile;
@@ -112,6 +115,18 @@ const userSchema: Schema = new Schema({
         }],
     },
     cyclist: {
+        level: {
+            type: Number,
+            default: 0,
+        },
+        level_name: {
+            type: String,
+            default: 'Potentieel',
+        },
+        xp: {
+            type: Number,
+            default: 0,
+        },
         _clubId: {
             type: Schema.Types.ObjectId,
             ref: 'Club',

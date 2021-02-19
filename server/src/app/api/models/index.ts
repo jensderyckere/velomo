@@ -6,3 +6,5 @@ export * from './cyclist.model';
 export * from './member.model';
 export * from './notification.model';
 export * from './activity.model';
+export * from './milestone.model';
+export * from './challenge.model';

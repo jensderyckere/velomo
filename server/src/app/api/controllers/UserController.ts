@@ -4,17 +4,20 @@ import { default as bcrypt } from "bcrypt";
 import { default as Moment } from "moment";
 
 import { Auth, IConfig } from "../../services";
-import { Club, Cyclist, IClub, ICyclist, IMember, IParent, IUser, Member, Parent, User } from "../models";
+import { Club, Cyclist, IClub, ICyclist, IMember, IMilestone, IParent, IUser, Member, Milestone, Parent, User } from "../models";
+import { Content } from "../../utils";
 
 import 'moment/locale/nl-be';
 
 export default class UserController {
     private auth: Auth;
     private config: IConfig;
+    private content: Content;
 
-    constructor(auth: Auth, config: IConfig) {
+    constructor(auth: Auth, config: IConfig, content: Content) {
         this.auth = auth;
         this.config = config;
+        this.content = content;
     };
 
     all = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
@@ -739,6 +742,16 @@ export default class UserController {
                 redirect: false,
                 status: 409,
             });
+
+            // Create all milestones
+            let arrayOfMilestones = [];
+            const milestones = this.content.allMilestones;
+
+            for (let i = 0; i < milestones.length; i++) {
+                let createdMilestone: IMilestone = new Milestone({
+                    title: '',
+                });
+            };
 
             let createUser : IUser = new User({
                 firstName: firstName,
