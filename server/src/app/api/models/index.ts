@@ -8,3 +8,5 @@ export * from './notification.model';
 export * from './activity.model';
 export * from './milestone.model';
 export * from './challenge.model';
+export * from './goal.model';
+export * from './challengeparticipated.model';

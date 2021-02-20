@@ -1,7 +1,6 @@
 import Calculator from "./Calculator";
-import Content from "./Content";
+export * from "./Content";
 
 export {
   Calculator,
-  Content,
 };

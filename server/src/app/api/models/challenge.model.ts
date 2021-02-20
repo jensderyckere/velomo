@@ -25,6 +25,7 @@ interface IChallenge extends Document {
   participants: Array<IUser['_id']>;
   submissions: Array<ISubmission>;
   _createdAt: string;
+  _userId: IUser['_id'];
 };
 
 const challengeSchema: Schema = new Schema({
@@ -98,6 +99,10 @@ const challengeSchema: Schema = new Schema({
       default: Date.now(),
     },
   }],
+  _userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 }, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
 
 const Challenge = mongoose.model<IChallenge>('Challenge', challengeSchema);

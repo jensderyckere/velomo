@@ -2,7 +2,7 @@ import { default as mongoose, Schema, Document } from 'mongoose';
 import { default as bcrypt } from 'bcrypt';
 import { default as validator } from 'validator';
 
-import { INotification, IClub, IParent, ICyclist, IMember, IActivity, IMilestone, IChallenge } from '../models';
+import { INotification, IClub, IParent, ICyclist, IMember, IActivity, IMilestone, IChallengeParticipated, IGoal, IChallenge } from '../models';
 
 interface IProfile {
     avatar: string;
@@ -16,7 +16,8 @@ interface ICyclistInfo {
     level_name: string;
     xp: number;
     _milestoneIds: Array<IMilestone['_id']>;
-    _challengeIds: Array<IChallenge['_id']>;
+    _challengeIds: Array<IChallengeParticipated['_id']>;
+    _goalIds: Array<IGoal['_id']>;
     _clubId: IClub['_id'];
     _parentIds: Array<IParent['_id']>;
     _activityIds: Array<IActivity['_id']>;
@@ -30,6 +31,7 @@ interface IClubInfo {
     name: string;
     cover: string;
     location: string;
+    _challengeIds: Array<IChallenge['_id']>;
     _cyclistIds: Array<ICyclist['_id']>;
     _memberIds: Array<IMember['_id']>;
 };
@@ -142,6 +144,21 @@ const userSchema: Schema = new Schema({
             ref: 'Activity',
             required: false,
         }],
+        _milestoneIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Milestone',
+            required: false,
+        }],
+        _goalIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Goal',
+            required: false,
+        }],
+        _challengeIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'ChallengeParticipated',
+            required: false,
+        }],
     },
     member: {
         _clubId: {
@@ -166,6 +183,11 @@ const userSchema: Schema = new Schema({
             required: false,
             unique: false,
         },
+        _challengeIds: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Challenge',
+            required: false,
+        }],
         _cyclistIds: [{
             type: Schema.Types.ObjectId,
             ref: 'Cyclist',

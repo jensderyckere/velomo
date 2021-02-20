@@ -5,19 +5,17 @@ import { default as Moment } from "moment";
 
 import { Auth, IConfig } from "../../services";
 import { Club, Cyclist, IClub, ICyclist, IMember, IMilestone, IParent, IUser, Member, Milestone, Parent, User } from "../models";
-import { Content } from "../../utils";
+import * as Content from "../../utils/Content";
 
 import 'moment/locale/nl-be';
 
 export default class UserController {
     private auth: Auth;
     private config: IConfig;
-    private content: Content;
 
-    constructor(auth: Auth, config: IConfig, content: Content) {
+    constructor(auth: Auth, config: IConfig) {
         this.auth = auth;
         this.config = config;
-        this.content = content;
     };
 
     all = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
@@ -745,12 +743,20 @@ export default class UserController {
 
             // Create all milestones
             let arrayOfMilestones = [];
-            const milestones = this.content.allMilestones;
+            const milestones = Content.milestones;
 
             for (let i = 0; i < milestones.length; i++) {
                 let createdMilestone: IMilestone = new Milestone({
-                    title: '',
+                    title: milestones[i].title,
+                    description: milestones[i].description,
+                    type: milestones[i].type,
+                    goal: milestones[i].goal,
+                    badge: milestones[i].badge,
                 });
+
+                let savedMilestone = await createdMilestone.save();
+
+                arrayOfMilestones.push(savedMilestone);
             };
 
             let createUser : IUser = new User({
@@ -759,6 +765,9 @@ export default class UserController {
                 email: email,
                 role: role,
                 password: password,
+                cyclist: {
+                    _milestoneIds: arrayOfMilestones,
+                },
                 profile: {
                     uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
                 },

@@ -35,6 +35,7 @@ const milestoneSchema: Schema = new Schema({
   },
   seen: {
     type: Boolean,
+    default: true,
   },
   badge: {
     type: String,
