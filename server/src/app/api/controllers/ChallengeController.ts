@@ -52,6 +52,9 @@ export default class ChallengeController {
     };
   };
 
+  // Edit challenge
+  
+
   // Delete challenge
   deleteChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
