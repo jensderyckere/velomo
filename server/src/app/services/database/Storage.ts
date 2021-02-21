@@ -6,6 +6,9 @@ import { default as sharp } from "sharp";
 import { default as stream } from "stream";
 import { default as fs } from "fs";
 import { default as converter } from "xml-js";
+import { default as Moment } from "moment";
+
+import 'moment/locale/nl-be';
 
 import { Calculator } from "../../utils";
 
@@ -44,6 +47,7 @@ class Storage {
         let arrayOfCheckpoints = [];
         let numberOfSpeed = 0;
         let numberOfDistance = 0;
+        let numberOfSeconds = 0;
 
         for (let i = 0; i < coordinates.length; i++) {
           if (coordinates[i+1]) {
@@ -52,6 +56,8 @@ class Storage {
             numberOfDistance = numberOfDistance + distanceBetween;
 
             const timeBetween = (Date.parse(coordinates[i+1].elements[1].elements[0].text) - Date.parse(coordinates[i].elements[1].elements[0].text)) /1000;
+            numberOfSeconds += timeBetween;
+
             const speed_mph = distanceBetween / timeBetween;
             const speed_kph = (speed_mph * 3600) / 1000;
             numberOfSpeed = numberOfSpeed + speed_kph;
@@ -68,11 +74,13 @@ class Storage {
           };
         };
 
+        const totalDuration = Moment.utc(Moment.duration(numberOfSeconds, 'seconds').as('milliseconds')).format('HH:mm:ss');
         const totalDistance = numberOfDistance / 1000;
         const avgSpeed = numberOfSpeed / arrayOfSpeed.length;
 
         const activity = {
           "total_distance": totalDistance,
+          "total_duration": totalDuration,
           "avg_speed": avgSpeed,
           "starting_time": coordinates[0].elements[1].elements[0].text,
           "checkpoints": arrayOfCheckpoints,
