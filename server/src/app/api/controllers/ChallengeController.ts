@@ -11,6 +11,118 @@ export default class ChallengeController {
     this.auth = auth;
   };
 
+  getClubChallenges = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Find user
+      const { userId } = req.params;
+      const user = await User.findById(userId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      // Get challenges from club
+      let challenges;
+
+      if (user.role === "cyclist") {
+        challenges = await ChallengeParticipated.find({_userId: userId}).populate({path: '_challengeId'}).exec();
+      };
+
+      if (user.role === "club") {
+        challenges = await User.findById(userId).populate({path: 'club', populate: {path: '_challengeIds'}}).exec();
+      };
+
+      if (!challenges) {
+        return res.status(404).json({
+          message: "No challenges have been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      return res.status(200).json(challenges);
+    } catch (e) {
+      next(e);
+    };
+  };
+
+  getMyChallenges = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Find user
+      const userId = this.auth.checkId(req, res);
+      const user = await User.findById(userId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      // Get challenges from myself
+      const participatedChallenges = await ChallengeParticipated.find({_userId: userId}).populate({path: '_challengeId'}).exec();
+
+      if (!participatedChallenges) {
+        return res.status(404).json({
+          message: "No challenges have been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      return res.status(200).json(participatedChallenges);
+    } catch (e) {
+      next(e);
+    };
+  };
+
+  getDetailedChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Get challenge
+      const { challengeId } = req.params;
+
+      const challenge = await Challenge.findById(challengeId).exec();
+
+      if (!challenge) {
+        return res.status(404).json({
+          message: "No challenge has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      return res.status(200).json(challenge);
+    } catch (e) {
+      next(e);
+    };
+  };
+
+  getDetailedParticipation = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // get challenge participation
+      const { challengeId } = req.params;
+
+      const participatedChallenge = await ChallengeParticipated.findOne({_challengeId: challengeId}).populate({path: '_challengeId'}).exec();
+
+      if (!participatedChallenge) {
+        return res.status(404).json({
+          message: "No participation has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      return res.status(200).json(participatedChallenge);
+    } catch (e) {
+      next(e);
+    };
+  };
+
   createChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
       // Find user
@@ -55,7 +167,49 @@ export default class ChallengeController {
   };
 
   // Edit challenge
-  
+  editChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Find user
+      const userId = this.auth.checkId(req, res);
+      const user = await User.findById(userId).exec();
+
+      // Challenge id
+      const { challengeId } = req.params;
+      const { title, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
+
+      const challenge = await Challenge.findById(challengeId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (!challenge) {
+        return res.status(404).json({
+          message: "No challenge has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (user.role !== 'club' || challenge._userId !== userId) {
+        return res.status(401).json({
+          message: "Unauthorized call",
+          redirect: false,
+          status: 401,
+        });
+      };
+
+      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {title, content, images, video, badge, difficulty, type, distance, start_date, end_date}).exec();
+
+      return res.status(200).json(updatedChallenge);
+    } catch (e) {
+      next(e);
+    };
+  };
 
   // Delete challenge
   deleteChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
@@ -271,7 +425,7 @@ export default class ChallengeController {
 
       if (challenge.type === 'image' || challenge.type === 'video') {
         return res.status(400).json({
-          message: "No challenge has been found",
+          message: "Incorrect usage",
           redirect: false,
           status: 400,
         });
@@ -289,22 +443,29 @@ export default class ChallengeController {
             },
           }).exec();
 
+          let distance = 0;
+
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
             if (user.cyclist._activityIds[i].activity.checkpoints) {
               const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
               const totalDistance = user.cyclist._activityIds[i].activity.total_distance;
 
-              let distance = 0;
-
               // Check if between dates
               if (Moment(startingTime).isBetween(startDate, endDate)) {
                 distance += totalDistance;
               };
-
-              const object = {user: user, distance: distance};
-              arrayOfParticipants.push(object);
             };
           };
+
+          const object = {user: user, distance: distance};
+          arrayOfParticipants.push(object);
+
+          if (distance >= challenge.distance) {
+            await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+              completed: true,
+              seen: false,
+            }).exec(); 
+         };
         };
       };
 
@@ -320,27 +481,29 @@ export default class ChallengeController {
             },
           }).exec();
 
+          let duration = Moment.duration('00:00:00');
+
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
             if (user.cyclist._activityIds[i].activity.checkpoints) {
               const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
               const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
-
-              let duration = Moment.duration('00:00:00');
-
               // Check if between dates
               if (Moment(startingTime).isBetween(startDate, endDate)) {
                 duration = Moment.duration(duration).add(Moment.duration(totalDuration));
               };
-
-              const object = {user: user, distance: duration};
-              arrayOfParticipants.push(object);
             };
           };
+
+          const object = {user: user, duration: duration};
+          arrayOfParticipants.push(object);
+
+          if (duration.asMilliseconds() >= Moment.duration(challenge.duration).asMilliseconds()) {
+             await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+               completed: true,
+               seen: false,
+             }).exec();
+          };
         };
-      };
-
-      if (challenge.type === 'duration') {
-
       };
 
       return res.status(200).json(arrayOfParticipants);
@@ -349,5 +512,113 @@ export default class ChallengeController {
     };
   };
 
-  // Check if completed
+  // Submit submission
+  submitSubmission = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Find user
+      const userId = this.auth.checkId(req, res);
+      const user = await User.findById(userId).exec();
+
+      // Challenge id
+      const { challengeId } = req.params;
+
+      const challenge = await Challenge.findById(challengeId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (!challenge) {
+        return res.status(404).json({
+          message: "No challenge has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      // Create submission
+      const { text, image, video, activity, _userId } = req.body;
+
+      // Check if already submitted
+      for (let i = 0; i < challenge.submissions.length; i++) {
+        if (challenge.submissions[i]._userId === _userId) {
+          return res.status(400).json({
+            message: "User has already submitted",
+            redirect: false,
+            status: 400,
+          });
+        };
+      };
+
+      const submission = {
+        text: text ? text : '',
+        image: image ? image : '',
+        video: video ? video : '',
+        activity: activity ? activity : '',
+        _userId: _userId ? _userId : '',
+        _createdAt: Date.now(),
+      };
+
+      const updatedChallenge = await challenge.update({
+        $push: {
+          submissions: submission,
+        }
+      });
+
+      return res.status(200).json(updatedChallenge);
+    } catch (e) {
+      next(e);
+    };
+  };
+
+  // Approve submission
+  approveSubmission = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Check if params exist
+      const { challengeId, userId } = req.params;
+
+      const challenge = await Challenge.findById(challengeId).exec();
+      const user = await User.findById(userId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (!challenge) {
+        return res.status(404).json({
+          message: "No challenge has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      // Find participation model
+      const participation = await ChallengeParticipated.findOne({_userId: userId, _challengeId: challengeId});
+
+      if (!participation) {
+        return res.status(404).json({
+          message: "No participation",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      const updatedParticipation = await participation.update({
+        completed: true,
+        seen: false,
+      });
+
+      return res.status(200).json(updatedParticipation);
+    } catch (e) {
+      next(e);
+    };
+  };
 };

@@ -6,10 +6,9 @@ interface ISubmission {
   image: string;
   video: string;
   activity: IActivity['_id'];
-  approved: boolean;
   _userId: IUser['_id'];
-  _createdAt: string;
-}
+  _createdAt: number;
+};
 
 interface IChallenge extends Document {
   title: string;
@@ -20,6 +19,7 @@ interface IChallenge extends Document {
   difficulty: string;
   type: string;
   distance: number;
+  duration: number;
   start_date: string;
   end_date: string;
   participants: Array<IUser['_id']>;
@@ -58,6 +58,9 @@ const challengeSchema: Schema = new Schema({
   distance: {
     type: Number,
   },
+  duration: {
+    type: Number,
+  },
   start_date: {
     type: String,
     required: true,
@@ -85,17 +88,13 @@ const challengeSchema: Schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Activity',
     },
-    approved: {
-      type: Boolean,
-      default: false,
-    },
     _userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
     _createdAt: {
-      type: String,
-      required: true,
+      type: Number,
+      required: false,
       default: Date.now(),
     },
   }],
