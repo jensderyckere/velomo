@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // Images
 import Switch from '../../assets/icons/swap.png';
 import User from '../../assets/icons/user.svg';
+import { ImageUrl } from '../../components';
 
 export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
   const [ otherUser, setOtherUser ] = useState(false);
@@ -17,7 +18,7 @@ export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
       <div className="activities-switch d-flex align-items-center">
         <div className="activities-switch__image" onClick={() => setOtherUser(!otherUser)}>
           <span className="avatar avatar-small" style={{
-            backgroundImage: `url(${selected._userId.profile.avatar ? selected._userId.profile.avatar : User})`
+            backgroundImage: `url(${ImageUrl(selected._userId.profile.avatar, User)})`
           }}>
           </span>
           <img src={Switch} alt="switch" />
@@ -34,7 +35,7 @@ export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
               return (
                 <div key={index} onClick={() => changeSelected(element)} className="more-view__user d-flex align-items-center">
                   <span className="more-view__user--avatar avatar avatar-small" style={{
-                    backgroundImage: `url(${element._userId.profile.avatar ? element._userId.profile.avatar : User})`
+                    backgroundImage: `url(${ImageUrl(element._userId.profile.avatar, User)})`
                   }}></span>
                   <span className="more-view__user--info secundary-font bold-font text-size margin-left-20">
                     <strong>

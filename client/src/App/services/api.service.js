@@ -110,6 +110,36 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const getClubChallenges = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}club-challenges/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getMyChallenges = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}my-challenges`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
   return (
     <ApiContext.Provider value={{
       uploadPicture,
@@ -118,6 +148,8 @@ const ApiProvider = ({children}) => {
       uploadActivity,
       createActivity,
       editActivity,
+      getClubChallenges,
+      getMyChallenges,
     }}>
       {children}
     </ApiContext.Provider>

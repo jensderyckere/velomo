@@ -1,0 +1,21 @@
+.challenge-overview {
+  margin-top: 50px;
+
+  h2 {
+    margin: 0;
+  }
+
+  &__items {
+
+  }
+}
+
+.create-challenge {
+  &__radio {
+    margin-top: 30px;
+
+    .radio {
+      margin-left: 0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // Partials
-import { UserOverview } from '.';
+import { UserOverview, ChallengeOverview } from '..';
 
 // Components
 import { ColumnChart } from '../../components';
@@ -19,6 +19,10 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
           members={user.club._memberIds}
           cred={cred}
           screenSize={screenSize}
+        />
+        <ChallengeOverview 
+          user={user}
+          cred={cred}
         />
       </>
     );
