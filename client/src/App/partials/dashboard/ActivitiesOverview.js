@@ -18,7 +18,7 @@ export const ActivitiesOverview = ({ user }) => {
     <div className="activities__overview">
       {
         user && user.cyclist._activityIds.map((activity, index) => {
-          return index < paginate && <ActivityItem key={index} activity={activity} />
+          return index < paginate && <ActivityItem key={index} user={user} activity={activity} />
         })
       }
     </div>

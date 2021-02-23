@@ -52,5 +52,26 @@
     background-size: cover;
     background-position: center center;
     border-radius: 10px;
+    position: relative;
+
+    &__close {
+      background-color: white;
+      box-shadow: $standard-shadow;
+      height: 30px;
+      width: 30px;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+
+      svg, path {
+        width: 15px;
+        fill: $orange;
+      }
+    }
   }
 }

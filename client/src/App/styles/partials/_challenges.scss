@@ -12,10 +12,33 @@
 
 .create-challenge {
   &__radio {
-    margin-top: 30px;
-
     .radio {
       margin-left: 0;
+    }
+  }
+}
+
+.badge-upload {
+  flex-wrap: wrap;
+  padding-bottom: 30px;
+
+  .standard-badge {
+    margin-right: 30px;
+  }
+
+  &__buttons {
+    &--edit {
+      position: relative;
+
+      input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
     }
   }
 }

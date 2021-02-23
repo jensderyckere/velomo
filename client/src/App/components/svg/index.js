@@ -16,3 +16,5 @@ export * from './ActivitySVG';
 export * from './TotalDistanceSVG';
 export * from './TotalSpeedSVG';
 export * from './TotalAchievementsSVG';
+export * from './CloseSVG';
+export * from './LogoutSVG';

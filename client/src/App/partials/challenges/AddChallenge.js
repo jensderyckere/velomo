@@ -2,23 +2,41 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { Inputfield, Radio, StandardButton, Textarea } from '../../components';
+import { Datepicker, Distance, Duration, GreyButton, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea, VideoUpload } from '../../components';
+
+// Partials
+import { BadgeUpload } from '.';
 
 // Routes
 import * as Routes from '../../routes';
 
+// Services
+import { useApi, useAuth } from '../../services';
+
 export const AddChallenge = () => {
   // Routing
   const history = useHistory();
+
+  // Services
+  const { uploadPicture, createChallenge } = useApi();
+  const { currentUser } = useAuth();
 
   // States
   const [ typeChallenge, setTypeChallenge ] = useState("distance");
   const [ form, setForm ] = useState({
     'title': '',
     'description': '',
-    'distance': '',
-    'duration': '',
+    'distance': 0,
+    'duration': '00:00:00',
+    'start_date': Date.now(),
+    'end_date': Date.now(),
+    'difficulty': 0,
+    'badge': '',
   });
+  const [ error, setError ] = useState(false);
+
+  const [ images, setImages ] = useState([]);
+  const [ video, setVideo ] = useState('');
 
   // Change states
   const changeStates = (e) => {
@@ -26,6 +44,78 @@ export const AddChallenge = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const changeStartDate = (date) => {
+    setForm({
+      ...form,
+      start_date: date,
+    });
+  };
+
+  const changeEndDate = (date) => {
+    setForm({
+      ...form,
+      end_date: date,
+    });
+  };
+
+  const changeDifficulty = (value) => {
+    setForm({
+      ...form,
+      difficulty: value,
+    });
+  };
+
+  const changeBadge = async (image) => {
+    const result = await uploadPicture(currentUser, image);
+
+    setForm({
+      ...form,
+      badge: result.filename,
+    });
+  };
+
+  // Upload the challenge
+  const uploadChallenge = async () => {
+    try {
+      if (!typeChallenge) {
+        setError(true);
+        return;
+      };
+  
+      if (form.title.length === 0 || form.description.length === 0) {
+        setError(true);
+        return;
+      };
+  
+      if (!form.badge) {
+        setError(true);
+        return;
+      };
+
+      const result = await createChallenge(currentUser, {
+        title: form.title,
+        content: form.description,
+        images: images,
+        video: video,
+        badge: form.badge,
+        difficulty: form.difficulty === 0 ? 'Makkelijk' : form.difficulty === 1 ? 'Medium' : form.difficulty === 2 ? 'Moeilijk' : '',
+        type: typeChallenge,
+        distance: form.distance,
+        start_date: form.start_date,
+        end_date: form.end_date,
+      });
+
+      if (!result) {
+        setError(true);
+        return;
+      };
+
+      history.push(Routes.CHALLENGE.replace(':id', result._id));
+    } catch (e) {
+      setError(true);
+    }
   };
 
   return (
@@ -98,7 +188,7 @@ export const AddChallenge = () => {
         <div className="section-title margin-top-50">
           <h5>DETAILS INVOEREN</h5>
         </div>
-        <div className="row">
+        <div className="row justify-content-between">
           <div className="col-lg-6 col-12">
             <Inputfield 
               label="Titel"
@@ -114,7 +204,100 @@ export const AddChallenge = () => {
               size="large"
               changeInput={(e) => changeStates(e)}
             />
+            <div className="row">
+              <div className="col-lg-6 col-12">
+                <Datepicker 
+                  label="Startdatum" 
+                  startDate={form.start_date} 
+                  whenChanging={changeStartDate} 
+                />
+              </div>
+              <div className="col-lg-6 col-12">
+                <Datepicker 
+                  label="Einddatum" 
+                  startDate={form.end_date} 
+                  whenChanging={changeEndDate} 
+                />
+              </div>
+            </div>
+            {
+              typeChallenge === "distance"  && (
+                <Distance 
+                  id="distance_km" 
+                  name="distance"
+                  defaultValue={form.distance}
+                  form={form}
+                  setForm={setForm}
+                />
+              )
+            }
+            {
+              typeChallenge === "duration"  && (
+                <Duration 
+                  defaultHours={form.duration.split(':')[0]} 
+                  defaultMinutes={form.duration.split(':')[1]} 
+                  defaultSeconds={form.duration.split(':')[2]} 
+                  form={form}
+                  changeFully={setForm}
+                />
+              )
+            }
           </div>
+          <div className="col-lg-5 col-12">
+            <Slider 
+              label="Moeilijkheidsgraad" 
+              min={0} 
+              max={2} 
+              value={form.difficulty}
+              onChange={changeDifficulty}
+              labels={{
+                0: 'Makkelijk',
+                1: 'Medium',
+                2: 'Moeilijk',
+              }}
+            />
+          </div>
+        </div>
+        <div className="section-title margin-top-50">
+          <h5>AFBEELDINGEN TOEVOEGEN</h5>
+        </div>
+        <IMGUpload 
+          defaultImages={images} 
+          setImages={setImages} 
+        />
+        <div className="section-title margin-top-50">
+          <h5>VIDEO TOEVOEGEN</h5>
+        </div>
+        <VideoUpload 
+          label="Video uploaden" 
+          description="Je kan een video toevoegen om wat meer helderheid te bieden over deze uitdaging." 
+        />
+        <div className="section-title margin-top-50">
+          <h5>BADGE TOEVOEGEN</h5>
+        </div>
+        <BadgeUpload 
+          defaultImage={form.badge} 
+          setDefaultImage={changeBadge} 
+          deleteImage={() => setForm({...form, badge: ''})}
+        />
+        {
+          error && (
+            <Message 
+              error={true}
+              message="Deze uitdaging kon niet worden aangemaakt."
+            />
+          )
+        }
+        <div className="d-flex justify-content-end margin-top-50">
+          <StandardButton  
+            text="Uitdaging aanmaken"
+            extraClasses="margin-right-10"
+            action={uploadChallenge}
+          />
+          <GreyButton
+            text="Annuleren"
+            action={() => history.push(Routes.MY_PROFILE)}
+          />
         </div>
       </div>
     </>

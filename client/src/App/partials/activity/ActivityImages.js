@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // Components
-import { ImageUrl } from '../../components';
+import { ImageUrl, CloseSVG } from '../../components';
 
 export const ActivityImages = ({ images }) => {
   const [ view, setView ] = useState();
@@ -29,6 +29,9 @@ export const ActivityImages = ({ images }) => {
           <div className="activity-images--full" style={{
             backgroundImage: `url(${ImageUrl(view, view)})`
           }}>
+            <div onClick={() => setView(null)} className="activity-images--full__close">
+              <CloseSVG />
+            </div>
           </div>
         )
       }

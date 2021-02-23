@@ -5,6 +5,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { StylingProvider, AuthProvider, ToolboxProvider, ApiProvider } from './services';
 
 // Styling
+import 'video-react/dist/video-react.css';
+import 'react-rangeslider/lib/index.css';
 import './styles/_index.scss';
 
 // Routes

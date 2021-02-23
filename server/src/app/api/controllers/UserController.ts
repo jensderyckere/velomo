@@ -852,4 +852,33 @@ export default class UserController {
             next(e);
         };
     };
+
+    addExperience = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        try {
+            // Get users id
+            const contentToken = this.auth.checkId(req, res);
+            const user = await User.findById(contentToken).exec();
+
+            // Get xp
+            const { xp } = req.body;
+
+            if (!user) {
+                return res.status(404).json({
+                    message: "User can't be found",
+                    redirect: false,
+                    status: 404,
+                });
+            };
+
+            const updatedUser = await User.findByIdAndUpdate(contentToken, {
+                $set: {
+                    'cyclist.xp': user.cyclist.xp + xp,
+                },
+            }).exec();
+
+            return res.status(200).json(updatedUser);
+        } catch (e) {
+            next(e);
+        };
+    };
 };

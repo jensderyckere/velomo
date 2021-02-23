@@ -62,6 +62,8 @@ const ApiProvider = ({children}) => {
     formData.append('description', content.description);
     formData.append('type', content.type);
     formData.append('gpxFile', content.gpxFile);
+    formData.append('feeling', content.feeling);
+    formData.append('experience', content.experience);
 
     if (content.images) formData.append('images', content.images);
 
@@ -99,6 +101,22 @@ const ApiProvider = ({children}) => {
 
     const res = await fetch(url, {
       method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const createChallenge = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}challenge`;
+
+    const res = await fetch(url, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -150,6 +168,7 @@ const ApiProvider = ({children}) => {
       editActivity,
       getClubChallenges,
       getMyChallenges,
+      createChallenge,
     }}>
       {children}
     </ApiContext.Provider>

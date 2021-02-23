@@ -6,7 +6,7 @@ import User from '../../assets/icons/user.svg';
 import MyProfile from '../../assets/icons/profile.svg';
 import Settings from '../../assets/icons/settings.svg';
 
-import { ActivitySVG, ArrowSVG } from '../../components';
+import { ActivitySVG, ArrowSVG, LogoutSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -14,11 +14,22 @@ import * as Routes from '../../routes';
 // Config
 import * as Config from '../../config';
 
+// Services
+import { useAuth } from '../../services';
+
 export const Profile = ({ user }) => {
   const history = useHistory();
 
+  // Services
+  const { logOut } = useAuth();
+
   // States 
   const [ more, setMore ] = useState(false);
+
+  const logOutUser = () => {
+    const result = logOut();
+    if (result) history.push(Routes.SIGNIN);
+  };
 
   return (
     <div className="profile">
@@ -54,6 +65,10 @@ export const Profile = ({ user }) => {
                 </div>
               )
             }
+            <div className="more-view__link" onClick={() => logOutUser()}>
+              <LogoutSVG />
+              <span>Afmelden</span>
+            </div>
           </div>
         )
       }

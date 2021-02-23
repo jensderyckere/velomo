@@ -8,3 +8,6 @@ export * from './GPXUpload';
 export * from './IMGUpload';
 export * from './Distance';
 export * from './Duration';
+export * from './Datepicker';
+export * from './Slider';
+export * from './VideoUpload';

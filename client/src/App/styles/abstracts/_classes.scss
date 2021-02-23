@@ -71,8 +71,24 @@
   @include duration;
 }
 
+.video-upload {
+  @include videoUpload;
+}
+
 .input-file {
   @include file;
+}
+
+.datepicker {
+  @include datepicker;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.slider {
+  @include slider;
 }
 
 .standard-button {
@@ -263,6 +279,12 @@
   position: fixed;
 };
 
+.standard-badge {
+  border: 5px solid $orange;
+  border-radius: 100%;
+  padding: 5px;
+}
+
 .avatar {
   @include avatar;
 };
@@ -389,3 +411,7 @@ main {
 .standard-hr {
   background-color: $darkgrey;
 };
+
+.pointer {
+  cursor: pointer;
+}

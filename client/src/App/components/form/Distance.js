@@ -15,6 +15,7 @@ export const Distance = ({ id, name, defaultValue, form, setForm }) => {
   const lowerValue = () => {
     if (distanceValue !== 0) setDistanceValue(parseInt(distanceValue-1));
     document.getElementById(id).value = distanceValue;
+    console.log(form)
     setForm({...form, distance: distanceValue});
   };
 

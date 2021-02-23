@@ -7,6 +7,8 @@ interface IActivity extends Document {
   type: string;
   activity: object;
   images: Array<string>;
+  feeling: number;
+  experience: number;
   _userId: IUser['_id'];
   _createdAt: number;
   _modifiedAt: number;
@@ -39,6 +41,14 @@ const activitySchema: Schema = new Schema({
     required: false,
     unique: false,
   }],
+  feeling: {
+    type: Number,
+    default: 0,
+  },
+  experience: {
+    type: Number,
+    default: 0,
+  },
   _userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',

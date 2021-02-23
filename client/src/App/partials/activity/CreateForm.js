@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { Distance, Duration, GPXUpload, IMGUpload, Inputfield, Message, Radio, StandardButton, Textarea } from '../../components';
+import { Distance, Duration, GPXUpload, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea } from '../../components';
 
 // Services
 import { useApi, useAuth } from '../../services';
@@ -33,6 +33,8 @@ export const CreateForm = ({ user }) => {
       'description': '',
       'distance': '',
       'duration': '',
+      'feeling': '',
+      'experience': '',
     });
 
     // Change states
@@ -75,6 +77,8 @@ export const CreateForm = ({ user }) => {
           type: typeTraining,
           images: images,
           object: object,
+          feeling: form.feeling,
+          experience: form.experience,
         });
 
         if (!result) {
@@ -87,6 +91,8 @@ export const CreateForm = ({ user }) => {
           description: form.description,
           type: typeTraining,
           object: object,
+          feeling: form.feeling,
+          experience: form.experience,
         });
 
         if (!result) {
@@ -130,8 +136,8 @@ export const CreateForm = ({ user }) => {
         <div className="section-title">
           <h5>DETAILS INVOEGEN</h5>
         </div>
-        <div className="row">
-          <div className="col-md-6 col-12">
+        <div className="row justify-content-between">
+          <div className="col-lg-6 col-12">
             <Inputfield 
               label="Titel"
               id="title"
@@ -155,6 +161,36 @@ export const CreateForm = ({ user }) => {
             <Duration 
               changeFully={setForm}
               form={form}
+            />
+          </div>
+          <div className="col-lg-5 col-12">
+            <Slider
+              label="Gevoel"
+              min={0}
+              max={4}
+              labels={{
+                0: 'Slecht',
+                1: 'Onvoldoende',
+                2: 'Matig',
+                3: 'Voldoende',
+                4: 'Perfect',
+              }}
+              onChange={(value) => setForm({...form, feeling: value})}
+              value={2}
+            />
+            <Slider
+              label="Belevenis"
+              min={0}
+              max={4}
+              labels={{
+                0: 'Slecht',
+                1: 'Onvoldoende',
+                2: 'Matig',
+                3: 'Voldoende',
+                4: 'Perfect',
+              }}
+              onChange={(value) => setForm({...form, feeling: value})}
+              value={2}
             />
           </div>
         </div>

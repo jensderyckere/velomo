@@ -62,7 +62,7 @@ export default class ActivityController {
   editActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
       const activityId = req.params.id;
-      const { object, title, description, type, images } = req.body;
+      const { object, title, description, type, images, feeling, experience } = req.body;
   
       if (!activityId) return res.status(404).json({
         message: "No activity has been found",
@@ -77,6 +77,8 @@ export default class ActivityController {
           description: description,
           type: type,
           images: images,
+          feeling: feeling,
+          experience: experience,
         },
       });
 
@@ -95,7 +97,7 @@ export default class ActivityController {
   uploadActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const id = this.auth.checkId(req, res);
 
-    const { object, title, description, type, images } = req.body;
+    const { object, title, description, type, images, feeling, experience } = req.body;
 
     if (!object) return res.status(404).json({
       message: "The file hasn't been uploaded correctly",
@@ -112,6 +114,8 @@ export default class ActivityController {
         type: type,
         activity: object,
         _userId: id,
+        feeling: feeling,
+        experience: experience,
       });
 
       activity = await newActivity.save();
@@ -129,6 +133,8 @@ export default class ActivityController {
         activity: object,
         _userId: id,
         images: images,
+        feeling: feeling,
+        experience: experience,
       });
 
       activity = await newActivity.save();
@@ -147,7 +153,7 @@ export default class ActivityController {
     try {
       const id = this.auth.checkId(req, res);
 
-      const { object, title, description, type, images } = req.body;
+      const { object, title, description, type, images, feeling, experience } = req.body;
 
       if (!object) return res.status(400).json({
         message: "The activity hasn't been created correctly",
@@ -164,6 +170,8 @@ export default class ActivityController {
           type: type,
           activity: object,
           _userId: id,
+          feeling: feeling,
+          experience: experience,
         });
   
         activity = await newActivity.save();
@@ -181,6 +189,8 @@ export default class ActivityController {
           activity: object,
           _userId: id,
           images: images,
+          feeling: feeling,
+          experience: experience,
         });
   
         activity = await newActivity.save();

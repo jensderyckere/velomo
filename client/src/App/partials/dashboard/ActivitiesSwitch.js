@@ -17,7 +17,7 @@ export const ActivitiesSwitch = ({ user, users, selected, setSelected }) => {
     <div className="p-relative no-scroll">
       <div className="activities-switch d-flex align-items-center">
         <div className="activities-switch__image" onClick={() => setOtherUser(!otherUser)}>
-          <span className="avatar avatar-small" style={{
+          <span className="avatar avatar-standard" style={{
             backgroundImage: `url(${ImageUrl(selected._userId.profile.avatar, User)})`
           }}>
           </span>

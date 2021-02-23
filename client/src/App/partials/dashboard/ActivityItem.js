@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // Components
-import { Map, DateText, TimeText, TeamSVG, DistanceSVG } from '../../components';
+import { Map, DateText, TimeText, TeamSVG, DistanceSVG, ImageUrl, SlugText } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
 
-export const ActivityItem = ({activity}) => {
+export const ActivityItem = ({activity, user}) => {
+  // Routing
+  const history = useHistory();
+  
   const [ coordinates, setCoordinates ] = useState();
 
   useEffect(() => {
@@ -63,6 +66,15 @@ export const ActivityItem = ({activity}) => {
             <p className="activities__overview--item--content--description tertiary-font text-size margin-top-20">
               {activity.description}
             </p>
+            <div className="activities__overview--item--content--creator d-flex align-items-center margin-top-30 margin-bottom-20">
+              <span className="avatar avatar-standard pointer" onClick={() => history.push(Routes.PROFILE.replace(':id', user._id).replace(':name', SlugText(user.firstName + ' ' + user.lastName)))} style={{
+                backgroundImage: `url(${ImageUrl(user.profile.avatar)})`
+              }}></span>
+              <span className="text-size tertiary-font margin-left-20">
+                Gemaakt door <br/>
+                <strong>{user.firstName + ' ' + user.lastName}</strong>
+              </span>
+            </div>
             <NavLink className="activities__overview--item--content--more tertiary-font bold-font orange-color text-size margin-top-20" to={Routes.ACTIVITY.replace(':id', activity._id)}>
               Bekijk meer
             </NavLink>

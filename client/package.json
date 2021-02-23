@@ -13,10 +13,16 @@
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
+    "react-date-picker": "^8.0.7",
+    "react-datepicker": "^3.6.0",
     "react-dom": "^17.0.1",
     "react-html-parser": "^2.0.2",
+    "react-player": "^2.9.0",
+    "react-rangeslider": "^2.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "redux": "^4.0.5",
+    "video-react": "^0.14.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

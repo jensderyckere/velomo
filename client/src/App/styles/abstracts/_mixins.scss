@@ -76,6 +76,128 @@
   }
 }
 
+@mixin datepicker {
+  .datepicker__label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+  }
+
+  button {
+    margin-top: 10px;
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@mixin videoUpload {
+  margin-bottom: 20px;
+
+  span {
+    display: block;
+  }
+
+  .video-upload__text {
+    &--label {
+      font-family: $secundary-family;
+      font-weight: 700;
+      font-size: $d-text;
+      margin-bottom: 10px;
+    }
+
+    &--description {
+      font-family: $tertiary-family;
+      font-weight: 200;
+      font-size: $d-text;
+      margin-bottom: 20px;
+    }
+
+    &--button {
+      background-color: $orange;
+      border-radius: 5px;
+      padding: 10px 20px;
+
+      span {
+        background-color: white;
+        padding: 10px 20px;
+        display: inline-flex;
+        cursor: pointer;
+        border-radius: 5px;
+        position: relative;
+
+        input {
+          opacity: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
+
+        button {
+          background: none;
+          border: none;
+          margin: 0;
+          color: $orange;
+          font-family: $secundary-family;
+          font-weight: bold;
+          font-size: $d-text;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@mixin slider {
+  margin-bottom: 80px;
+
+  span, input {
+    display: block;
+  }
+
+  .slider__label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+  }
+
+  .rangeslider {
+    background: linear-gradient(90deg, #FF2020 0%, #FBFF44 50.52%, #00EE7C 100%);
+    box-shadow: none;
+  }
+  
+  .rangeslider-horizontal .rangeslider__fill{
+    background-color: rgba($color: #000000, $alpha: 0.0);
+  }
+
+  .rangeslider-horizontal .rangeslider__handle:after {
+    opacity: 0 !important;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .rangeslider__label-item {
+    font-family: $secundary-family;
+    font-weight: 400;
+    font-size: $d-small;
+    margin-top: 10px;
+  }
+}
+
 @mixin textarea {
   label,
   textarea {
