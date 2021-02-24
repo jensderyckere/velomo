@@ -8,7 +8,7 @@ import { useAuth } from '../services';
 import * as Routes from '../routes';
 
 // Partials
-import { Header } from '../partials';
+import { Footer, Header } from '../partials';
 
 export const StandardLayout = ({ children }) => {
   // Routing
@@ -46,6 +46,7 @@ export const StandardLayout = ({ children }) => {
       <main>
         {children}
       </main>
+      <Footer />
     </div>
   );
 };

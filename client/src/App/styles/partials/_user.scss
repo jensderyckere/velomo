@@ -122,3 +122,26 @@
     border-radius: 100%;
   }
 }
+
+.user-level-bar {
+  &__text {
+    margin-left: 10px;
+    margin-bottom: 20px;
+  }
+
+  &__content {
+    &--box {
+      width: 100%;
+      height: 25px;
+      background-color: $grey;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+
+      &--inside {
+        height: 100%;
+        background: linear-gradient(270deg, rgba(255, 233, 32, 0) 0%, #FFE920 11.98%, #FFBC44 50.52%, #FF9A23 100%);
+      }
+    }
+  }
+}

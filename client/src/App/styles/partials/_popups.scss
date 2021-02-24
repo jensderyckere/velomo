@@ -1,0 +1,41 @@
+.popup {
+  min-height: 100vh;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+
+    h1 {
+      font-size: 50px;
+      font-weight: 900;
+    }
+
+    &--lvl {
+      margin-top: 30px;
+      margin-bottom: 30px;
+
+      &--bar {
+        background-color: $grey;
+        height: 20px;
+        width: 250px;
+        border-radius: 10px;
+        overflow: hidden;
+
+        &__inside {
+          height: 100%;
+          background: linear-gradient(270deg, rgba(255, 233, 32, 0) 0%, #FFE920 11.98%, #FFBC44 50.52%, #FF9A23 100%);
+        }
+      }
+    }
+  }
+}

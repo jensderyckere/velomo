@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // Partials
-import { UserOverview, ChallengeOverview } from '..';
+import { UserOverview, ChallengeOverview, UserLevelBar } from '..';
 
 // Components
 import { ColumnChart } from '../../components';
@@ -55,9 +55,13 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
   };
 
   const UserContent = () => {
+    // States
     const [ distanceData, setDistanceData ] = useState();
     const [ distanceMax, setDistanceMax ] = useState();
 
+    const [ typeGraph, setTypeGraph ] = useState("distance");
+
+    // Services
     const { getCurrentCharts, currentUser } = useAuth();
 
     const fetchData = useCallback(async () => {
@@ -82,10 +86,33 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
 
     return distanceData ? (
       <>
-        <ColumnChart 
-          data={distanceData}
-          max={distanceMax}
-        />
+      <UserLevelBar 
+        lvl={user.cyclist.level}
+        title={user.cyclist.level_name}
+        xp={user.cyclist.xp}
+      />
+      <div className="user-content__graph margin-top-50">
+        <h3 className="secundary-font bold-font title-size margin-bottom-30">
+          {
+            typeGraph === "distance" && "Afgelegde afstand"
+          }
+          {
+            typeGraph === "challenges" && "Voltooide uitdagingen"
+          }
+        </h3>
+        <div className="user-content__graph--options d-flex justify-content-end margin-bottom-0">
+          <h5 onClick={() => setTypeGraph("distance")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'distance' ? 'used-option' : 'non-used-option'} bold-font subtitle-size margin-right-10`}>Afstand</h5>
+          <h5 onClick={() => setTypeGraph("challenges")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'challenges' ? 'used-option' : 'non-used-option'} bold-font subtitle-size`}>Uitdagingen</h5>
+        </div>
+      </div>
+      {
+        typeGraph === "distance" && (
+          <ColumnChart 
+            data={distanceData}
+            max={distanceMax}
+          />
+        )
+      }
       </>
     ) : '';
   };

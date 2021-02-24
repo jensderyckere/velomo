@@ -6,3 +6,5 @@ export * from './settings';
 export * from './connection';
 export * from './activity';
 export * from './challenges';
+export * from './popups';
+export * from './footer';

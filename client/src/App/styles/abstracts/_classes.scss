@@ -131,13 +131,31 @@
   font-size: $d-title;
 };
 
+@media (max-width: 992px) {
+  .title-size {
+    font-size: $m-title;
+  }
+}
+
 .subtitle-size {
   font-size: $d-subtitle;
 };
 
+@media (max-width: 992px) {
+  .subtitle-size {
+    font-size: $m-subtitle !important;
+  }
+}
+
 .text-size {
   font-size: $d-text;
 };
+
+@media (max-width: 992px) {
+  .text-size {
+    font-size: $m-text;
+  }
+}
 
 .smallest-size {
   font-size: $d-small;
@@ -321,6 +339,7 @@
 
 main {
   padding: 60px 0;
+  min-height: 100vh;
 };
 
 .w-100 {
@@ -362,6 +381,12 @@ main {
   width: 20%;
   margin: 0 30px;
 };
+
+@media (max-width: 992px) {
+  .w-100 {
+    margin: 0 10px;
+  }
+}
 
 .left-sided {
   left: 0;
@@ -414,4 +439,8 @@ main {
 
 .pointer {
   cursor: pointer;
+}
+
+.non-used-option {
+  opacity: 0.5;
 }
