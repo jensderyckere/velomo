@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { Storage } from "../../services";
 
-export default class PictureController {
-  public showAvatar = (req: Request, res: Response, next: NextFunction) => {
-    Storage.pipeAvatar(req, res);
+export default class VideoController {
+  public showVideo = (req: Request, res: Response, next: NextFunction) => {
+    Storage.pipeVideo(req, res);
   };
 
-  public uploadAvatar = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  public uploadVideo = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
       if (!req.file) return res.status(404).json({
-        message: "Geen afbeelding upgeload",
+        message: "Geen video upgeload",
         redirect: false,
         status: 404,
       });

@@ -137,6 +137,35 @@ class Storage {
     };
   };
 
+  public uploadVideo = async (req: MulterRequest, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      const input = req.file;
+
+      if (!input) return res.status(404).json({
+        message: "Bestand kon niet gevonden worden",
+        redirect: false,
+        status: 404,
+      });
+
+      crypto.randomBytes(16, async (e, buf) => {
+        const name = buf.toString('hex') + path.extname(input.originalname);
+        const bufferstream = new stream.PassThrough();
+
+        bufferstream.end(input.buffer);
+        bufferstream.pipe(this.bucket.openUploadStream(name).on('error', (error: any) => {
+            return res.status(500).json({
+                'error': 'Upload niet gelukt',
+            });
+        }).on('finish', () => {
+            req.file.filename = name;
+            next();
+        }));
+    });
+    } catch(e) {
+      next(e);
+    };
+  };
+
   public pipeAvatar (req: MulterRequest, res: Response) {
     this.bucket.find({filename: req.params.avatar}).toArray((e: any, files: any) => {
       if (!files || files.length === 0) return res.status(404).json({
@@ -146,6 +175,18 @@ class Storage {
       });
 
       this.bucket.openDownloadStreamByName(req.params.avatar).pipe(res);
+    });
+  };
+
+  public pipeVideo (req: MulterRequest, res: Response) {
+    this.bucket.find({filename: req.params.video}).toArray((e: any, files: any) => {
+      if (!files || files.length === 0) return res.status(404).json({
+        message: "Deze video bestaat niet",
+        redirect: false,
+        status: 404,
+      });
+
+      this.bucket.openDownloadStreamByName(req.params.video).pipe(res);
     });
   };
 };

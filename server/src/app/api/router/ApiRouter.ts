@@ -2,7 +2,7 @@ import { default as express, Router } from "express";
 import { default as multer, memoryStorage } from "multer";
 
 import { Auth, IConfig, Storage } from "../../services";
-import { PictureController, ResetController, UserController, ActivityController, ChallengeController } from "../controllers";
+import { PictureController, ResetController, UserController, ActivityController, ChallengeController, VideoController } from "../controllers";
 
 var upload = multer();
 
@@ -16,6 +16,7 @@ export default class ApiRouter {
     private pictureController: PictureController;
     private activityController: ActivityController;
     private challengeController: ChallengeController;
+    private videoController: VideoController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -31,6 +32,7 @@ export default class ApiRouter {
         this.userController = new UserController(this.auth, this.config);
         this.resetController = new ResetController(this.config);
         this.pictureController = new PictureController();
+        this.videoController = new VideoController();
         this.activityController = new ActivityController(this.auth);
         this.challengeController = new ChallengeController(this.auth);
     };
@@ -54,8 +56,9 @@ export default class ApiRouter {
 
         // Storage
         this.router.get('/picture/:avatar', this.pictureController.showAvatar);
+        this.router.get('/video/:video', this.videoController.showVideo);
         this.router.post('/picture/upload', multer({storage: memoryStorage()}).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
-        this.router.delete('/picture/:avatar');
+        this.router.post('/video/upload', multer({storage: memoryStorage()}).single('video'), Storage.uploadVideo, this.videoController.uploadVideo);
 
         // Activity
         this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);

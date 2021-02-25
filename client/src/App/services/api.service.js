@@ -24,6 +24,22 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const getVideo = async (video) => {
+    const url = `${Config.clientConfig.apiUrl}video/${video}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    const blob = await res.blob();
+    const src = window.URL.createObjectURL(blob);
+
+    return src;
+  };
+
   const getActivity = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}activity/${id}`;
 
@@ -161,6 +177,7 @@ const ApiProvider = ({children}) => {
   return (
     <ApiContext.Provider value={{
       uploadPicture,
+      getVideo,
       getActivity,
       deleteActivity,
       uploadActivity,

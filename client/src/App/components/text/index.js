@@ -3,3 +3,4 @@ export * from './SlugText';
 export * from './ImageUrl';
 export * from './Message';
 export * from './TimeText';
+export * from './VideoUrl';
