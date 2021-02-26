@@ -6,3 +6,4 @@ export * from './text';
 export * from './links';
 export * from './map';
 export * from './charts';
+export * from './badge';

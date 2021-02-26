@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
 
 // Services
 // import { useApi } from '../../services';
@@ -70,11 +71,12 @@ export const VideoUpload = ({ media, setMedia, label, description }) => {
     }).then((res) => {
       const result = JSON.parse(res.request.response);
       setVideo(result.filename);
+      setMedia(result.filename);
     });
   };
 
   return (
-    <div className="row video-upload">
+    <div className="row video-upload d-flex justify-content-between">
       <div className="col-12 col-lg-6 video-upload__text">
         <span className="video-upload__text--label">{label}</span>
         <span className="video-upload__text--description">{description}</span>
@@ -104,12 +106,14 @@ export const VideoUpload = ({ media, setMedia, label, description }) => {
           )
         }
       </div>
-      <div className="col-12 col-lg-6 video-upload__preview">
+      <div className="col-12 col-lg-5 video-upload__preview">
         {
           video && (
-            <video id="videoPlayer" controls>
-              <source src="http://localhost:8000/video" type="video/mp4" />
-            </video>          
+            <div>
+              <video id="example_video_1" className="video-js vjs-default-skin" controls preload="auto" width="100%" height="300px" data-setup='{}'>
+                  <source src="http://localhost:8000/velomo-api/video/9def69fd95248a153fb36a65e57e98c0.mp4" type="video/mp4" data-quality="hd" data-res="HD" data-default="true"></source>
+              </video>
+          </div>      
           )
         }
       </div>

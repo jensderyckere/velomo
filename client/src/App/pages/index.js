@@ -9,3 +9,4 @@ export * from './CreateActivity';
 export * from './EditActivity';
 export * from './Activities';
 export * from './CreateChallenge';
+export * from './Challenge';

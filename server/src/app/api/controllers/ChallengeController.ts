@@ -126,8 +126,8 @@ export default class ChallengeController {
   createChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
       // Find user
-      const userId = this.auth.checkId(req, res);
-      const user = await User.findById(userId).exec();
+      const _userId = this.auth.checkId(req, res);
+      const user = await User.findById(_userId).exec();
 
       // Body
       const { title, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
@@ -149,12 +149,12 @@ export default class ChallengeController {
       };
 
       // Create challenge
-      const createdChallenge: IChallenge = new Challenge({title, content, images, video, badge, difficulty, type, distance, start_date, end_date}); 
+      const createdChallenge: IChallenge = new Challenge({title, content, images, video, badge, difficulty, type, distance, start_date, end_date, _userId}); 
 
       const savedChallenge = await createdChallenge.save();
 
       // Push to creator
-      await User.findByIdAndUpdate(userId, {
+      await User.findByIdAndUpdate(_userId, {
         $push: {
           'club._challengeIds': savedChallenge._id,
         },

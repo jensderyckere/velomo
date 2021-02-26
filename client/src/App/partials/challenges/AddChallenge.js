@@ -271,6 +271,8 @@ export const AddChallenge = () => {
         <VideoUpload 
           label="Video uploaden" 
           description="Je kan een video toevoegen om wat meer helderheid te bieden over deze uitdaging." 
+          media={video}
+          setMedia={setVideo}
         />
         <div className="section-title margin-top-50">
           <h5>BADGE TOEVOEGEN</h5>

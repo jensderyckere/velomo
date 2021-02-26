@@ -10,6 +10,9 @@ import { useApi, useAuth } from '../../services';
 // Routes
 import * as Routes from '../../routes';
 
+// Partials
+import { ChallengeItem } from '.';
+
 export const ChallengeOverview = ({ user, cred }) => {
   // Routing
   const history = useHistory();
@@ -27,7 +30,7 @@ export const ChallengeOverview = ({ user, cred }) => {
     try {
       if (user.role === 'club') {
         const challengesResult = await getClubChallenges(currentUser, user._id);
-        setChallenges(challengesResult.club_challengeIds);
+        setChallenges(challengesResult.club._challengeIds);
       };
     } catch (e) {
       console.log(e);
@@ -47,7 +50,7 @@ export const ChallengeOverview = ({ user, cred }) => {
       <div className="challenge-overview__items">
         {
           challenges && challenges.length !== 0 ? challenges.map((challenge, index) => {
-
+            return <ChallengeItem key={index} challenge={challenge} />
           }) : (
             <span className="challenge-overview__items--none tertiary-font light-font text-size">Er zijn nog geen uitdagingen aangemaakt.</span>
           )

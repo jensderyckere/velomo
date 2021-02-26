@@ -144,6 +144,21 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const getChallenge = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}challenge/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
   const getClubChallenges = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}club-challenges/${id}`;
 
@@ -184,6 +199,7 @@ const ApiProvider = ({children}) => {
       createActivity,
       editActivity,
       getClubChallenges,
+      getChallenge,
       getMyChallenges,
       createChallenge,
     }}>

@@ -20,6 +20,7 @@ export const CLUB = '/club/:name/:id';
 export const CHALLENGES = '/challenges';
 export const CHALLENGE = '/challenge/:id';
 export const CREATE_CHALLENGE = '/create-challenge';
+export const EDIT_CHALLENGE = '/edit-challenge/:id';
 
 export const GOALS = '/goals';
 
