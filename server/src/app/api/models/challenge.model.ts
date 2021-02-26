@@ -12,6 +12,7 @@ interface ISubmission {
 
 interface IChallenge extends Document {
   title: string;
+  shortContent: string;
   content: string;
   images: Array<string>;
   video: string;
@@ -30,6 +31,10 @@ interface IChallenge extends Document {
 
 const challengeSchema: Schema = new Schema({
   title: {
+    type: String,
+    required: true,
+  },
+  shortContent: {
     type: String,
     required: true,
   },

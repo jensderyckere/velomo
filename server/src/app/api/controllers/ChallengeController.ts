@@ -130,7 +130,7 @@ export default class ChallengeController {
       const user = await User.findById(_userId).exec();
 
       // Body
-      const { title, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
+      const { title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
 
       if (!user) {
         return res.status(404).json({
@@ -149,7 +149,7 @@ export default class ChallengeController {
       };
 
       // Create challenge
-      const createdChallenge: IChallenge = new Challenge({title, content, images, video, badge, difficulty, type, distance, start_date, end_date, _userId}); 
+      const createdChallenge: IChallenge = new Challenge({title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date, _userId}); 
 
       const savedChallenge = await createdChallenge.save();
 
@@ -175,7 +175,7 @@ export default class ChallengeController {
 
       // Challenge id
       const { challengeId } = req.params;
-      const { title, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
+      const { title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
 
       const challenge = await Challenge.findById(challengeId).exec();
 
@@ -203,7 +203,7 @@ export default class ChallengeController {
         });
       };
 
-      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {title, content, images, video, badge, difficulty, type, distance, start_date, end_date}).exec();
+      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date}).exec();
 
       return res.status(200).json(updatedChallenge);
     } catch (e) {

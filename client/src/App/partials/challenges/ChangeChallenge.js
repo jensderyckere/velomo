@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { Datepicker, Distance, Duration, GreyButton, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea, VideoUpload } from '../../components';
+import { Datepicker, DeleteButton, Distance, Duration, GreyButton, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea, VideoUpload } from '../../components';
 
 // Partials
 import { BadgeUpload } from '.';
@@ -13,30 +13,30 @@ import * as Routes from '../../routes';
 // Services
 import { useApi, useAuth } from '../../services';
 
-export const AddChallenge = ({ user }) => {
+export const ChangeChallenge = ({ challenge }) => {
   // Routing
   const history = useHistory();
 
   // Services
-  const { uploadPicture, createChallenge } = useApi();
+  const { uploadPicture, editChallenge, deleteChallenge } = useApi();
   const { currentUser } = useAuth();
 
   // States
-  const [ typeChallenge, setTypeChallenge ] = useState("distance");
+  const [ typeChallenge, setTypeChallenge ] = useState(challenge.type);
   const [ form, setForm ] = useState({
-    'title': '',
-    'description': '',
-    'shortContent': '',
-    'distance': 0,
-    'duration': '00:00:00',
+    'title': challenge.title,
+    'description': challenge.content,
+    'shortContent': challenge.shortContent,
+    'distance': challenge.distance,
+    'duration': challenge.duration,
     'start_date': Date.now(),
     'end_date': Date.now(),
-    'difficulty': 0,
+    'difficulty': challenge.difficulty === 'Makkelijk' ? 0 : challenge.difficulty === 'Medium' ? 1 : 2,
     'badge': '',
   });
   const [ error, setError ] = useState(false);
 
-  const [ images, setImages ] = useState([]);
+  const [ images, setImages ] = useState(challenge.images);
   const [ video, setVideo ] = useState('');
 
   // Change states
@@ -78,7 +78,7 @@ export const AddChallenge = ({ user }) => {
   };
 
   // Upload the challenge
-  const uploadChallenge = async () => {
+  const updateChallenge = async () => {
     try {
       if (!typeChallenge) {
         setError(true);
@@ -95,7 +95,7 @@ export const AddChallenge = ({ user }) => {
         return;
       };
 
-      const result = await createChallenge(currentUser, {
+      const result = await editChallenge(currentUser, challenge._id, {
         title: form.title,
         content: form.description,
         images: images,
@@ -107,7 +107,6 @@ export const AddChallenge = ({ user }) => {
         distance: form.distance,
         start_date: form.start_date,
         end_date: form.end_date,
-        _userId: user._id,
       });
 
       if (!result) {
@@ -121,12 +120,17 @@ export const AddChallenge = ({ user }) => {
     }
   };
 
+  const removeChallenge = async () => {
+    await deleteChallenge(currentUser, challenge._id);
+    history.push(Routes.MY_PROFILE);
+  };
+
   return (
     <>
       <div className="create-challenge">
         <div className="d-flex justify-content-between align-items-center">
-          <h5 className="secundary-font bold-font title-size">Uitdaging maken</h5>
-          <StandardButton text="Keer terug" action={() => history.push(Routes.MY_PROFILE)} />
+          <h5 className="secundary-font bold-font title-size">"{challenge.title}" bewerken</h5>
+          <StandardButton text="Keer terug" action={() => history.push(Routes.CHALLENGE.replace(':id', challenge._id))} />
         </div>
         <div className="section-title">
           <h5>TYPE UITDAGING</h5>
@@ -198,6 +202,7 @@ export const AddChallenge = ({ user }) => {
               id="title"
               name="title"
               size="large"
+              value={challenge.title}
               changeInput={(e) => changeStates(e)}
             />
             <Textarea 
@@ -205,6 +210,7 @@ export const AddChallenge = ({ user }) => {
               id="shortContent"
               name="shortContent"
               size="large"
+              value={challenge.shortContent}
               changeInput={(e) => changeStates(e)}
             />
             <Textarea 
@@ -212,6 +218,7 @@ export const AddChallenge = ({ user }) => {
               id="description"
               name="description"
               size="large"
+              value={challenge.content}
               changeInput={(e) => changeStates(e)}
             />
             <div className="row">
@@ -302,13 +309,13 @@ export const AddChallenge = ({ user }) => {
         }
         <div className="d-flex justify-content-end margin-top-50">
           <StandardButton  
-            text="Uitdaging aanmaken"
+            text="Uitdaging bewerken"
             extraClasses="margin-right-10"
-            action={uploadChallenge}
+            action={updateChallenge}
           />
           <GreyButton
-            text="Annuleren"
-            action={() => history.push(Routes.MY_PROFILE)}
+            text="Verwijderen"
+            action={removeChallenge}
           />
         </div>
       </div>

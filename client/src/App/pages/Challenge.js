@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 // Partials
-import { ChallengeCard } from '../partials';
+import { ChallengeCard, ChallengeContent } from '../partials';
 
 // Services
 import { useApi, useAuth } from '../services';
@@ -10,8 +10,14 @@ import { useApi, useAuth } from '../services';
 // Utils
 import { ScreenSizeClassSwitch } from '../utils';
 
+// Routes
+import * as Routes from '../routes';
+
 export const Challenge = () => {
   const { id } = useParams();
+
+  // Routing
+  const history = useHistory();
 
   //Services
   const { currentUser, getCurrentUser } = useAuth();
@@ -28,9 +34,10 @@ export const Challenge = () => {
       setChallenge(challengeData);
       setUser(userData);
     } catch (e) {
+      history.push(Routes.ERROR);
       console.log(e);
     };
-  }, [getCurrentUser, currentUser, getChallenge, id]);
+  }, [getCurrentUser, currentUser, getChallenge, id, history]);
 
   useEffect(() => {
     fetchData();
@@ -43,6 +50,11 @@ export const Challenge = () => {
           <ChallengeCard 
             challenge={challenge}
             user={user}
+          />
+        </section>
+        <section className={`right-sided p-relative ${ScreenSizeClassSwitch('w-70', 'w-100')}`}>
+          <ChallengeContent 
+            challenge={challenge}
           />
         </section>
       </div>

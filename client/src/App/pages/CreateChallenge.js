@@ -42,7 +42,7 @@ export const CreateChallenge = () => {
     <>
       <div className="container d-flex">
         <section className={`left-sided w-100`}>
-          <AddChallenge />
+          <AddChallenge user={user} />
         </section>
       </div>
     </>
