@@ -159,6 +159,53 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const getParticipation = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}participation/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
+  const participateChallenge = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}participate-challenge`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const withdrawChallenge = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}withdraw-challenge`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
   const getClubChallenges = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}club-challenges/${id}`;
 
@@ -220,6 +267,22 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const submitSubmission = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}submit-submission/${id}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
   return (
     <ApiContext.Provider value={{
       uploadPicture,
@@ -231,14 +294,18 @@ const ApiProvider = ({children}) => {
       editActivity,
       getClubChallenges,
       getChallenge,
+      getParticipation,
+      participateChallenge,
+      withdrawChallenge,
       getMyChallenges,
       createChallenge,
       editChallenge,
       deleteChallenge,
+      submitSubmission,
     }}>
       {children}
     </ApiContext.Provider>
-  )
+  );
 };
 
 export {

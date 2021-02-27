@@ -104,10 +104,14 @@ export default class ChallengeController {
 
   getDetailedParticipation = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     try {
-      // get challenge participation
+      // Get challenge participation
       const { challengeId } = req.params;
 
-      const participatedChallenge = await ChallengeParticipated.findOne({_challengeId: challengeId}).populate({path: '_challengeId'}).exec();
+      // Find user
+      const _userId = this.auth.checkId(req, res);
+      const user = await User.findById(_userId).exec();
+
+      const participatedChallenge = await ChallengeParticipated.findOne({_challengeId: challengeId, _userId: _userId}).populate({path: '_challengeId'}).exec();
 
       if (!participatedChallenge) {
         return res.status(404).json({
