@@ -6,6 +6,9 @@ import 'moment/locale/nl-be';
 // Components
 import { Badge, DateText, ImageUrl, StandardButton } from '../../components';
 
+// Partials
+import { Submission } from '../../partials';
+
 // Routes
 import * as Routes from '../../routes';
 
@@ -121,10 +124,19 @@ export const ChallengeCard = ({ challenge, user }) => {
               user.role === 'cyclist' && (
                 <StandardButton 
                   text="Inzending versturen"
-                  action={() => showSubmission(true)}
+                  action={() => setShowSubmission(true)}
                 />
               )
             )
+          )
+        }
+        {
+          showSubmission && (
+            <Submission 
+              challenge={challenge} 
+              user={user} 
+              hide={() => setShowSubmission(false)}
+            />
           )
         }
       </div>

@@ -419,7 +419,7 @@ export default class ChallengeController {
         });
       };
 
-      if (user.cyclist._challengeIds) {
+      if (!user.cyclist._challengeIds) {
         return res.status(404).json({
           message: "No challenges have been found",
           redirect: false,
@@ -428,7 +428,7 @@ export default class ChallengeController {
       };
 
       let arrayOfChallenges = [];
-      const challenges = await Challenge.find().exec();
+      const challenges = await Challenge.find().populate({path: '_userId'}).exec();
 
       for (let i = 0; i < challenges.length; i++) {
         if (challenges[i].participants.includes(userId)) {
@@ -437,8 +437,100 @@ export default class ChallengeController {
       };
 
       const randomDigit = Math.floor(Math.random() * challenges.length);
-    } catch (e) {
 
+      const challenge = arrayOfChallenges[randomDigit];
+      const participants = challenge.participants;
+      let arrayOfParticipants = [];
+
+      // Get date of challenge
+      const startDate = Moment(challenge.start_date).format('LL');
+      const endDate = Moment(challenge.end_date).format('LL');
+
+      if (challenge.type === 'image' || challenge.type === 'video') {
+
+      };
+
+      if (challenge.type === 'distance') {
+        // Calculate distances between dates
+        for (let i = 0; i < participants.length; i++) {
+          const user = await User.findById(participants[i])                
+          .populate({
+            path: 'cyclist',
+            populate: {
+                path: '_activityIds',
+                options: { sort: {_createdAt: -1} }
+            },
+          }).exec();
+
+          let distance = 0;
+
+          for (let j = 0; j < user.cyclist._activityIds.length; j++) {
+            if (user.cyclist._activityIds[i].activity.checkpoints) {
+              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
+              const totalDistance = user.cyclist._activityIds[i].activity.total_distance;
+
+              // Check if between dates
+              if (Moment(startingTime).isBetween(startDate, endDate)) {
+                distance += totalDistance;
+              };
+            };
+          };
+
+          const object = {user: user, distance: distance};
+          arrayOfParticipants.push(object);
+
+          if (distance >= challenge.distance) {
+            await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+              completed: true,
+              seen: false,
+            }).exec(); 
+         };
+        };
+      };
+
+      if (challenge.type === 'duration') {
+        // Calculate distances between dates
+        for (let i = 0; i < participants.length; i++) {
+          const user = await User.findById(participants[i])                
+          .populate({
+            path: 'cyclist',
+            populate: {
+                path: '_activityIds',
+                options: { sort: {_createdAt: -1} }
+            },
+          }).exec();
+
+          let duration = Moment.duration('00:00:00');
+
+          for (let j = 0; j < user.cyclist._activityIds.length; j++) {
+            if (user.cyclist._activityIds[i].activity.checkpoints) {
+              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
+              const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
+              // Check if between dates
+              if (Moment(startingTime).isBetween(startDate, endDate)) {
+                duration = Moment.duration(duration).add(Moment.duration(totalDuration));
+              };
+            };
+          };
+
+          const object = {user: user, duration: duration};
+          arrayOfParticipants.push(object);
+
+          if (duration.asMilliseconds() >= Moment.duration(challenge.duration).asMilliseconds()) {
+             await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+               completed: true,
+               seen: false,
+             }).exec();
+          };
+        };
+      };
+
+      return res.status(200).json({
+        challenge: challenge,
+        participants: arrayOfParticipants,
+      });
+    } catch (e) {
+      next(e);
     };
   };
 

@@ -60,3 +60,121 @@
     background-position: center center;
   }
 }
+
+.dashboard-challenge {
+  padding: 0px 40px;
+  position: relative;
+
+  &__charts {
+    height: 300px;
+  }
+
+  &__card {
+    width: 300px;
+    padding: 20px;
+    display: inline;
+    background-color: white;
+    position: absolute;
+    right: 40px;
+
+    h5 {
+      overflow-wrap: break-word;
+    }
+  }
+
+  &__charts {
+    &--item {
+      align-items: flex-end;
+      &__content {
+        &--bar {
+          margin-top: 10px;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          width: 20px;
+          background-color: $orange;
+        }
+      }
+    }
+  }
+}
+
+.submission-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1001;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  height: 100vh;
+  width: 100%;
+  left: 0;
+  top: 0;
+
+  &__card {
+    background-color: white;
+    padding: 40px;
+    position: relative;
+    z-index: 1002;
+  }
+}
+
+.submission {
+  &__image-upload {
+    &--preview {
+      width: 200px;
+      height: 200px;
+      border: 1px solid $orange;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: $secundary-family;
+      font-size: 50px;
+      font-weight: bold;
+      color: $orange;
+      margin-right: 20px;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    &--buttons {
+      display: flex;
+      align-items: center;
+
+      &--create {
+        background-color: $orange;
+        border-radius: 5px;
+        padding: 10px 20px;
+        color: $white;
+        font-family: $secundary-family;
+        font-weight: bold;
+        font-size: $d-text;
+        cursor: pointer;
+        position: relative;
+        margin-right: 10px;
+
+        input {
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    &--progress {
+      width: 100%;
+      height: 30px;
+      border-radius: 10px;
+      background-color: $lightgrey;
+      overflow: hidden;
+
+      &--inside {
+        height: 100%;
+        background-color: $orange;
+        transition: ease-in-out 0.7s;
+      }
+    }
+  }
+}

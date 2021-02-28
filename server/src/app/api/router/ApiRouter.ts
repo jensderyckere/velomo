@@ -68,6 +68,7 @@ export default class ApiRouter {
         this.router.delete('/activity/:id', this.userController.checkToken, this.activityController.deleteActivity);
 
         // Challenges
+        this.router.get('/random-challenge', this.userController.checkToken, this.challengeController.viewRandomDashboardChallenge);
         this.router.get('/club-challenges/:userId', this.userController.checkToken, this.challengeController.getClubChallenges);
         this.router.get('/my-challenges', this.userController.checkToken, this.challengeController.getMyChallenges);
         this.router.get('/challenge/:challengeId', this.userController.checkToken, this.challengeController.getDetailedChallenge);

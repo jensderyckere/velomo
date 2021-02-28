@@ -5,3 +5,4 @@ export * from './BadgeUpload';
 export * from './ChallengeCard';
 export * from './ChallengeContent';
 export * from './ChangeChallenge';
+export * from './Submission';

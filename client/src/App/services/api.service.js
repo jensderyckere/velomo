@@ -236,6 +236,21 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const getRandomChallenge = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}random-challenge`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
   const editChallenge = async (token, id, content) => {
     const url = `${Config.clientConfig.apiUrl}challenge/${id}`;
 
@@ -298,6 +313,7 @@ const ApiProvider = ({children}) => {
       participateChallenge,
       withdrawChallenge,
       getMyChallenges,
+      getRandomChallenge,
       createChallenge,
       editChallenge,
       deleteChallenge,

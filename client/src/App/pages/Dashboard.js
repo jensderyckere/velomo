@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DashboardCard, LoaderSVG } from '../components';
 
 // Partials
-import { Activitites, MessagesTeaser, Welcome } from '../partials';
+import { Activitites, MessagesTeaser, RandomChallenge, Welcome } from '../partials';
 
 // Services
 import { useAuth, useStyling } from '../services';
@@ -17,7 +17,6 @@ export const Dashboard = () => {
 
   const fetchUser = useCallback(async () => {
     const data = await getCurrentUser(currentUser);
-    console.log(data)
     setUser(data);
   }, [getCurrentUser, currentUser]);
 
@@ -33,6 +32,13 @@ export const Dashboard = () => {
           <Welcome 
             screenSize={screenSize}
           />
+          {
+            user.role === 'cyclist' && user.cyclist._challengeIds.length !== 0 && (
+              <RandomChallenge 
+                user={user}
+              />
+            )
+          }
           <MessagesTeaser 
             screenSize={screenSize}
           />

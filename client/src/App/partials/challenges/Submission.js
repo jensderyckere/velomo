@@ -76,8 +76,11 @@ export const Submission = ({ challenge, user, hide }) => {
         </span>
         <div className="d-flex margin-top-20 align-items-center">
           <div className="submission__image-upload--preview" style={{
-            backgroundImage: `${ImageUrl(submissionForm.image, '')}`
+            backgroundImage: `url(${ImageUrl(submissionForm.image, '')})`
           }}>
+            {
+              !submissionForm.image && '?'
+            }
           </div>
           <div className="submission__image-upload--buttons">
             <div className="submission__image-upload--buttons--create d-inline-flex pointer margin-bottom-10">
@@ -99,16 +102,21 @@ export const Submission = ({ challenge, user, hide }) => {
             </div>
           )
         }
-        {
-          submissionForm.image && (
-            <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end">
+          {
+            submissionForm.image && (
               <StandardButton 
                 text="Uploaden"
                 action={createSubmission}
+                extraClasses="margin-right-10"
               />
-            </div>
-          )
-        }
+            )
+          }
+          <GreyButton 
+            text="Annuleren"
+            action={hide}
+          />
+        </div>
       </div>
     );
   };
@@ -122,11 +130,11 @@ export const Submission = ({ challenge, user, hide }) => {
       <div className="submission-popup">
         <div className="submission-popup__card box-shadow radius-20">
           {
-            setCorrectSubmission ? (
+            correctSubmission ? (
               ''
             ) : (
               <>
-                <h3 className="secundary-font bold-font subtitle-size">
+                <h3 className="secundary-font bold-font title-size">
                   Nieuwe inzending
                 </h3>
                 <div className="margin-top-30">
@@ -143,7 +151,7 @@ export const Submission = ({ challenge, user, hide }) => {
                   }
                   {
                     challenge.type === 'activity' && (
-                      <ChallengeActivityUploads />
+                      <ChallengeActivityUpload />
                     )
                   }
                   {
