@@ -28,6 +28,11 @@ export const ChallengeCard = ({ challenge, user }) => {
   const fetchData = useCallback(async () => {
     try {
       const participationData = await getParticipation(currentUser, challenge._id);
+
+      if (participationData.message) {
+        return;
+      };
+
       setParticipation(participationData);
     } catch (error) {
       console.log(error);
@@ -72,17 +77,13 @@ export const ChallengeCard = ({ challenge, user }) => {
         Te verdienen badge
       </h4>
       <div className="d-flex justify-content-center margin-top-30">
-        {
-          user.role !== 'cyclist' && (
-            <Badge 
-              badge={{
-                id: challenge._id,
-                size: 'big',
-                image: ImageUrl(challenge.badge, ''),
-              }}
-            />
-          )
-        }
+        <Badge 
+          badge={{
+            id: challenge._id,
+            size: 'big',
+            image: ImageUrl(challenge.badge, ''),
+          }}
+        />
       </div>
       <div className="d-flex justify-content-center">
         <span className="darkgrey-color tertiary-font text-size margin-top-20">
@@ -99,17 +100,28 @@ export const ChallengeCard = ({ challenge, user }) => {
           )
         }
         {
-          Moment(Moment(Date.now()).format('LL')).isBetween(Moment(challenge.start_date).format('LL'), Moment(challenge.end_date).format('LL')) && (
-            user.role === 'cyclist' && (
-              user._id === participation._userId ? (
+          challenge.type === 'distance' || challenge.type === 'duration' ? (
+            Moment(Date.now()).isBetween(challenge.start_date, challenge.end_date) && (
+              user.role === 'cyclist' && (
+                !participation ? (
+                  <StandardButton 
+                    text="Deelnemen"
+                    action={() => startParticipation()}
+                  />
+                ) : (
+                  <StandardButton 
+                    text="Opgeven"
+                    action={() => removeParticipation()}
+                  />
+                )
+              )
+            )
+          ) : (
+            Moment(Date.now()).isBetween(challenge.start_date, challenge.end_date) && (
+              user.role === 'cyclist' && (
                 <StandardButton 
-                  text="Deelnemen"
-                  action={() => startParticipation()}
-                />
-              ) : (
-                <StandardButton 
-                  text="Opgeven"
-                  action={() => removeParticipation()}
+                  text="Inzending versturen"
+                  action={() => showSubmission(true)}
                 />
               )
             )

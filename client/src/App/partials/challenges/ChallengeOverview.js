@@ -45,7 +45,11 @@ export const ChallengeOverview = ({ user, cred }) => {
     <div className="challenge-overview">
       <div className="d-flex justify-content-between align-items-center margin-bottom-30">
         <h2 className="secundary-font title-size bold-font">Lopende uitdagingen</h2>
-        <StandardButton text="Nieuwe uitdagingen" action={() => history.push(Routes.CREATE_CHALLENGE)} />
+        {
+          cred && (
+            <StandardButton text="Nieuwe uitdagingen" action={() => history.push(Routes.CREATE_CHALLENGE)} />
+          )
+        }
       </div>
       <div className="challenge-overview__items">
         {

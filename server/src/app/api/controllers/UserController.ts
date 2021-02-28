@@ -241,6 +241,13 @@ export default class UserController {
                         options: { sort: {_createdAt: -1} }
                     },
                 })
+                .populate({
+                    path: 'cyclist',
+                    populate: {
+                        path: '_challengeIds',
+                        populate: '_challengeId'
+                    },
+                })
                 .exec();
             };
 

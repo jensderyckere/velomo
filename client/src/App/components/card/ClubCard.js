@@ -16,7 +16,6 @@ import UserDefault from '../../assets/icons/user.svg';
 
 // Components
 import { SlugText } from '../text';
-import { LoaderSVG } from '../svg';
 import { StandardButton } from '../button';
 
 export const ClubCard = ({ clubid }) => {

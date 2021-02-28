@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { ConnectCard, ClubCard, CreateClubCard, CyclistsCard } from '.';
+import { ConnectCard, ClubCard, CreateClubCard, CyclistsCard, ChallengesCard } from '.';
 
 // Routes
 import * as Routes from '../../routes';
@@ -14,9 +14,19 @@ export const DashboardCard = ({ user }) => {
     <section className="dashboard-card">
       {
         user.role === 'cyclist' ? user.cyclist._clubId ? (
-          <ClubCard 
-            clubid={user.cyclist._clubId}
-          />
+          <>
+            <ClubCard 
+              clubid={user.cyclist._clubId}
+            />
+            {
+              user.cyclist._challengeIds.length !== 0 && (
+                <ChallengesCard 
+                  title="Actieve uitdagingen"
+                  challenges={user.cyclist._challengeIds}
+                />
+              )
+            }
+          </>
         ) : (
           <ConnectCard 
             user={user}

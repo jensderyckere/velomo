@@ -76,7 +76,7 @@ export default class ApiRouter {
         this.router.patch('/challenge/:challengeId', this.userController.checkToken, this.challengeController.editChallenge);
         this.router.delete('/challenge/:challengeId', this.userController.checkToken, this.challengeController.deleteChallenge);
         this.router.post('/participate-challenge', this.userController.checkToken, this.challengeController.participateChallenge);
-        this.router.post('/withdraw-challenge', this.userController.checkToken, this.challengeController.participateChallenge);
+        this.router.post('/withdraw-challenge', this.userController.checkToken, this.challengeController.withdrawChallenge);
         this.router.get('/participation-monthly-charts/:challengeId', this.userController.checkToken, this.challengeController.viewParticipantMonthlyCharts);
         this.router.post('/submit-submission/:challengeId', this.userController.checkToken, this.challengeController.submitSubmission);
         this.router.post('/approve-submission/:challengeId', this.userController.checkToken, this.challengeController.approveSubmission);

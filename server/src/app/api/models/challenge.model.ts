@@ -74,10 +74,10 @@ const challengeSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  participants: {
+  participants: [{
     type: Schema.Types.ObjectId,
     ref: 'User',
-  },
+  }],
   submissions: [{
     text: {
       type: String,

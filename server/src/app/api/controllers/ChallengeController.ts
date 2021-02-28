@@ -29,7 +29,7 @@ export default class ChallengeController {
       let challenges;
 
       if (user.role === "cyclist") {
-        challenges = await ChallengeParticipated.find({_userId: userId}).populate({path: '_challengeId'}).exec();
+        challenges = await Challenge.find({_userId: userId}).populate({path: '_challengeId'}).exec();
       };
 
       if (user.role === "club") {
@@ -335,7 +335,7 @@ export default class ChallengeController {
 
       await User.findByIdAndUpdate(userId, {
         $push: {
-          'cyclist._activityIds': createdParticipation._id,
+          'cyclist._challengeIds': createdParticipation._id,
         },
       });
 
@@ -402,6 +402,43 @@ export default class ChallengeController {
       return res.status(200).json(deletedChallenge);
     } catch (e) {
       next(e);
+    };
+  };
+
+  viewRandomDashboardChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      // Find user
+      const userId = this.auth.checkId(req, res);
+      const user = await User.findById(userId).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "No user has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (user.cyclist._challengeIds) {
+        return res.status(404).json({
+          message: "No challenges have been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      let arrayOfChallenges = [];
+      const challenges = await Challenge.find().exec();
+
+      for (let i = 0; i < challenges.length; i++) {
+        if (challenges[i].participants.includes(userId)) {
+          arrayOfChallenges.push(challenges[i]);
+        };
+      };
+
+      const randomDigit = Math.floor(Math.random() * challenges.length);
+    } catch (e) {
+
     };
   };
 

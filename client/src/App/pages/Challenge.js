@@ -35,7 +35,6 @@ export const Challenge = () => {
       setUser(userData);
     } catch (e) {
       history.push(Routes.ERROR);
-      console.log(e);
     };
   }, [getCurrentUser, currentUser, getChallenge, id, history]);
 
