@@ -33,7 +33,7 @@ export const RandomChallenge = ({ user }) => {
       console.log(randomData)
       setChallenge(randomData);
 
-      if (challenge.challenge.type === 'distance') {
+      if (randomData.challenge.type === 'distance') {
         let max = 0;
         for (let i = 0; i < randomData.participants.length; i++) {
           if (randomData.participants[i].distance > max) {
@@ -64,10 +64,10 @@ export const RandomChallenge = ({ user }) => {
                   }}></div>
                 </div>
                 <div className="d-flex justify-content-center" style={{
-                  height: `${(challenger.distance / maximum === 0 ? 100 : maximum) * 300}px`
+                  height: `${((challenger.distance / maximum) * 100) * 2}px`
                 }}>
                   <div className="dashboard-challenge__charts--item__content--bar" style={{
-                    height: `${(challenger.distance / maximum === 0 ? 100 : maximum) * 300}px`
+                    height: `${((challenger.distance / maximum) * 100) * 2}px`
                   }}></div>
                 </div>
               </div>
@@ -78,11 +78,26 @@ export const RandomChallenge = ({ user }) => {
     )
   };
 
-  // const OtherChartItem = ({ participant }) => {
-  //   return (
-
-  //   )
-  // };
+  const OtherChartItem = ({ participant, owner }) => {
+    return participant.user._id !== owner._id ? (
+      <div className="dashboard-challenge__charts--item d-flex">
+        <div className="dashboard-challenge__charts--item__content">
+          <div className="d-flex justify-content-center">
+            <div className="avatar avatar-standard pointer" onClick={() => history.push(Routes.MY_PROFILE)} style={{
+              backgroundImage: `url(${ImageUrl(participant.user.profile.avatar, DefaultUser)})`
+            }}></div>
+          </div>
+          <div className="d-flex justify-content-center" style={{
+            height: `${((participant.distance / maximum) * 100) * 2}px`
+          }}>
+            <div className="dashboard-challenge__charts--item__content--bar" style={{
+              height: `${((participant.distance / maximum) * 100) * 2}px`
+            }}></div>
+          </div>
+        </div>
+      </div>
+    ) : '';
+  };
 
   const DesktopRandomView = () => {
     return (
@@ -91,6 +106,11 @@ export const RandomChallenge = ({ user }) => {
           challenge.challenge.type === 'distance' && (
             <div className="dashboard-challenge__charts d-flex align-items-end">
               <ChartItem owner={user} />
+              {
+                challenge.participants.map((participant, index) => {
+                  return <OtherChartItem participant={participant} owner={user} key={index} />
+                })
+              }
             </div>
           )
         }

@@ -212,6 +212,25 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const undoConnection = async (token, senderId, receiverId) => {
+    const url = `${Config.clientConfig.apiUrl}users/disconnect`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        senderId: senderId,
+        receiverId: receiverId,
+      }),
+    });
+
+    return await res.json();
+  };
+
   const editProfile = async (token, context) => {
     const url = `${Config.clientConfig.apiUrl}users/profile`;
 
@@ -276,6 +295,7 @@ const AuthProvider = ({children}) => {
       getUser,
       getMultipleUsers,
       createConnection,
+      undoConnection,
       editProfile,
       editUser,
       editPassword,

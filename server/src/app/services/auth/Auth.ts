@@ -108,7 +108,7 @@ export default class Auth {
                 status: 409,
             });
         };
-
+    
         const decoded = jsonwebtoken.verify(token, this.config.auth.jwt.secret);
         const data = decoded as IDecoded;
         return data.id;

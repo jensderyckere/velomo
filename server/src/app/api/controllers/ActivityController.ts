@@ -95,58 +95,62 @@ export default class ActivityController {
   };
 
   uploadActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const id = this.auth.checkId(req, res);
-
-    const { object, title, description, type, images, feeling, experience } = req.body;
-
-    if (!object) return res.status(404).json({
-      message: "The file hasn't been uploaded correctly",
-      redirect: false,
-      status: 404,
-    });
-
-    let activity;
-
-    if (!images) {
-      let newActivity : IActivity = new Activity({
-        title: title,
-        description: description,
-        type: type,
-        activity: object,
-        _userId: id,
-        feeling: feeling,
-        experience: experience,
+    try {
+      const id = this.auth.checkId(req, res);
+  
+      const { object, title, description, type, images, feeling, experience } = req.body;
+  
+      if (!object) return res.status(404).json({
+        message: "The file hasn't been uploaded correctly",
+        redirect: false,
+        status: 404,
       });
-
-      activity = await newActivity.save();
-
-      await User.findByIdAndUpdate(activity._userId, {
-        $push: {
-          'cyclist._activityIds': activity._id,
-        },
-      });
-    } else {
-      let newActivity : IActivity = new Activity({
-        title: title,
-        description: description,
-        type: type,
-        activity: object,
-        _userId: id,
-        images: images,
-        feeling: feeling,
-        experience: experience,
-      });
-
-      activity = await newActivity.save();
-
-      await User.findByIdAndUpdate(activity._userId, {
-        $push: {
-          'cyclist._activityIds': activity._id,
-        },
-      });
-    };
-
-    return res.status(200).json(activity);
+  
+      let activity;
+  
+      if (!images) {
+        let newActivity : IActivity = new Activity({
+          title: title,
+          description: description,
+          type: type,
+          activity: object,
+          _userId: id,
+          feeling: feeling,
+          experience: experience,
+        });
+  
+        activity = await newActivity.save();
+  
+        await User.findByIdAndUpdate(activity._userId, {
+          $push: {
+            'cyclist._activityIds': activity._id,
+          },
+        });
+      } else {
+        let newActivity : IActivity = new Activity({
+          title: title,
+          description: description,
+          type: type,
+          activity: object,
+          _userId: id,
+          images: images,
+          feeling: feeling,
+          experience: experience,
+        });
+  
+        activity = await newActivity.save();
+  
+        await User.findByIdAndUpdate(activity._userId, {
+          $push: {
+            'cyclist._activityIds': activity._id,
+          },
+        });
+      };
+  
+      return res.status(200).json(activity);
+    } catch (e) {
+      next(e);
+    }
   };
 
   createActivity = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {

@@ -669,7 +669,105 @@ export default class UserController {
             let connectionReceiver;
             let connectionSender;
 
-            return res.status(200);
+            if (sender.role === 'cyclist') {
+                switch (receiver.role) {
+                    case "club":
+                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                            'cyclist._clubId': null,
+                        });
+                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                            $pull: {
+                                'club._cyclistIds': sender._id,
+                            },
+                        });
+                        break;
+                    case "parent":
+                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                            $pull: {
+                                'cyclist._parentIds': sender._id,
+                            },
+                        });
+                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                            $pull: {
+                                'parent._cyclistIds': sender._id,
+                            },
+                        });
+                        break;
+                    default:
+                        break;
+                };
+            };
+
+            if (sender.role === 'clubmember') {
+                switch (receiver.role) {
+                    case "club":
+                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                            $pull: {
+                                'member._clubId': receiver._id,
+                            },
+                        });
+                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                            $pull: {
+                                'club._memberIds': sender._id,
+                            },
+                        });
+                        break;
+                    default:
+                        break;
+                };
+            };
+    
+            if (sender.role === 'parent') {
+                switch (receiver.role) {
+                    case "cyclist":
+                        connectionReceiver = await User.findOneAndUpdate({_id: sender._id}, {
+                            $pull: {
+                                'club._cyclistIds': receiver._id,
+                            },
+                        });
+                        connectionSender = await User.findOneAndUpdate({_id: receiver._id}, {
+                            'cyclist._clubId': null,
+                        });
+                        break;
+                    default:
+                        break;
+                };
+            };
+    
+            if (sender.role === 'club') {
+                switch (receiver.role) {
+                    case "cyclist":
+                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                            $pull: {
+                                'member._clubId': receiver._id,
+                            },
+                        });
+                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                            $pull: {
+                                'club._memberIds': sender._id,
+                            },
+                        });
+                        break;
+                    case "clubmember":
+                        break;
+                    default:
+                        break;
+                };
+            };
+    
+            if (!connectionSender) return res.status(400).json({
+                message: "De zender kon niet worden bijgewerkt.",
+                redirect: false,
+                status: 400,
+            });
+    
+            if (!connectionReceiver) return res.status(400).json({
+                message: "De ontvanger kon niet worden bijgewerkt.",
+                redirect: false,
+                status: 400,
+            });
+    
+            return res.status(200).json(connectionSender);
         } catch (e) {
             next(e);
         };
@@ -696,13 +794,14 @@ export default class UserController {
         try {
             // Check if token has valid user
             const contentToken = this.auth.checkId(req, res);
-            const user = await User.findById(contentToken).exec();
+            console.log(contentToken);
+            // const user = await User.findById(contentToken).exec();
 
-            if (!user) return res.status(404).json({
-                message: "Je kan deze actie niet uitvoeren.",
-                redirect: false,
-                status: 404,
-            });
+            // if (!user) return res.status(404).json({
+            //     message: "Je kan deze actie niet uitvoeren.",
+            //     redirect: false,
+            //     status: 404,
+            // });
 
             next();
         } catch (e) {

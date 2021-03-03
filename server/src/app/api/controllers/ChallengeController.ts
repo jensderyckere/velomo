@@ -436,15 +436,11 @@ export default class ChallengeController {
         };
       };
 
-      const randomDigit = Math.floor(Math.random() * challenges.length);
+      const randomDigit = Math.floor(Math.random() * arrayOfChallenges.length);
 
       const challenge = arrayOfChallenges[randomDigit];
       const participants = challenge.participants;
       let arrayOfParticipants = [];
-
-      // Get date of challenge
-      const startDate = Moment(challenge.start_date).format('LL');
-      const endDate = Moment(challenge.end_date).format('LL');
 
       if (challenge.type === 'image' || challenge.type === 'video') {
 
@@ -465,13 +461,12 @@ export default class ChallengeController {
           let distance = 0;
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
-              const totalDistance = user.cyclist._activityIds[i].activity.total_distance;
+            if (user.cyclist._activityIds[j].activity.checkpoints) {
+              const totalDistance = user.cyclist._activityIds[j].activity.total_distance;
 
               // Check if between dates
-              if (Moment(startingTime).isBetween(startDate, endDate)) {
-                distance += totalDistance;
+              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+                distance = distance + totalDistance;
               };
             };
           };
@@ -504,10 +499,9 @@ export default class ChallengeController {
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
             if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
               const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
               // Check if between dates
-              if (Moment(startingTime).isBetween(startDate, endDate)) {
+              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
                 duration = Moment.duration(duration).add(Moment.duration(totalDuration));
               };
             };

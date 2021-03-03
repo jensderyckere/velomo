@@ -23,6 +23,7 @@ export const CreateForm = ({ user }) => {
 
   // Services
   const { currentUser } = useAuth();
+  console.log(currentUser)
   const { uploadActivity, createActivity } = useApi();
 
   // Manuel upload
@@ -235,10 +236,10 @@ export const CreateForm = ({ user }) => {
 
     // Submitting activity
     const upload = async () => {
-      if (!file || form.title.length === 0 || form.description.length === 0 || !typeTraining) {
-        setError(true);
-        return;
-      };
+      // if (!file || form.title.length === 0 || form.description.length === 0 || !typeTraining) {
+      //   setError(true);
+      //   return;
+      // };
 
       try {
         if (images) {

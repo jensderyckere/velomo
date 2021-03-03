@@ -80,6 +80,7 @@ const ApiProvider = ({children}) => {
     formData.append('gpxFile', content.gpxFile);
     formData.append('feeling', content.feeling);
     formData.append('experience', content.experience);
+    console.log(token)
 
     if (content.images) formData.append('images', content.images);
 
@@ -88,8 +89,9 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`,      
       },
+      mode: 'no-cors',
       body: formData,
     });
 
@@ -102,9 +104,9 @@ const ApiProvider = ({children}) => {
     const res = await fetch(url, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        // 'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,      
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
     });
