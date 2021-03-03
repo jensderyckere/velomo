@@ -25,7 +25,7 @@ export const ConnectCard = ({user, title, text}) => {
     try {
       const result = await createConnection(currentUser, user._id, `${code[0]}${code[1]}${code[2]}${code[3]}`);
 
-      if (!result.redirect) {
+      if (result.redirect === false) {
         setError({
           visible: true,
           text: result.message,

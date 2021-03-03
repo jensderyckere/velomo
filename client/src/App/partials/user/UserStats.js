@@ -44,7 +44,9 @@ export const UserStats = ({ user }) => {
         <div className="d-flex justify-content-center">
           <TotalSpeedSVG />
         </div>
-        <h5 className="smallest-size secundary-font bold-font">{Number(avgSpeed).toFixed(2)}km/u</h5>
+        {
+        }
+        <h5 className="smallest-size secundary-font bold-font">{Number(avgSpeed).toFixed(2) === NaN ? Number(avgSpeed).toFixed(2) : 0}km/u</h5>
       </div>
       <div className="user-stats__line"></div>
       <div className="user-stats__item">

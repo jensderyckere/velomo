@@ -5,7 +5,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import UserDefault from '../../assets/icons/user.svg';
 
 // Components
-import { ChatSVG, ImageUrl, LoaderSVG, MoreSVG, SlugText, TrashSVG } from '../../components';
+import { ChatSVG, ImageUrl, MoreSVG, SlugText, TrashSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';

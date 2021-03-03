@@ -221,6 +221,8 @@ export const CreateForm = ({ user }) => {
     const [ form, setForm ] = useState({
       'title': '',
       'description': '',
+      'feeling': '',
+      'experience': '',
     });
 
     // Change states
@@ -246,6 +248,8 @@ export const CreateForm = ({ user }) => {
             type: typeTraining,
             images: images,
             gpxFile: file,
+            feeling: form.feeling,
+            experience: form.experience,
           });
 
           if (!result) {
@@ -258,6 +262,8 @@ export const CreateForm = ({ user }) => {
             description: form.description,
             type: typeTraining,
             gpxFile: file,
+            feeling: form.feeling,
+            experience: form.experience,
           });
 
           if (!result) {
@@ -280,7 +286,7 @@ export const CreateForm = ({ user }) => {
         <div className="section-title">
           <h5>DETAILS INVOEREN</h5>
         </div>
-        <div className="row">
+        <div className="row d-flex justify-content-between">
           <div className="col-md-6 col-12">
             <Inputfield 
               label="Titel"
@@ -295,6 +301,36 @@ export const CreateForm = ({ user }) => {
               name="description"
               size="large"
               changeInput={(e) => changeStates(e)}
+            />
+          </div>
+          <div className="col-lg-5 col-12">
+            <Slider
+              label="Gevoel"
+              min={0}
+              max={4}
+              labels={{
+                0: 'Slecht',
+                1: 'Onvoldoende',
+                2: 'Matig',
+                3: 'Voldoende',
+                4: 'Perfect',
+              }}
+              onChange={(value) => setForm({...form, feeling: value})}
+              value={2}
+            />
+            <Slider
+              label="Belevenis"
+              min={0}
+              max={4}
+              labels={{
+                0: 'Slecht',
+                1: 'Onvoldoende',
+                2: 'Matig',
+                3: 'Voldoende',
+                4: 'Perfect',
+              }}
+              onChange={(value) => setForm({...form, feeling: value})}
+              value={2}
             />
           </div>
         </div>

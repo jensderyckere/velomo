@@ -30,6 +30,7 @@ export const RandomChallenge = ({ user }) => {
   const fetchData = useCallback(async () => {
     try {
       const randomData = await getRandomChallenge(currentUser);
+      console.log(randomData)
       setChallenge(randomData);
 
       if (challenge.challenge.type === 'distance') {
@@ -76,6 +77,12 @@ export const RandomChallenge = ({ user }) => {
       </div>
     )
   };
+
+  // const OtherChartItem = ({ participant }) => {
+  //   return (
+
+  //   )
+  // };
 
   const DesktopRandomView = () => {
     return (

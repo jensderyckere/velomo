@@ -5,7 +5,6 @@ import { default as Moment } from "moment";
 
 import { Auth, IConfig } from "../../services";
 import { Club, Cyclist, IClub, ICyclist, IMember, IMilestone, IParent, IUser, Member, Milestone, Parent, User } from "../models";
-import * as Content from "../../utils/Content";
 
 import 'moment/locale/nl-be';
 
@@ -660,6 +659,22 @@ export default class UserController {
         return res.status(200).json(connectionSender);
     };
 
+    disconnectUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        try {
+            const { senderId, receiverId } = req.body;
+
+            const sender = await User.findById(senderId).exec();
+            const receiver = await User.findById(receiverId).exec();
+
+            let connectionReceiver;
+            let connectionSender;
+
+            return res.status(200);
+        } catch (e) {
+            next(e);
+        };
+    };
+
     checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             // Check if user has admin role
@@ -749,22 +764,22 @@ export default class UserController {
             });
 
             // Create all milestones
-            let arrayOfMilestones = [];
-            const milestones = Content.milestones;
+            // let arrayOfMilestones = [];
+            // const milestones = Content.milestones;
 
-            for (let i = 0; i < milestones.length; i++) {
-                let createdMilestone: IMilestone = new Milestone({
-                    title: milestones[i].title,
-                    description: milestones[i].description,
-                    type: milestones[i].type,
-                    goal: milestones[i].goal,
-                    badge: milestones[i].badge,
-                });
+            // for (let i = 0; i < milestones.length; i++) {
+            //     let createdMilestone: IMilestone = new Milestone({
+            //         title: milestones[i].title,
+            //         description: milestones[i].description,
+            //         type: milestones[i].type,
+            //         goal: milestones[i].goal,
+            //         badge: milestones[i].badge,
+            //     });
 
-                let savedMilestone = await createdMilestone.save();
+            //     let savedMilestone = await createdMilestone.save();
 
-                arrayOfMilestones.push(savedMilestone);
-            };
+            //     arrayOfMilestones.push(savedMilestone);
+            // };
 
             let createUser : IUser = new User({
                 firstName: firstName,
@@ -772,9 +787,9 @@ export default class UserController {
                 email: email,
                 role: role,
                 password: password,
-                cyclist: {
-                    _milestoneIds: arrayOfMilestones,
-                },
+                // cyclist: {
+                //     _milestoneIds: arrayOfMilestones,
+                // },
                 profile: {
                     uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
                 },

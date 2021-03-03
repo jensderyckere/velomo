@@ -26,8 +26,8 @@ export const ActivitiesOverview = ({ user, activities, cred }) => {
             }
           </div>
         </> : (
-          <div className="no-activities">
-
+          <div className="no-activities secundary-font text-size light-font">
+            Er zijn nog geen activiteiten gemaakt.
           </div>
         )
       }
