@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, Challenge, Challenges, CreateActivity, CreateChallenge, Dashboard, EditActivity, EditChallenge, MyProfile, MyProfileSettings, Profile } from './pages';
+import { Activities, Activity, AddConnection, Authentication, Challenge, Challenges, CreateActivity, CreateChallenge, Dashboard, EditActivity, EditChallenge, MyProfile, MyProfileSettings, Profile, Submissions } from './pages';
 
 // Context
 import * as Context from './context';
@@ -136,6 +136,11 @@ const App = () => {
                   <Route exact path={Routes.CHALLENGES}>
                     <NeedsAuth>
                       <Challenges />
+                    </NeedsAuth>
+                  </Route>
+                  <Route exact path={Routes.SUBMISSIONS}>
+                    <NeedsAuth>
+                      <Submissions />
                     </NeedsAuth>
                   </Route>
                 </StandardLayout>

@@ -1,7 +1,26 @@
-import { Request, Response, NextFunction } from "express";
-import { Auth } from "../../services";
-import { Challenge, ChallengeParticipated, IChallenge, IChallengeParticipated, User } from "../models";
-import { default as Moment } from "moment";
+import {
+  Request,
+  Response,
+  NextFunction
+} from "express";
+
+import {
+  Auth
+} from "../../services";
+
+import {
+  Challenge,
+  ChallengeParticipated,
+  IChallenge,
+  IChallengeParticipated,
+  Submission,
+  User
+} from "../models";
+
+import {
+  default as Moment
+} from "moment";
+
 import 'moment/locale/nl-be';
 
 export default class ChallengeController {
@@ -11,10 +30,12 @@ export default class ChallengeController {
     this.auth = auth;
   };
 
-  getClubChallenges = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  getClubChallenges = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
-      const { userId } = req.params;
+      const {
+        userId
+      } = req.params;
       const user = await User.findById(userId).exec();
 
       if (!user) {
@@ -29,11 +50,20 @@ export default class ChallengeController {
       let challenges;
 
       if (user.role === "cyclist") {
-        challenges = await Challenge.find({_userId: userId}).populate({path: '_challengeId'}).exec();
+        challenges = await Challenge.find({
+          _userId: userId
+        }).populate({
+          path: '_challengeId'
+        }).exec();
       };
 
       if (user.role === "club") {
-        challenges = await User.findById(userId).populate({path: 'club', populate: {path: '_challengeIds'}}).exec();
+        challenges = await User.findById(userId).populate({
+          path: 'club',
+          populate: {
+            path: '_challengeIds'
+          }
+        }).exec();
       };
 
       if (!challenges) {
@@ -50,7 +80,7 @@ export default class ChallengeController {
     };
   };
 
-  getMyChallenges = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  getMyChallenges = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
@@ -65,7 +95,11 @@ export default class ChallengeController {
       };
 
       // Get challenges from myself
-      const participatedChallenges = await ChallengeParticipated.find({_userId: userId}).populate({path: '_challengeId'}).exec();
+      const participatedChallenges = await ChallengeParticipated.find({
+        _userId: userId
+      }).populate({
+        path: '_challengeId'
+      }).exec();
 
       if (!participatedChallenges) {
         return res.status(404).json({
@@ -81,12 +115,26 @@ export default class ChallengeController {
     };
   };
 
-  getDetailedChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  getDetailedChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Get challenge
-      const { challengeId } = req.params;
+      const {
+        challengeId
+      } = req.params;
 
-      const challenge = await Challenge.findById(challengeId).exec();
+      const challenge = await Challenge.findById(challengeId).populate({
+        path: 'submissions',
+        populate: {
+          path: '_userId'
+        }
+      })
+      .populate({
+        path: 'submissions',
+        populate: {
+          path: 'activity',
+        }
+      })
+      .exec();
 
       if (!challenge) {
         return res.status(404).json({
@@ -102,16 +150,23 @@ export default class ChallengeController {
     };
   };
 
-  getDetailedParticipation = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  getDetailedParticipation = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Get challenge participation
-      const { challengeId } = req.params;
+      const {
+        challengeId
+      } = req.params;
 
       // Find user
       const _userId = this.auth.checkId(req, res);
       const user = await User.findById(_userId).exec();
 
-      const participatedChallenge = await ChallengeParticipated.findOne({_challengeId: challengeId, _userId: _userId}).populate({path: '_challengeId'}).exec();
+      const participatedChallenge = await ChallengeParticipated.findOne({
+        _challengeId: challengeId,
+        _userId: _userId
+      }).populate({
+        path: '_challengeId'
+      }).exec();
 
       if (!participatedChallenge) {
         return res.status(404).json({
@@ -127,14 +182,26 @@ export default class ChallengeController {
     };
   };
 
-  createChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  createChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const _userId = this.auth.checkId(req, res);
       const user = await User.findById(_userId).exec();
 
       // Body
-      const { title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
+      const {
+        title,
+        shortContent,
+        content,
+        images,
+        video,
+        badge,
+        difficulty,
+        type,
+        distance,
+        start_date,
+        end_date
+      } = req.body;
 
       if (!user) {
         return res.status(404).json({
@@ -153,7 +220,20 @@ export default class ChallengeController {
       };
 
       // Create challenge
-      const createdChallenge: IChallenge = new Challenge({title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date, _userId}); 
+      const createdChallenge: IChallenge = new Challenge({
+        title,
+        shortContent,
+        content,
+        images,
+        video,
+        badge,
+        difficulty,
+        type,
+        distance,
+        start_date,
+        end_date,
+        _userId
+      });
 
       const savedChallenge = await createdChallenge.save();
 
@@ -171,15 +251,29 @@ export default class ChallengeController {
   };
 
   // Edit challenge
-  editChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  editChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
       const user = await User.findById(userId).exec();
 
       // Challenge id
-      const { challengeId } = req.params;
-      const { title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date } = req.body;
+      const {
+        challengeId
+      } = req.params;
+      const {
+        title,
+        shortContent,
+        content,
+        images,
+        video,
+        badge,
+        difficulty,
+        type,
+        distance,
+        start_date,
+        end_date
+      } = req.body;
 
       const challenge = await Challenge.findById(challengeId).exec();
 
@@ -207,7 +301,19 @@ export default class ChallengeController {
         });
       };
 
-      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {title, shortContent, content, images, video, badge, difficulty, type, distance, start_date, end_date}).exec();
+      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {
+        title,
+        shortContent,
+        content,
+        images,
+        video,
+        badge,
+        difficulty,
+        type,
+        distance,
+        start_date,
+        end_date
+      }).exec();
 
       return res.status(200).json(updatedChallenge);
     } catch (e) {
@@ -216,14 +322,16 @@ export default class ChallengeController {
   };
 
   // Delete challenge
-  deleteChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  deleteChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
       const user = await User.findById(userId).exec();
 
       // Challenge id
-      const { challengeId } = req.params;
+      const {
+        challengeId
+      } = req.params;
 
       const challenge = await Challenge.findById(challengeId).exec();
 
@@ -252,8 +360,12 @@ export default class ChallengeController {
       };
 
       // Delete from participants
-      const allParticipatedChallenges = await ChallengeParticipated.find({_challengeId: challengeId}).exec();
-      const allUsers = await User.find({role: "cyclist"}).exec();
+      const allParticipatedChallenges = await ChallengeParticipated.find({
+        _challengeId: challengeId
+      }).exec();
+      const allUsers = await User.find({
+        role: "cyclist"
+      }).exec();
 
       for (let i = 0; i < allParticipatedChallenges.length; i++) {
         for (let j = 0; j < allUsers.length; j++) {
@@ -283,7 +395,7 @@ export default class ChallengeController {
     }
   };
 
-  participateChallenge = async (req: Request, res: Response, next: NextFunction): Promise <Response> => {
+  participateChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
@@ -298,7 +410,9 @@ export default class ChallengeController {
       };
 
       // Body
-      const { challengeId } = req.body;
+      const {
+        challengeId
+      } = req.body;
 
       // Find challenge
       const challenge = await Challenge.findById(challengeId).exec();
@@ -346,7 +460,7 @@ export default class ChallengeController {
   };
 
   // Withdraw from challenge
-  withdrawChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  withdrawChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
@@ -361,7 +475,9 @@ export default class ChallengeController {
       };
 
       // Body
-      const { challengeId } = req.body;
+      const {
+        challengeId
+      } = req.body;
 
       // Find challenge
       const challenge = await Challenge.findById(challengeId).exec();
@@ -389,7 +505,10 @@ export default class ChallengeController {
       }).exec();
 
       // Delete participated challenge
-      const participatedChallenge = await ChallengeParticipated.findOne({_userId: userId, _challengeId: challenge._id}).exec();
+      const participatedChallenge = await ChallengeParticipated.findOne({
+        _userId: userId,
+        _challengeId: challenge._id
+      }).exec();
 
       await User.findByIdAndUpdate(userId, {
         $pull: {
@@ -405,7 +524,7 @@ export default class ChallengeController {
     };
   };
 
-  viewRandomDashboardChallenge = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  viewRandomDashboardChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
@@ -428,7 +547,9 @@ export default class ChallengeController {
       };
 
       let arrayOfChallenges = [];
-      const challenges = await Challenge.find().populate({path: '_userId'}).exec();
+      const challenges = await Challenge.find().populate({
+        path: '_userId'
+      }).exec();
 
       for (let i = 0; i < challenges.length; i++) {
         if (challenges[i].participants.includes(userId)) {
@@ -442,21 +563,41 @@ export default class ChallengeController {
       const participants = challenge.participants;
       let arrayOfParticipants = [];
 
-      if (challenge.type === 'image' || challenge.type === 'video') {
+      if (challenge.type === 'image' || challenge.type === 'video' || challenge.type === 'activity') {
+        const result = await Challenge.findById(challenge._id).populate({
+          path: 'submissions',
+          populate: {
+            path: 'activity',
+            populate: {
+              path: '_userId'
+            }
+          }
+        })
+        .populate({
+          path: '_userId'
+        })
+        .exec();
 
+        return res.status(200).json({
+          challenge: result,
+        });
       };
 
       if (challenge.type === 'distance') {
         // Calculate distances between dates
         for (let i = 0; i < participants.length; i++) {
-          const user = await User.findById(participants[i])                
-          .populate({
-            path: 'cyclist',
-            populate: {
+          const user = await User.findById(participants[i])
+            .populate({
+              path: 'cyclist',
+              populate: {
                 path: '_activityIds',
-                options: { sort: {_createdAt: -1} }
-            },
-          }).exec();
+                options: {
+                  sort: {
+                    _createdAt: -1
+                  }
+                }
+              },
+            }).exec();
 
           let distance = 0;
 
@@ -471,29 +612,39 @@ export default class ChallengeController {
             };
           };
 
-          const object = {user: user, distance: distance};
+          const object = {
+            user: user,
+            distance: distance
+          };
           arrayOfParticipants.push(object);
 
           if (distance >= challenge.distance) {
-            await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+            await ChallengeParticipated.findOneAndUpdate({
+              _userId: user._id,
+              _challengeId: challenge._id
+            }, {
               completed: true,
               seen: false,
-            }).exec(); 
-         };
+            }).exec();
+          };
         };
       };
 
       if (challenge.type === 'duration') {
         // Calculate distances between dates
         for (let i = 0; i < participants.length; i++) {
-          const user = await User.findById(participants[i])                
-          .populate({
-            path: 'cyclist',
-            populate: {
+          const user = await User.findById(participants[i])
+            .populate({
+              path: 'cyclist',
+              populate: {
                 path: '_activityIds',
-                options: { sort: {_createdAt: -1} }
-            },
-          }).exec();
+                options: {
+                  sort: {
+                    _createdAt: -1
+                  }
+                }
+              },
+            }).exec();
 
           let duration = Moment.duration('00:00:00');
 
@@ -507,14 +658,20 @@ export default class ChallengeController {
             };
           };
 
-          const object = {user: user, duration: duration};
+          const object = {
+            user: user,
+            duration: duration
+          };
           arrayOfParticipants.push(object);
 
           if (duration.asMilliseconds() >= Moment.duration(challenge.duration).asMilliseconds()) {
-             await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
-               completed: true,
-               seen: false,
-             }).exec();
+            await ChallengeParticipated.findOneAndUpdate({
+              _userId: user._id,
+              _challengeId: challenge._id
+            }, {
+              completed: true,
+              seen: false,
+            }).exec();
           };
         };
       };
@@ -528,10 +685,12 @@ export default class ChallengeController {
     };
   };
 
-  viewParticipantMonthlyCharts = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  viewParticipantMonthlyCharts = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Params
-      const { challengeId } = req.params;
+      const {
+        challengeId
+      } = req.params;
 
       // Variables
       let arrayOfParticipants = [];
@@ -561,74 +720,92 @@ export default class ChallengeController {
       if (challenge.type === 'distance') {
         // Calculate distances between dates
         for (let i = 0; i < participants.length; i++) {
-          const user = await User.findById(participants[i])                
-          .populate({
-            path: 'cyclist',
-            populate: {
+          const user = await User.findById(participants[i])
+            .populate({
+              path: 'cyclist',
+              populate: {
                 path: '_activityIds',
-                options: { sort: {_createdAt: -1} }
-            },
-          }).exec();
+                options: {
+                  sort: {
+                    _createdAt: -1
+                  }
+                }
+              },
+            }).exec();
 
           let distance = 0;
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
-              const totalDistance = user.cyclist._activityIds[i].activity.total_distance;
+            if (user.cyclist._activityIds[j].activity.checkpoints) {
+              const totalDistance = user.cyclist._activityIds[j].activity.total_distance;
 
               // Check if between dates
-              if (Moment(startingTime).isBetween(startDate, endDate)) {
-                distance += totalDistance;
+              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+                distance = distance + totalDistance;
               };
             };
           };
 
-          const object = {user: user, distance: distance};
+          const object = {
+            user: user,
+            distance: distance
+          };
           arrayOfParticipants.push(object);
 
           if (distance >= challenge.distance) {
-            await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
+            await ChallengeParticipated.findOneAndUpdate({
+              _userId: user._id,
+              _challengeId: challenge._id
+            }, {
               completed: true,
               seen: false,
-            }).exec(); 
-         };
+            }).exec();
+          };
         };
       };
 
       if (challenge.type === 'duration') {
         // Calculate distances between dates
         for (let i = 0; i < participants.length; i++) {
-          const user = await User.findById(participants[i])                
-          .populate({
-            path: 'cyclist',
-            populate: {
+          const user = await User.findById(participants[i])
+            .populate({
+              path: 'cyclist',
+              populate: {
                 path: '_activityIds',
-                options: { sort: {_createdAt: -1} }
-            },
-          }).exec();
+                options: {
+                  sort: {
+                    _createdAt: -1
+                  }
+                }
+              },
+            }).exec();
 
           let duration = Moment.duration('00:00:00');
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
             if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const startingTime = Moment(user.cyclist._activityIds[i].activity.starting_time).format('LL');
               const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
               // Check if between dates
-              if (Moment(startingTime).isBetween(startDate, endDate)) {
+              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
                 duration = Moment.duration(duration).add(Moment.duration(totalDuration));
               };
             };
           };
 
-          const object = {user: user, duration: duration};
+          const object = {
+            user: user,
+            duration: duration
+          };
           arrayOfParticipants.push(object);
 
           if (duration.asMilliseconds() >= Moment.duration(challenge.duration).asMilliseconds()) {
-             await ChallengeParticipated.findOneAndUpdate({_userId: user._id, _challengeId: challenge._id}, {
-               completed: true,
-               seen: false,
-             }).exec();
+            await ChallengeParticipated.findOneAndUpdate({
+              _userId: user._id,
+              _challengeId: challenge._id
+            }, {
+              completed: true,
+              seen: false,
+            }).exec();
           };
         };
       };
@@ -640,16 +817,20 @@ export default class ChallengeController {
   };
 
   // Submit submission
-  submitSubmission = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  submitSubmission = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Find user
       const userId = this.auth.checkId(req, res);
       const user = await User.findById(userId).exec();
 
       // Challenge id
-      const { challengeId } = req.params;
+      const {
+        challengeId
+      } = req.params;
 
-      const challenge = await Challenge.findById(challengeId).exec();
+      const challenge = await Challenge.findById(challengeId).populate({
+        path: 'submissions'
+      }).exec();
 
       if (!user) {
         return res.status(404).json({
@@ -668,7 +849,13 @@ export default class ChallengeController {
       };
 
       // Create submission
-      const { text, image, video, activity, _userId } = req.body;
+      const {
+        text,
+        image,
+        video,
+        activity,
+        _userId
+      } = req.body;
 
       // Check if already submitted
       for (let i = 0; i < challenge.submissions.length; i++) {
@@ -681,20 +868,51 @@ export default class ChallengeController {
         };
       };
 
-      const submission = {
+      if (challenge.participants.includes(userId)) {
+        return res.status(404).json({
+          message: "User already participating",
+          redirect: false,
+          status: 400,
+        });
+      };
+
+      await Challenge.findByIdAndUpdate(challengeId, {
+        $push: {
+          participants: userId,
+        }
+      });
+
+      // Create participation
+      const participatedChallenge: IChallengeParticipated = new ChallengeParticipated({
+        _userId: userId,
+        _challengeId: challengeId,
+      });
+
+      const createdParticipation = await participatedChallenge.save();
+
+      await User.findByIdAndUpdate(userId, {
+        $push: {
+          'cyclist._challengeIds': createdParticipation._id,
+        },
+      });
+
+      const object = {
         text: text ? text : '',
         image: image ? image : '',
         video: video ? video : '',
-        activity: activity ? activity : '',
+        activity: activity ? activity : null,
         _userId: _userId ? _userId : '',
         _createdAt: Date.now(),
       };
 
-      const updatedChallenge = await challenge.update({
-        $push: {
-          submissions: submission,
+      const createdSubmission = new Submission(object);
+      const savedSubmission = await createdSubmission.save();
+
+      const updatedChallenge = await Challenge.findByIdAndUpdate(challengeId, {
+        $set: {
+          submissions: savedSubmission._id,
         }
-      });
+      }).exec();
 
       return res.status(200).json(updatedChallenge);
     } catch (e) {
@@ -703,12 +921,15 @@ export default class ChallengeController {
   };
 
   // Approve submission
-  approveSubmission = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  approveSubmission = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Check if params exist
-      const { challengeId, userId } = req.params;
+      const {
+        challengeId,
+        userId
+      } = req.params;
 
-      const challenge = await Challenge.findById(challengeId).exec();
+      const challenge = await Challenge.findById(challengeId).populate({path: 'submissions'}).exec();
       const user = await User.findById(userId).exec();
 
       if (!user) {
@@ -727,8 +948,22 @@ export default class ChallengeController {
         });
       };
 
+      for (let i = 0; i < challenge.submissions.length; i++) {
+        if (String(challenge.submissions[i]._userId) === String(userId)) {          
+          // Find submission
+          await Submission.findOneAndUpdate({_id: challenge.submissions[i].id}, {
+            $set: {
+              approved: true,
+            },
+          });
+        };
+      };
+
       // Find participation model
-      const participation = await ChallengeParticipated.findOne({_userId: userId, _challengeId: challengeId});
+      const participation = await ChallengeParticipated.findOne({
+        _userId: userId,
+        _challengeId: challengeId
+      });
 
       if (!participation) {
         return res.status(404).json({

@@ -794,18 +794,25 @@ export default class UserController {
         try {
             // Check if token has valid user
             const contentToken = this.auth.checkId(req, res);
-            console.log(contentToken);
-            // const user = await User.findById(contentToken).exec();
+            const user = await User.findById(contentToken).exec();
 
-            // if (!user) return res.status(404).json({
-            //     message: "Je kan deze actie niet uitvoeren.",
-            //     redirect: false,
-            //     status: 404,
-            // });
+            if (!user) return res.status(404).json({
+                message: "Je kan deze actie niet uitvoeren.",
+                redirect: false,
+                status: 404,
+            });
 
             next();
         } catch (e) {
             next(e);
+        };
+    };
+
+    addAndCheckExperience = async (xp: Number) => {
+        try {
+
+        } catch (e) {
+
         };
     };
 

@@ -18,3 +18,7 @@ export * from './TotalSpeedSVG';
 export * from './TotalAchievementsSVG';
 export * from './CloseSVG';
 export * from './LogoutSVG';
+export * from './CheckSVG';
+export * from './PreviousSVG';
+export * from './NextSVG';
+export * from './ClockSVG';

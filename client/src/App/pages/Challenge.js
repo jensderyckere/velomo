@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 // Partials
-import { ChallengeCard, ChallengeContent } from '../partials';
+import { ChallengeCard, ChallengeCharts, ChallengeContent } from '../partials';
 
 // Services
 import { useApi, useAuth } from '../services';
@@ -52,8 +52,25 @@ export const Challenge = () => {
           />
         </section>
         <section className={`right-sided p-relative ${ScreenSizeClassSwitch('w-70', 'w-100')}`}>
+          {
+            challenge.type === 'duration' && (
+              <ChallengeCharts 
+                challenge={challenge}
+                user={user}
+              />
+            )
+          }
+          {
+            challenge.type === 'distance' && (
+              <ChallengeCharts 
+                challenge={challenge}
+                user={user}
+              />
+            )
+          }
           <ChallengeContent 
             challenge={challenge}
+            user={user}
           />
         </section>
       </div>

@@ -96,7 +96,7 @@ export const ActivityBio = ({user, activity}) => {
         </p>
       </div>
       {
-        activity.images && (
+        activity.images.length !== 0 && (
           <div className="m-top-30">
             <ActivityImages images={activity.images} />
           </div>

@@ -1,14 +1,5 @@
 import { default as mongoose, Schema, Document } from 'mongoose';
-import { IUser, IActivity } from '.';
-
-interface ISubmission {
-  text: string;
-  image: string;
-  video: string;
-  activity: IActivity['_id'];
-  _userId: IUser['_id'];
-  _createdAt: number;
-};
+import { IUser, ISubmission } from '.';
 
 interface IChallenge extends Document {
   title: string;
@@ -24,7 +15,7 @@ interface IChallenge extends Document {
   start_date: string;
   end_date: string;
   participants: Array<IUser['_id']>;
-  submissions: Array<ISubmission>;
+  submissions: Array<ISubmission['_id']>;
   _createdAt: string;
   _userId: IUser['_id'];
 };
@@ -79,29 +70,8 @@ const challengeSchema: Schema = new Schema({
     ref: 'User',
   }],
   submissions: [{
-    text: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-    },
-    video: {
-      type: String,
-    },
-    activity: {
-      type: Schema.Types.ObjectId,
-      ref: 'Activity',
-    },
-    _userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    _createdAt: {
-      type: Number,
-      required: false,
-      default: Date.now(),
-    },
+    type: Schema.Types.ObjectId,
+    ref: 'Submission',
   }],
   _userId: {
     type: Schema.Types.ObjectId,

@@ -1,34 +1,28 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
+// Partials
+import { SubmissionCard } from '.';
 
 // Components
-import { ImageUrl } from '../../components';
+import { ImageUrl, StandardButton } from '../../components';
 
-export const ChallengeContent = ({ challenge }) => {
-  // Fetch charts when distance/duration
-  const fetchCharts = useCallback(() => {
-    try {
+// Routes
+import * as Routes from '../../routes';
 
-    } catch (e) {
-      console.log(e);
-    };
-  });
+export const ChallengeContent = ({ challenge, user }) => {
+  // Routing
+  const history = useHistory();
 
-  // Fetch submissions
-  const fetchSubmissions = useCallback(() => {
-    try {
-
-    } catch (e) {
-      console.log(e);
-    };
-  });
+  // States
+  const [ submissions, setSubmissions ] = useState();
   
   useEffect(() => {
     if (challenge.type === 'distance' || challenge.type === 'duration') {
-      fetchCharts();
     } else {
-      fetchSubmissions();
+      setSubmissions(challenge.submissions);
     };
-  }, [fetchCharts, fetchSubmissions, challenge]);
+  }, [challenge]);
 
   return (
     <div className="challenge-content">
@@ -46,6 +40,30 @@ export const ChallengeContent = ({ challenge }) => {
               })
             }
           </>
+        )
+      }
+      {
+        submissions && submissions.length !== 0 && (
+          <div className="margin-top-50">
+            <div className="d-flex justify-content-between align-items-center">
+              <h1 className="secundary-font title-size bold-font margin-top-30">Reeds ingezonden</h1>
+              {
+                challenge._userId === user._id && (
+                  <StandardButton 
+                    text="Inzendingen keuren"
+                    action={() => history.push(Routes.SUBMISSIONS.replace(':id', challenge._id))}
+                  />
+                )
+              }
+            </div>
+            <div className="margin-top-30 row">
+              {
+                submissions.map((submission, index) => {
+                  return index < 4 && <SubmissionCard submission={submission} /> 
+                })
+              }
+            </div>
+          </div>
         )
       }
     </div>

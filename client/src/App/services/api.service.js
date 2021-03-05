@@ -300,6 +300,36 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const approveSubmission = async (token, challengeId, userId) => {
+    const url = `${Config.clientConfig.apiUrl}approve-submission/${challengeId}/${userId}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
+  const viewMonthlyCharts = async (token, challengeId) => {
+    const url = `${Config.clientConfig.apiUrl}participation-monthly-charts/${challengeId}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
   return (
     <ApiContext.Provider value={{
       uploadPicture,
@@ -320,6 +350,8 @@ const ApiProvider = ({children}) => {
       editChallenge,
       deleteChallenge,
       submitSubmission,
+      approveSubmission,
+      viewMonthlyCharts,
     }}>
       {children}
     </ApiContext.Provider>

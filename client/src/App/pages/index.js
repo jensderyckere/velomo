@@ -12,3 +12,4 @@ export * from './CreateChallenge';
 export * from './Challenge';
 export * from './EditChallenge';
 export * from './Challenges';
+export * from './Submissions';

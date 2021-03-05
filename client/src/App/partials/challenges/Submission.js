@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { GreyButton, ImageUrl, StandardButton, Textarea } from '../../components';
+
+// Components
+import { GreyButton, ImageUrl, StandardButton, TeamSVG, Textarea, DistanceSVG, SpeedSVG } from '../../components';
 
 // Services
 import { useApi, useAuth } from '../../services';
@@ -13,37 +15,14 @@ export const Submission = ({ challenge, user, hide }) => {
   const { submitSubmission } = useApi();
 
   // States
-  const [ submissionForm, setSubmissionForm ] = useState({
-    text: '',
-    image: '',
-    video: '',
-    activity: '',
-    _userId: user._id,
-  });
   const [ correctSubmission, setCorrectSubmission ] = useState(false);
   const [ error, setError ] = useState(false);
   const [ progress, setProgress ] = useState({
     shown: true,
     percentage: 0,
   });
-
-  // Submit the submission
-  const createSubmission = async () => {
-    if (challenge.type === 'image') {
-      if (submissionForm.text.length === 0 || submissionForm.image.length === 0) {
-        setError(true);
-        return;
-      };
-    };
-
-    const result = await submitSubmission(currentUser, challenge._id, submissionForm);
-
-    if (result) {
-      setCorrectSubmission(true);
-    } else {
-      setError(true);
-    };
-  };  
+  const [ image, setImage ] = useState(''); 
+  const [ activity, setActivity ] = useState('');
 
   // Upload image
   const uploadImageWithProgress = async (file) => {
@@ -62,7 +41,7 @@ export const Submission = ({ challenge, user, hide }) => {
       },
     }).then((res) => {
       const result = JSON.parse(res.request.response);
-      setSubmissionForm({...submissionForm, image: result.filename});
+      setImage(result.filename);
     }).catch((e) => {
       setError(true);
     });
@@ -76,10 +55,10 @@ export const Submission = ({ challenge, user, hide }) => {
         </span>
         <div className="d-flex margin-top-20 align-items-center">
           <div className="submission__image-upload--preview" style={{
-            backgroundImage: `url(${ImageUrl(submissionForm.image, '')})`
+            backgroundImage: `url(${ImageUrl(image, '')})`
           }}>
             {
-              !submissionForm.image && '?'
+              !image && '?'
             }
           </div>
           <div className="submission__image-upload--buttons">
@@ -89,7 +68,7 @@ export const Submission = ({ challenge, user, hide }) => {
             </div>
             <GreyButton
               text="Verwijder"
-              action={() => setSubmissionForm({...submissionForm, image: null})}
+              action={() => setImage(null)}
             />
           </div>
         </div>
@@ -102,36 +81,106 @@ export const Submission = ({ challenge, user, hide }) => {
             </div>
           )
         }
-        <div className="d-flex justify-content-end">
-          {
-            submissionForm.image && (
-              <StandardButton 
-                text="Uploaden"
-                action={createSubmission}
-                extraClasses="margin-right-10"
-              />
-            )
-          }
-          <GreyButton 
-            text="Annuleren"
-            action={hide}
-          />
-        </div>
       </div>
     );
   };
 
   const ChallengeActivityUpload = () => {
-    return '';
+    return (
+      <div className="submission__activity-upload no-scroll margin-top-30">
+        <div className="submission__activity-upload__list scroll">
+          <h5 className="secundary-font text-size bold-font margin-bottom-20 margin-left-20">
+            Kies een activiteit
+          </h5>
+          {
+            user.cyclist._activityIds.map((activityItem, index) => {
+              return activityItem.activity.checkpoints && (
+                <div className={`d-flex submission__activity-upload--item pointer ${activity && activity._id === activityItem._id && 'selected-activity'}`} onClick={() => setActivity(activityItem)} key={index}>
+                  <div className="submission__activity-upload--item__text">
+                    <h6 className="text-size bold-font secundary-font">
+                      {activityItem.title}
+                    </h6>
+                    <div className="d-flex align-items-center margin-top-10">
+                      <div className="d-inline-flex align-items-center margin-right-20">
+                        <TeamSVG />
+                        <span className="secundary-font light-font text-size margin-left-10">
+                          {activityItem.type}
+                        </span>
+                      </div>
+                      <div className="d-inline-flex align-items-center margin-right-20">
+                        <DistanceSVG />
+                        <span className="secundary-font light-font text-size margin-left-10">
+                          {activityItem.activity.total_distance.toFixed(2)}km
+                        </span>
+                      </div>
+                      <div className="d-inline-flex align-items-center">
+                        <SpeedSVG />
+                        <span className="secundary-font light-font text-size margin-left-10">
+                          {activityItem.activity.total_duration}u
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
+    );
   };
 
   const DesktopSubmission = () => {
+    const [ submissionForm, setSubmissionForm ] = useState({
+      text: '',
+      video: '',
+      activity: '',
+      _userId: user._id,
+    });
+
+    // Submit the submission
+    const createSubmission = async () => {
+      if (challenge.type === 'image') {
+        if (submissionForm.text.length === 0 || !image) {
+          setError(true);
+          return;
+        };
+      };
+
+      const result = await submitSubmission(currentUser, challenge._id, {
+        text: submissionForm.text,
+        image: image,
+        video: submissionForm.video,
+        activity: activity._id,
+        _userId: user._id,
+      });
+
+      if (result) {
+        setCorrectSubmission(true);
+      } else {
+        setError(true);
+      };
+    }; 
+
     return (
       <div className="submission-popup">
         <div className="submission-popup__card box-shadow radius-20">
           {
             correctSubmission ? (
-              ''
+              <>
+                <h1 className="secundary-font bold-font title-size text-center">
+                  Jouw inzending is verstuurd.
+                </h1>
+                <p className="tertiary-font light-font text-size text-center">
+                  De inzending moet enkel nog goedgekeurd worden door jouw club.
+                </p>
+                <div className="margin-top-30 d-flex justify-content-center">
+                  <StandardButton 
+                    text="Oké, ik snap het"
+                    action={hide}
+                  />
+                </div>
+              </>
             ) : (
               <>
                 <h3 className="secundary-font bold-font title-size">
@@ -146,17 +195,51 @@ export const Submission = ({ challenge, user, hide }) => {
                   />
                   {
                     challenge.type === 'image' && (
+                      <>
                       <ChallengeImageUpload />
+                      <div className="d-flex justify-content-end">
+                        {
+                          image && (
+                            <StandardButton 
+                              text="Uploaden"
+                              action={createSubmission}
+                              extraClasses="margin-right-10"
+                            />
+                          )
+                        }
+                        <GreyButton 
+                          text="Annuleren"
+                          action={hide}
+                        />
+                      </div>
+                      </>
                     )
                   }
                   {
                     challenge.type === 'activity' && (
-                      <ChallengeActivityUpload />
+                      <>
+                        <ChallengeActivityUpload />
+                        <div className="d-flex justify-content-end">
+                        {
+                          activity && (
+                            <StandardButton 
+                              text="Uploaden"
+                              action={createSubmission}
+                              extraClasses="margin-right-10"
+                            />
+                          )
+                        }
+                        <GreyButton 
+                          text="Annuleren"
+                          action={hide}
+                        />
+                      </div>
+                      </>
                     )
                   }
                   {
                     error && (
-                      <div className="error-message">
+                      <div className="error-message margin-top-30">
                         <span>Jouw inzending kon niet worden verstuurd. Heb je alle velden ingevuld? Of heb je al eens eerder ingediend?</span>
                       </div>
                     )

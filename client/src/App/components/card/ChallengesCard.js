@@ -16,7 +16,7 @@ export const ChallengesCard = ({ title, challenges }) => {
 
   const ChallengeShort = ({ challenge }) => {
     return !challenge.completed && Moment(Date.now()).isBetween(challenge.start_date, challenge.end_date) ? (
-      <div className="challenge-card__item d-flex align-items-center">
+      <div className="challenge-card__item d-flex align-items-center margin-top-10">
         <Badge 
           badge={{
             id: challenge._id,

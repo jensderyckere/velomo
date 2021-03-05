@@ -10,6 +10,7 @@
 
     &--item {
       padding: 20px;
+      margin-bottom: 10px;
     }
   }
 }
@@ -69,6 +70,29 @@
     height: 300px;
   }
 
+  &__submissions {
+    height: 300px;
+
+    &--item {
+      height: 100%;
+      width: 300px;
+      background-color: white;
+      box-shadow: $standard-shadow;
+      margin-bottom: 20px;
+      padding: 20px;
+
+      .p-absolute {
+        z-index: 100;
+        right: 10px;
+        top: 10px;
+      }
+
+      .activities__map {
+        height: 200px;
+      }
+    }
+  }
+
   &__card {
     width: 300px;
     padding: 20px;
@@ -76,6 +100,11 @@
     background-color: white;
     position: absolute;
     right: 40px;
+
+    svg, path {
+      width: 15px;
+      height: 15px;
+    }
 
     h5 {
       overflow-wrap: break-word;
@@ -86,7 +115,19 @@
     &--item {
       margin-right: 10px;
       align-items: flex-end;
+      position: relative;
       &__content {
+        &--distance {
+          background-color: white;
+          display: inline-flex;
+          position: absolute;
+          top: -50px;
+          box-shadow: $standard-shadow;
+          padding: 10px 20px;
+          font-family: $secundary-family;
+          font-size: $d-text;
+          font-weight: 800;
+        }
         &--bar {
           margin-top: 10px;
           border-top-left-radius: 10px;
@@ -120,6 +161,74 @@
 }
 
 .submission {
+  &-card {
+    box-shadow: 0px 0px 10px rgba(96, 96, 96, 0.11);
+    padding: 20px;
+
+    &__check {
+      background-color: #17E713;
+      width: 35px;
+      height: 35px;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    &__image {
+      width: 100%;
+      height: 200px;
+      background-size: cover;
+      background-position: center center;
+    }
+  }
+
+  &__activity-upload {
+    &__list {
+      height: 200px;
+      overflow-y: scroll;
+    }
+
+    &--item {
+      background-color: $lightgrey;
+      padding: 20px 20px;
+      width: 400px;
+      transition: ease-in-out 0.5s;
+      margin-bottom: 10px;
+
+      h6 {
+        margin: 0;
+      }
+
+      svg, path {
+        fill: $orange;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &--item.selected-activity {
+      background-color: $orange;
+
+      h6 {
+        color: white;
+      }
+
+      span {
+        color: white;
+      }
+
+      svg, path {
+        fill: white;
+      }
+    }
+
+    &--item:hover {
+      opacity: 0.7;
+    }
+  }
+
   &__image-upload {
     &--preview {
       width: 200px;

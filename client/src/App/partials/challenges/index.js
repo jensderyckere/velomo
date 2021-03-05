@@ -6,3 +6,5 @@ export * from './ChallengeCard';
 export * from './ChallengeContent';
 export * from './ChangeChallenge';
 export * from './Submission';
+export * from './SubmissionCard';
+export * from './ChallengeCharts';

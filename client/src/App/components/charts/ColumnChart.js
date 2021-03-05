@@ -7,7 +7,7 @@ export const ColumnChart = ({ data, max }) => {
         {
           data.map((column, index) => {
             return index % 2 === 0 ? (
-              <div className="column-chart__wrapper--column">
+              <div className="column-chart__wrapper--column" key={index}>
                 <div className="column-chart__wrapper--column--holder orange-column">
                   <div className="column-chart__wrapper--column--bar" style={{
                     height: `${(column.number / max) * 100}%`
@@ -22,13 +22,13 @@ export const ColumnChart = ({ data, max }) => {
                 </span>
               </div>
             ) : (
-              <div className="column-chart__wrapper--column">
+              <div className="column-chart__wrapper--column" key={index}>
                 <div className="column-chart__wrapper--column--holder grey-column">
                   <div className="column-chart__wrapper--column--bar" style={{
                     height: `${(column.number / max) * 100}%`
                   }}>
                     {
-                      column.number !== 0 && <p>{column.number}km</p>
+                      column.number !== 0 && <p>{column.number.toFixed(2)}km</p>
                     }
                   </div>
                 </div>
