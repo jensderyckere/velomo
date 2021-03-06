@@ -1,26 +1,47 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
-import { default as bcrypt } from 'bcrypt';
-import { default as validator } from 'validator';
+import {
+    default as mongoose,
+    Schema,
+    Document
+} from 'mongoose';
 
-import { INotification, IClub, IParent, ICyclist, IMember, IActivity, IMilestone, IChallengeParticipated, IGoal, IChallenge } from '../models';
+import {
+    default as bcrypt
+} from 'bcrypt';
+
+import {
+    default as validator
+} from 'validator';
+
+import {
+    INotification,
+    IClub,
+    IParent,
+    ICyclist,
+    IMember,
+    IActivity,
+    IMilestone,
+    IChallengeParticipated,
+    IGoal,
+    IChallenge
+} from '../models';
 
 interface IProfile {
     avatar: string;
     bio: string;
     uniqueCode: string;
-    _notificationIds: Array<INotification['_id']>;
+    _notificationIds: Array < INotification['_id'] > ;
 };
 
 interface ICyclistInfo {
     level: number;
     level_name: string;
     xp: number;
-    _milestoneIds: Array<IMilestone['_id']>;
-    _challengeIds: Array<IChallengeParticipated['_id']>;
-    _goalIds: Array<IGoal['_id']>;
+    _milestoneIds: Array < IMilestone['_id'] > ;
+    _challengeIds: Array < IChallengeParticipated['_id'] > ;
+    _goalIds: Array < IGoal['_id'] > ;
     _clubId: IClub['_id'];
-    _parentIds: Array<IParent['_id']>;
-    _activityIds: Array<IActivity['_id']>;
+    _parentIds: Array < IParent['_id'] > ;
+    _activityIds: Array < IActivity['_id'] > ;
 };
 
 interface IMemberInfo {
@@ -31,13 +52,13 @@ interface IClubInfo {
     name: string;
     cover: string;
     location: string;
-    _challengeIds: Array<IChallenge['_id']>;
-    _cyclistIds: Array<ICyclist['_id']>;
-    _memberIds: Array<IMember['_id']>;
+    _challengeIds: Array < IChallenge['_id'] > ;
+    _cyclistIds: Array < ICyclist['_id'] > ;
+    _memberIds: Array < IMember['_id'] > ;
 };
 
 interface IParentInfo {
-    _cyclistIds: Array<ICyclist['_id']>;
+    _cyclistIds: Array < ICyclist['_id'] > ;
 };
 
 interface IUser extends Document {
@@ -219,9 +240,16 @@ const userSchema: Schema = new Schema({
     _deletedAt: {
         type: Number,
         required: false,
-        default: null,       
+        default: null,
     },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+    toJSON: {
+        virtuals: true
+    },
+    toObject: {
+        virtuals: true
+    }
+});
 
 userSchema.pre('save', function (next) {
     const user: IUser = this as IUser;
@@ -248,7 +276,7 @@ userSchema.pre('save', function (next) {
     };
 });
 
-userSchema.methods.comparePassword = function(candidatePass: String, cb: Function) {
+userSchema.methods.comparePassword = function (candidatePass: String, cb: Function) {
     const user = this;
     bcrypt.compare(candidatePass, user.password, (err, match) => {
         if (err) {
@@ -301,7 +329,7 @@ userSchema.virtual('activityInfo', {
     justOne: false,
 });
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model < IUser > ('User', userSchema);
 
 export {
     IUser,

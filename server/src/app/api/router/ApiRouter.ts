@@ -2,7 +2,7 @@ import { default as express, Router } from "express";
 import { default as multer, memoryStorage } from "multer";
 
 import { Auth, IConfig, Storage } from "../../services";
-import { PictureController, ResetController, UserController, ActivityController, ChallengeController, VideoController } from "../controllers";
+import { PictureController, ResetController, PopupController, UserController, ActivityController, ChallengeController, VideoController } from "../controllers";
 
 var upload = multer();
 
@@ -17,6 +17,7 @@ export default class ApiRouter {
     private activityController: ActivityController;
     private challengeController: ChallengeController;
     private videoController: VideoController;
+    private popupController: PopupController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -35,6 +36,7 @@ export default class ApiRouter {
         this.videoController = new VideoController();
         this.activityController = new ActivityController(this.auth);
         this.challengeController = new ChallengeController(this.auth);
+        this.popupController = new PopupController(this.auth);
     };
 
     private initRoutes(): void {
@@ -83,6 +85,10 @@ export default class ApiRouter {
         this.router.post('/submit-submission/:challengeId', this.userController.checkToken, this.challengeController.submitSubmission);
         this.router.post('/approve-submission/:challengeId/:userId', this.userController.checkToken, this.challengeController.approveSubmission);
 
+        // Popups
+        this.router.get('/popups', this.userController.checkToken, this.popupController.viewAllPopups);
+        this.router.get('/popups/viewed', this.userController.checkToken, this.popupController.viewedPopup);
+        
         // Reset
         this.router.post('/reset', this.resetController.send);
         this.router.post('/reset/submit', this.resetController.submit);

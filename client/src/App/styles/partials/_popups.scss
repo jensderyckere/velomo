@@ -33,6 +33,7 @@
 
         &__inside {
           height: 100%;
+          transition: ease-in-out 0.5s;
           background: linear-gradient(270deg, rgba(255, 233, 32, 0) 0%, #FFE920 11.98%, #FFBC44 50.52%, #FF9A23 100%);
         }
       }

@@ -13,6 +13,8 @@ import {
   ChallengeParticipated,
   IChallenge,
   IChallengeParticipated,
+  IPopup,
+  Popup,
   Submission,
   User
 } from "../models";
@@ -616,6 +618,7 @@ export default class ChallengeController {
             user: user,
             distance: distance
           };
+
           arrayOfParticipants.push(object);
 
           if (distance >= challenge.distance) {
@@ -626,6 +629,16 @@ export default class ChallengeController {
               completed: true,
               seen: false,
             }).exec();
+
+            const newPopup : IPopup = new Popup({
+              addedXp: 500,
+              previousXp: user.cyclist.xp,
+              currentXp: user.cyclist.xp + 500,
+              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+              _userId: userId,
+            });
+
+            await newPopup.save();
           };
         };
       };
@@ -672,6 +685,16 @@ export default class ChallengeController {
               completed: true,
               seen: false,
             }).exec();
+
+            const newPopup : IPopup = new Popup({
+              addedXp: 500,
+              previousXp: user.cyclist.xp,
+              currentXp: user.cyclist.xp + 500,
+              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+              _userId: userId,
+            });
+
+            await newPopup.save();
           };
         };
       };
@@ -704,10 +727,6 @@ export default class ChallengeController {
           status: 404,
         });
       };
-
-      // Get date of challenge
-      const startDate = Moment(challenge.start_date).format('LL');
-      const endDate = Moment(challenge.end_date).format('LL');
 
       if (challenge.type === 'image' || challenge.type === 'video') {
         return res.status(400).json({
@@ -977,6 +996,16 @@ export default class ChallengeController {
         completed: true,
         seen: false,
       });
+
+      const newPopup : IPopup = new Popup({
+        addedXp: 500,
+        previousXp: user.cyclist.xp,
+        currentXp: user.cyclist.xp + 500,
+        text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+        _userId: userId,
+      });
+
+      await newPopup.save();
 
       return res.status(200).json(updatedParticipation);
     } catch (e) {

@@ -19,7 +19,7 @@ import { Activities, Activity, AddConnection, Authentication, Challenge, Challen
 import * as Context from './context';
 
 // Utils
-import { NeedsAuth } from './utils';
+import { NeedsAuth, CheckIfPopup } from './utils';
 
 // Layouts
 import { StandardLayout } from './layouts';
@@ -72,78 +72,80 @@ const App = () => {
                     quote={Context.QUOTES[2]}
                   />
                 </Route>
-                <StandardLayout>
-                  <Route exact path={Routes.DASHBOARD}>
-                    <NeedsAuth>
-                      <Dashboard />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.MY_PROFILE}>
-                    <NeedsAuth>
-                      <MyProfile />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.PROFILE}>
-                    <NeedsAuth>
-                      <Profile />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.SETTINGS}>
-                    <NeedsAuth>
-                      <MyProfileSettings />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.ADD_CONNECTION}>
-                    <NeedsAuth>
-                      <AddConnection />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.ACTIVITY}>
-                    <NeedsAuth>
-                      <Activity />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.CREATE_ACTIVITY}>
-                    <NeedsAuth>
-                      <CreateActivity />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.EDIT_ACTIVITY}>
-                    <NeedsAuth>
-                      <EditActivity />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.ACTIVITIES}>
-                    <NeedsAuth>
-                      <Activities />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.CREATE_CHALLENGE}>
-                    <NeedsAuth>
-                      <CreateChallenge />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.EDIT_CHALLENGE}>
-                    <NeedsAuth>
-                      <EditChallenge />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.CHALLENGE}>
-                    <NeedsAuth>
-                      <Challenge />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.CHALLENGES}>
-                    <NeedsAuth>
-                      <Challenges />
-                    </NeedsAuth>
-                  </Route>
-                  <Route exact path={Routes.SUBMISSIONS}>
-                    <NeedsAuth>
-                      <Submissions />
-                    </NeedsAuth>
-                  </Route>
-                </StandardLayout>
+                <CheckIfPopup>
+                  <StandardLayout>
+                    <Route exact path={Routes.DASHBOARD}>
+                      <NeedsAuth>
+                        <Dashboard />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.MY_PROFILE}>
+                      <NeedsAuth>
+                        <MyProfile />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.PROFILE}>
+                      <NeedsAuth>
+                        <Profile />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.SETTINGS}>
+                      <NeedsAuth>
+                        <MyProfileSettings />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.ADD_CONNECTION}>
+                      <NeedsAuth>
+                        <AddConnection />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.ACTIVITY}>
+                      <NeedsAuth>
+                        <Activity />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.CREATE_ACTIVITY}>
+                      <NeedsAuth>
+                        <CreateActivity />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.EDIT_ACTIVITY}>
+                      <NeedsAuth>
+                        <EditActivity />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.ACTIVITIES}>
+                      <NeedsAuth>
+                        <Activities />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.CREATE_CHALLENGE}>
+                      <NeedsAuth>
+                        <CreateChallenge />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.EDIT_CHALLENGE}>
+                      <NeedsAuth>
+                        <EditChallenge />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.CHALLENGE}>
+                      <NeedsAuth>
+                        <Challenge />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.CHALLENGES}>
+                      <NeedsAuth>
+                        <Challenges />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.SUBMISSIONS}>
+                      <NeedsAuth>
+                        <Submissions />
+                      </NeedsAuth>
+                    </Route>
+                  </StandardLayout>
+                </CheckIfPopup>
               </Switch>
             </BrowserRouter>
           </StylingProvider>

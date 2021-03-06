@@ -330,6 +330,21 @@ const ApiProvider = ({children}) => {
     return await res.json();
   };
 
+  const viewPopups = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}popups`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`      
+      },
+    });
+
+    return await res.json();
+  };
+
   return (
     <ApiContext.Provider value={{
       uploadPicture,
@@ -352,6 +367,7 @@ const ApiProvider = ({children}) => {
       submitSubmission,
       approveSubmission,
       viewMonthlyCharts,
+      viewPopups,
     }}>
       {children}
     </ApiContext.Provider>

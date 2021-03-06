@@ -4,6 +4,7 @@ import PictureController from "./PictureController";
 import ActivityController from "./ActivityController";
 import ChallengeController from "./ChallengeController";
 import VideoController from "./VideoController";
+import PopupController from "./PopupController";
 
 export {
     UserController,
@@ -12,4 +13,5 @@ export {
     ActivityController,
     ChallengeController,
     VideoController,
+    PopupController,
 };

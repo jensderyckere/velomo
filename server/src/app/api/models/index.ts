@@ -11,4 +11,4 @@ export * from './challenge.model';
 export * from './goal.model';
 export * from './challengeparticipated.model';
 export * from './submission.model';
-// export * from './popup.model';
+export * from './popup.model';
