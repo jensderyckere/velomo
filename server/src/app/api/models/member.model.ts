@@ -1,6 +1,12 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
+import {
+  default as mongoose,
+  Document,
+  Schema
+} from 'mongoose';
 
-import { IUser } from './user.model';
+import {
+  IUser
+} from './user.model';
 
 interface IMember extends Document {
   _userId: IUser['_id'];
@@ -18,7 +24,14 @@ const memberSchema: Schema = new Schema({
     required: false,
     default: Date.now(),
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 memberSchema.virtual('user', {
   ref: 'User',
@@ -27,7 +40,7 @@ memberSchema.virtual('user', {
   justOne: true,
 });
 
-const Member = mongoose.model<IMember>('Member', memberSchema);
+const Member = mongoose.model < IMember > ('Member', memberSchema);
 
 export {
   Member,

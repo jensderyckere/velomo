@@ -16,7 +16,9 @@ import {
   IPopup,
   Popup,
   Submission,
-  User
+  User,
+  Notification,
+  INotification
 } from "../models";
 
 import {
@@ -161,7 +163,6 @@ export default class ChallengeController {
 
       // Find user
       const _userId = this.auth.checkId(req, res);
-      const user = await User.findById(_userId).exec();
 
       const participatedChallenge = await ChallengeParticipated.findOne({
         _challengeId: challengeId,
@@ -245,6 +246,17 @@ export default class ChallengeController {
           'club._challengeIds': savedChallenge._id,
         },
       });
+
+      for (let i = 0; i < user.club._cyclistIds.length; i++) {
+        const newNotification = new Notification({
+          _senderId: user._id,
+          _receiverId: user.club._cyclistIds[i],
+          text: `Er is een nieuwe uitdaging beschikbaar genaamd "${savedChallenge.title}"! Bekijk ze snel.`,
+          path: `/challenge/${savedChallenge._id}`,
+        });
+
+        await newNotification.save();
+      };
 
       return res.status(200).json(savedChallenge);
     } catch (e) {
@@ -951,6 +963,9 @@ export default class ChallengeController {
       const challenge = await Challenge.findById(challengeId).populate({path: 'submissions'}).exec();
       const user = await User.findById(userId).exec();
 
+      const clubId = this.auth.checkId(req, res);
+      const club = await User.findById(clubId).exec();
+
       if (!user) {
         return res.status(404).json({
           message: "No user has been found",
@@ -1006,6 +1021,15 @@ export default class ChallengeController {
       });
 
       await newPopup.save();
+
+      const newNotification : INotification = new Notification({
+        _senderId: club._id,
+        _receiverId: user._id,
+        text: `Jouw inzending in "${challenge.title}" is goedgekeurd. Weer een badge erbij!`,
+        path: `/challenge/${challenge._id}`,
+      });
+
+      await newNotification.save();
 
       return res.status(200).json(updatedParticipation);
     } catch (e) {

@@ -1,10 +1,30 @@
-import { Request, Response, NextFunction } from "express";
-import { default as crypto } from "crypto";
-import { default as bcrypt } from "bcrypt";
-import { default as nodemailer } from "nodemailer";
+import {
+    Request,
+    Response,
+    NextFunction
+} from "express";
 
-import { IConfig } from "../../services";
-import { IReset, IUser, Reset, User } from "../models";
+import {
+    default as crypto
+} from "crypto";
+
+import {
+    default as bcrypt
+} from "bcrypt";
+
+import {
+    default as nodemailer
+} from "nodemailer";
+
+import {
+    IConfig
+} from "../../services";
+
+import {
+    IReset,
+    Reset,
+    User
+} from "../models";
 
 export default class ResetController {
     private config: IConfig;
@@ -13,24 +33,30 @@ export default class ResetController {
         this.config = config;
     };
 
-    send = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    send = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const { email } = req.body;
+            const {
+                email
+            } = req.body;
 
-            const user = await User.findOne({email: email});
-    
+            const user = await User.findOne({
+                email: email
+            });
+
             if (!user) return res.status(404).json({
                 message: "This user does not exist",
                 redirect: false,
                 status: 404,
             });
 
-            const token = await Reset.findOne({_userId: user._id});
+            const token = await Reset.findOne({
+                _userId: user._id
+            });
 
             if (token) return res.status(400).json({
                 message: "There has already been token made",
                 redirect: false,
-                status: 400,            
+                status: 400,
             });
 
             const newToken: IReset = new Reset({
@@ -74,11 +100,16 @@ export default class ResetController {
         };
     };
 
-    submit = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    submit = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const { token, password } = req.body;
-            
-            const reset = await Reset.findOne({token: token});
+            const {
+                token,
+                password
+            } = req.body;
+
+            const reset = await Reset.findOne({
+                token: token
+            });
 
             if (!reset) return res.status(404).json({
                 message: "This resettoken can't be found",
@@ -93,7 +124,7 @@ export default class ResetController {
                         status: 500,
                         redirect: false,
                     });
-                    
+
                     await User.findByIdAndUpdate({
                         _id: reset._userId,
                     }, {
@@ -108,7 +139,7 @@ export default class ResetController {
                         message: "The user's password has been changed",
                         redirect: true,
                         status: 200,
-                    });            
+                    });
                 });
             });
         } catch (e) {

@@ -1,4 +1,8 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
+import {
+  default as mongoose,
+  Schema,
+  Document
+} from 'mongoose';
 
 interface IMilestone extends Document {
   title: string;
@@ -48,9 +52,16 @@ const milestoneSchema: Schema = new Schema({
   _completedAt: {
     type: String,
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
-const Milestone = mongoose.model<IMilestone>('Milestone', milestoneSchema);
+const Milestone = mongoose.model < IMilestone > ('Milestone', milestoneSchema);
 
 export {
   milestoneSchema,

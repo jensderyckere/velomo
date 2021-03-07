@@ -1,6 +1,12 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
+import {
+  default as mongoose,
+  Document,
+  Schema
+} from 'mongoose';
 
-import { IUser } from './user.model';
+import {
+  IUser
+} from './user.model';
 
 interface IParent extends Document {
   _userId: IUser['_id'];
@@ -18,7 +24,14 @@ const parentSchema: Schema = new Schema({
     required: false,
     default: Date.now(),
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 parentSchema.virtual('user', {
   ref: 'User',
@@ -27,7 +40,7 @@ parentSchema.virtual('user', {
   justOne: true,
 });
 
-const Parent = mongoose.model<IParent>('Parent', parentSchema);
+const Parent = mongoose.model < IParent > ('Parent', parentSchema);
 
 export {
   Parent,

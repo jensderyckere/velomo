@@ -1,10 +1,28 @@
-import { default as express, Router } from "express";
-import { default as multer, memoryStorage } from "multer";
+import {
+    default as express,
+    Router
+} from "express";
 
-import { Auth, IConfig, Storage } from "../../services";
-import { PictureController, ResetController, PopupController, UserController, ActivityController, ChallengeController, VideoController } from "../controllers";
+import {
+    default as multer,
+    memoryStorage
+} from "multer";
 
-var upload = multer();
+import {
+    Auth,
+    IConfig,
+    Storage
+} from "../../services";
+
+import {
+    PictureController,
+    ResetController,
+    PopupController,
+    UserController,
+    ActivityController,
+    ChallengeController,
+    VideoController
+} from "../controllers";
 
 export default class ApiRouter {
     public router: Router;
@@ -22,7 +40,7 @@ export default class ApiRouter {
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
         this.auth = auth;
-        
+
         this.router = express.Router();
 
         this.initControllers();
@@ -60,12 +78,18 @@ export default class ApiRouter {
         // Storage
         this.router.get('/picture/:avatar', this.pictureController.showAvatar);
         this.router.get('/video/:video', this.videoController.showVideo);
-        this.router.post('/picture/upload', multer({storage: memoryStorage()}).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
-        this.router.post('/video/upload', multer({storage: memoryStorage()}).single('video'), Storage.uploadVideo, this.videoController.uploadVideo);
+        this.router.post('/picture/upload', multer({
+            storage: memoryStorage()
+        }).single('picture'), Storage.uploadAvatar, this.pictureController.uploadAvatar);
+        this.router.post('/video/upload', multer({
+            storage: memoryStorage()
+        }).single('video'), Storage.uploadVideo, this.videoController.uploadVideo);
 
         // Activity
         this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);
-        this.router.post('/activity', this.userController.checkToken, multer({storage: memoryStorage()}).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
+        this.router.post('/activity', this.userController.checkToken, multer({
+            storage: memoryStorage()
+        }).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
         this.router.post('/manual-activity', this.userController.checkToken, this.activityController.createActivity);
         this.router.patch('/activity/:id', this.userController.checkToken, this.activityController.editActivity);
         this.router.delete('/activity/:id', this.userController.checkToken, this.activityController.deleteActivity);
@@ -87,8 +111,8 @@ export default class ApiRouter {
 
         // Popups
         this.router.get('/popups', this.userController.checkToken, this.popupController.viewAllPopups);
-        this.router.get('/popups/viewed', this.userController.checkToken, this.popupController.viewedPopup);
-        
+        this.router.get('/popups/viewed/:id', this.userController.checkToken, this.popupController.viewedPopup);
+
         // Reset
         this.router.post('/reset', this.resetController.send);
         this.router.post('/reset/submit', this.resetController.submit);

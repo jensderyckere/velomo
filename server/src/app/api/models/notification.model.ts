@@ -1,17 +1,32 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
-import { IUser } from './user.model';
+import {
+  default as mongoose,
+  Schema,
+  Document
+} from 'mongoose';
+
+import {
+  IUser
+} from './user.model';
 
 interface INotification extends Document {
-  _userId: IUser['_id'];
+  _senderId: IUser['_id'];
+  _receiverId: IUser['_id'];
   text: string;
   viewed: boolean;
+  path: string;
   _createdAt: number,
   _modifiedAt: number,
   _deletedAt: number;
 };
 
 const notificationSchema: Schema = new Schema({
-  _userId: {
+  _senderId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    unique: false,
+    required: false,
+  },
+  _receiverId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     unique: false,
@@ -28,22 +43,34 @@ const notificationSchema: Schema = new Schema({
     required: true,
     default: false,
   },
+  path: {
+    type: String,
+    unique: false,
+    required: true,
+  },
   _createdAt: {
     type: Number,
     required: true,
     default: Date.now(),
-},
+  },
   _modifiedAt: {
-      type: Number,
-      required: false,
-      default: null,
+    type: Number,
+    required: false,
+    default: null,
   },
   _deletedAt: {
-      type: Number,
-      required: false,
-      default: null,       
-  }, 
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+    type: Number,
+    required: false,
+    default: null,
+  },
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 notificationSchema.virtual('user', {
   ref: 'User',
@@ -52,7 +79,7 @@ notificationSchema.virtual('user', {
   justOne: true,
 });
 
-const Notification = mongoose.model<INotification>('Notification', notificationSchema);
+const Notification = mongoose.model < INotification > ('Notification', notificationSchema);
 
 export {
   INotification,

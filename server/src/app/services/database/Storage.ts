@@ -1,16 +1,46 @@
-import { default as mongoose } from "mongoose";
-import { Request, Response, NextFunction } from "express";
-import { default as path } from "path";
-import { default as crypto } from "crypto";
-import { default as sharp } from "sharp";
-import { default as stream } from "stream";
-import { default as fs } from "fs";
-import { default as converter } from "xml-js";
-import { default as Moment } from "moment";
+import {
+  default as mongoose
+} from "mongoose";
+
+import {
+  Request,
+  Response,
+  NextFunction
+} from "express";
+
+import {
+  default as path
+} from "path";
+
+import {
+  default as crypto
+} from "crypto";
+
+import {
+  default as sharp
+} from "sharp";
+
+import {
+  default as stream
+} from "stream";
+
+import {
+  default as fs
+} from "fs";
+
+import {
+  default as converter
+} from "xml-js";
+
+import {
+  default as Moment
+} from "moment";
 
 import 'moment/locale/nl-be';
 
-import { Calculator } from "../../utils";
+import {
+  Calculator
+} from "../../utils";
 
 interface MulterRequest extends Request {
   file: any;
@@ -51,12 +81,12 @@ class Storage {
         let numberOfSeconds = 0;
 
         for (let i = 0; i < coordinates.length; i++) {
-          if (coordinates[i+1]) {
-            const distanceBetween = calculate.calculateDistanceBetween(coordinates[i].attributes.lat, coordinates[i].attributes.lon, coordinates[i+1].attributes.lat, coordinates[i+1].attributes.lon);
+          if (coordinates[i + 1]) {
+            const distanceBetween = calculate.calculateDistanceBetween(coordinates[i].attributes.lat, coordinates[i].attributes.lon, coordinates[i + 1].attributes.lat, coordinates[i + 1].attributes.lon);
 
             numberOfDistance = numberOfDistance + distanceBetween;
 
-            const timeBetween = (Date.parse(coordinates[i+1].elements[1].elements[0].text) - Date.parse(coordinates[i].elements[1].elements[0].text)) /1000;
+            const timeBetween = (Date.parse(coordinates[i + 1].elements[1].elements[0].text) - Date.parse(coordinates[i].elements[1].elements[0].text)) / 1000;
             numberOfSeconds += timeBetween;
 
             const speed_mph = distanceBetween / timeBetween;
@@ -95,7 +125,7 @@ class Storage {
     };
   };
 
-  public uploadAvatar = async (req: MulterRequest, res: Response, next: NextFunction): Promise<Response> => {
+  public uploadAvatar = async (req: MulterRequest, res: Response, next: NextFunction): Promise < Response > => {
     try {
       const input = req.file;
       if (!input) return res.status(404).json({
@@ -114,7 +144,11 @@ class Storage {
       });
 
       crypto.randomBytes(16, (e, buf) => {
-        sharp(input.buffer).resize(dimensionX, dimensionY, {fit: 'cover'}).toFormat('jpeg').jpeg({quality: 80}).toBuffer((e: any, data: any, info: any) => {
+        sharp(input.buffer).resize(dimensionX, dimensionY, {
+          fit: 'cover'
+        }).toFormat('jpeg').jpeg({
+          quality: 80
+        }).toBuffer((e: any, data: any, info: any) => {
           const name = buf.toString('hex') + path.extname(input.originalname);
           const bufStream = new stream.PassThrough();
 
@@ -138,7 +172,7 @@ class Storage {
     };
   };
 
-  public uploadVideo = async (req: MulterRequest, res: Response, next: NextFunction): Promise<Response> => {
+  public uploadVideo = async (req: MulterRequest, res: Response, next: NextFunction): Promise < Response > => {
     try {
       const input = req.file;
 
@@ -154,21 +188,23 @@ class Storage {
 
         bufferstream.end(input.buffer);
         bufferstream.pipe(this.bucket.openUploadStream(name).on('error', (error: any) => {
-            return res.status(500).json({
-                'error': 'Upload niet gelukt',
-            });
+          return res.status(500).json({
+            'error': 'Upload niet gelukt',
+          });
         }).on('finish', () => {
-            req.file.filename = name;
-            next();
+          req.file.filename = name;
+          next();
         }));
-    });
-    } catch(e) {
+      });
+    } catch (e) {
       next(e);
     };
   };
 
-  public pipeAvatar (req: MulterRequest, res: Response) {
-    this.bucket.find({filename: req.params.avatar}).toArray((e: any, files: any) => {
+  public pipeAvatar(req: MulterRequest, res: Response) {
+    this.bucket.find({
+      filename: req.params.avatar
+    }).toArray((e: any, files: any) => {
       if (!files || files.length === 0) return res.status(404).json({
         message: "Deze afbeelding bestaat niet",
         redirect: false,
@@ -179,8 +215,10 @@ class Storage {
     });
   };
 
-  public pipeVideo (req: MulterRequest, res: Response) {
-    this.bucket.find({filename: req.params.video}).toArray((e: any, files: any) => {
+  public pipeVideo(req: MulterRequest, res: Response) {
+    this.bucket.find({
+      filename: req.params.video
+    }).toArray((e: any, files: any) => {
       if (!files || files.length === 0) return res.status(404).json({
         message: "Deze video bestaat niet",
         redirect: false,

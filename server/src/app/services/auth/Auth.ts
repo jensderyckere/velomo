@@ -1,11 +1,33 @@
-import { default as passport, PassportStatic } from "passport";
-import { default as passportLocal } from "passport-local";
-import { default as passportJwt } from "passport-jwt";
-import { default as jsonwebtoken } from "jsonwebtoken";
-import { Request, Response } from "express";
+import {
+    default as passport,
+    PassportStatic
+} from "passport";
 
-import { IConfig } from "../config";
-import { IUser, User } from "../../api";
+import {
+    default as passportLocal
+} from "passport-local";
+
+import {
+    default as passportJwt
+} from "passport-jwt";
+
+import {
+    default as jsonwebtoken
+} from "jsonwebtoken";
+
+import {
+    Request,
+    Response
+} from "express";
+
+import {
+    IConfig
+} from "../config";
+
+import {
+    IUser,
+    User
+} from "../../api";
 
 interface IDecoded {
     id: string;
@@ -42,7 +64,9 @@ export default class Auth {
             usernameField: 'email'
         }, async (email: string, password: string, done) => {
             try {
-                const user = await User.findOne({email: email});
+                const user = await User.findOne({
+                    email: email
+                });
 
                 if (!user) {
                     return done(null, false, {
@@ -65,18 +89,20 @@ export default class Auth {
 
     private initJwt() {
         passport.use(new this.jwt({
-           jwtFromRequest: this.extractJwt.fromAuthHeaderAsBearerToken(),
-           secretOrKey: this.config.auth.jwt.secret,
+            jwtFromRequest: this.extractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: this.config.auth.jwt.secret,
         }, async (payload, done) => {
             try {
-                const { id } = payload;
+                const {
+                    id
+                } = payload;
 
                 const user = await User.findById(id);
 
                 if (!user) done(null, false);
 
                 done(null, user);
-            } catch(e) {
+            } catch (e) {
                 return done(e, false);
             }
         }));
@@ -108,7 +134,7 @@ export default class Auth {
                 status: 409,
             });
         };
-    
+
         const decoded = jsonwebtoken.verify(token, this.config.auth.jwt.secret);
         const data = decoded as IDecoded;
         return data.id;
@@ -122,6 +148,6 @@ export default class Auth {
 
         return jsonwebtoken.sign(payload, this.config.auth.jwt.secret, {
             expiresIn: 60 * 120,
-        }); 
+        });
     };
 };

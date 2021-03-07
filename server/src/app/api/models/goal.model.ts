@@ -1,5 +1,12 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
-import { IUser } from './user.model';
+import {
+  default as mongoose,
+  Schema,
+  Document
+} from 'mongoose';
+
+import {
+  IUser
+} from './user.model';
 
 interface IGoal extends Document {
   title: string;
@@ -65,9 +72,16 @@ const goalSchema: Schema = new Schema({
   _completedAt: {
     type: String,
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
-const Goal = mongoose.model<IGoal>('Goal', goalSchema);
+const Goal = mongoose.model < IGoal > ('Goal', goalSchema);
 
 export {
   goalSchema,

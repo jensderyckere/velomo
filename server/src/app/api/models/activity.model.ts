@@ -1,12 +1,19 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
-import { IUser } from './user.model';
+import {
+  default as mongoose,
+  Document,
+  Schema
+} from 'mongoose';
+
+import {
+  IUser
+} from './user.model';
 
 interface IActivity extends Document {
   title: string;
   description: string;
   type: string;
   activity: object;
-  images: Array<string>;
+  images: Array < string > ;
   feeling: number;
   experience: number;
   _userId: IUser['_id'];
@@ -63,7 +70,14 @@ const activitySchema: Schema = new Schema({
     type: Number,
     required: false,
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 activitySchema.virtual('user', {
   ref: 'User',
@@ -72,7 +86,7 @@ activitySchema.virtual('user', {
   justOne: true,
 });
 
-const Activity = mongoose.model<IActivity>('Activity', activitySchema);
+const Activity = mongoose.model < IActivity > ('Activity', activitySchema);
 
 export {
   Activity,

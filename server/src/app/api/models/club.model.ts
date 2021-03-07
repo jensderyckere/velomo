@@ -1,6 +1,12 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
+import {
+  default as mongoose,
+  Document,
+  Schema
+} from 'mongoose';
 
-import { IUser } from './user.model';
+import {
+  IUser
+} from './user.model';
 
 interface IClub extends Document {
   _userId: IUser['_id'];
@@ -18,7 +24,14 @@ const clubSchema: Schema = new Schema({
     required: false,
     default: Date.now(),
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 clubSchema.virtual('user', {
   ref: 'User',
@@ -27,7 +40,7 @@ clubSchema.virtual('user', {
   justOne: true,
 });
 
-const Club = mongoose.model<IClub>('Club', clubSchema);
+const Club = mongoose.model < IClub > ('Club', clubSchema);
 
 export {
   Club,

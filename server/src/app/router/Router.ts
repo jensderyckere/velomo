@@ -1,7 +1,15 @@
-import { Application } from "express";
+import {
+    Application
+} from "express";
 
-import { ApiRouter } from "../api";
-import { Auth, IConfig } from "../services";
+import {
+    ApiRouter
+} from "../api";
+
+import {
+    Auth,
+    IConfig
+} from "../services";
 
 export default class Router {
     private app: Application;

@@ -2,7 +2,7 @@ export default class Calculator {
   constructor() {
     this.calculateDistanceBetween;
   };
-  
+
   calculateDistanceBetween = (lat1: any, lon1: any, lat2: any, lon2: any) => {
     lat1 = lat1 * Math.PI / 180;
     lon1 = lon1 * Math.PI / 180;
@@ -22,7 +22,7 @@ export default class Calculator {
     let y2 = rho2 * Math.sin(lon2);
 
     let dot = (x1 * x2 + y1 * y2 + z1 * z2);
-    let cos_theta = dot / (radius*radius);
+    let cos_theta = dot / (radius * radius);
 
     let theta = Math.acos(cos_theta);
 

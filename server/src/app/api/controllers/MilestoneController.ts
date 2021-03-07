@@ -1,6 +1,17 @@
-import { Request, Response, NextFunction } from "express";
-import { Auth } from "../../services";
-import { Activity, User } from "../models";
+import {
+  Request,
+  Response,
+  NextFunction
+} from "express";
+
+import {
+  Auth
+} from "../../services";
+
+import {
+  Activity,
+  User
+} from "../models";
 
 export default class MilestoneController {
   private auth: Auth;
@@ -9,7 +20,7 @@ export default class MilestoneController {
     this.auth = auth;
   };
 
-  calculateMyProgressAndShow = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  calculateMyProgressAndShow = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Arrays
       let arrayOfMilestones = [];
@@ -18,10 +29,11 @@ export default class MilestoneController {
       const userId = this.auth.checkId(req, res);
       const user = await User.findById(userId).exec();
 
-      const allActivities = await Activity.find({_userId: userId}).exec();
+      const allActivities = await Activity.find({
+        _userId: userId
+      }).exec();
 
-      for (let i = 0; i < user.cyclist._milestoneIds.length; i ++) {
-      };
+      for (let i = 0; i < user.cyclist._milestoneIds.length; i++) {};
 
       return res.status(200).json(user);
     } catch (e) {

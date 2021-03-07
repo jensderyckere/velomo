@@ -1,11 +1,19 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
-import { IUser, ISubmission } from '.';
+import {
+  default as mongoose,
+  Schema,
+  Document
+} from 'mongoose';
+
+import {
+  IUser,
+  ISubmission
+} from '.';
 
 interface IChallenge extends Document {
   title: string;
   shortContent: string;
   content: string;
-  images: Array<string>;
+  images: Array < string > ;
   video: string;
   badge: string;
   difficulty: string;
@@ -14,8 +22,8 @@ interface IChallenge extends Document {
   duration: number;
   start_date: string;
   end_date: string;
-  participants: Array<IUser['_id']>;
-  submissions: Array<ISubmission['_id']>;
+  participants: Array < IUser['_id'] > ;
+  submissions: Array < ISubmission['_id'] > ;
   _createdAt: string;
   _userId: IUser['_id'];
 };
@@ -77,9 +85,16 @@ const challengeSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
-const Challenge = mongoose.model<IChallenge>('Challenge', challengeSchema);
+const Challenge = mongoose.model < IChallenge > ('Challenge', challengeSchema);
 
 export {
   IChallenge,

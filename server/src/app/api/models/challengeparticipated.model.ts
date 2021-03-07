@@ -1,6 +1,16 @@
-import { default as mongoose, Schema, Document } from 'mongoose';
-import { IChallenge } from './challenge.model';
-import { IUser } from './user.model';
+import {
+  default as mongoose,
+  Schema,
+  Document
+} from 'mongoose';
+
+import {
+  IChallenge
+} from './challenge.model';
+
+import {
+  IUser
+} from './user.model';
 
 interface IChallengeParticipated extends Document {
   _userId: IUser['_id'];
@@ -37,9 +47,16 @@ const challengeParticipatedSchema: Schema = new Schema({
     required: true,
     default: Date.now(),
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
-const ChallengeParticipated = mongoose.model<IChallengeParticipated>('ChallengeParticipated', challengeParticipatedSchema);
+const ChallengeParticipated = mongoose.model < IChallengeParticipated > ('ChallengeParticipated', challengeParticipatedSchema);
 
 export {
   IChallengeParticipated,

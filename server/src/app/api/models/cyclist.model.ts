@@ -1,6 +1,12 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
+import {
+  default as mongoose,
+  Document,
+  Schema
+} from 'mongoose';
 
-import { IUser } from './user.model';
+import {
+  IUser
+} from './user.model';
 
 interface ICyclist extends Document {
   _userId: IUser['_id'];
@@ -19,7 +25,14 @@ const cyclistSchema: Schema = new Schema({
     required: false,
     default: Date.now(),
   },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+  toJSON: {
+    virtuals: true
+  },
+  toObject: {
+    virtuals: true
+  }
+});
 
 cyclistSchema.virtual('user', {
   ref: 'User',
@@ -28,7 +41,7 @@ cyclistSchema.virtual('user', {
   justOne: true,
 });
 
-const Cyclist = mongoose.model<ICyclist>('Cyclist', cyclistSchema);
+const Cyclist = mongoose.model < ICyclist > ('Cyclist', cyclistSchema);
 
 export {
   Cyclist,

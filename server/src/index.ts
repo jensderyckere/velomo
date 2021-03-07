@@ -1,5 +1,13 @@
-import { App } from "./app";
-import { IConfig, Config, Mongo, Storage } from "./app/services";
+import {
+    App
+} from "./app";
+
+import {
+    IConfig,
+    Config,
+    Mongo,
+    Storage
+} from "./app/services";
 
 (async () => {
     const config: IConfig = new Config();

@@ -1,6 +1,12 @@
-import { default as mongoose, Document, Schema } from 'mongoose';
+import {
+    default as mongoose,
+    Document,
+    Schema
+} from 'mongoose';
 
-import { IUser } from './user.model';
+import {
+    IUser
+} from './user.model';
 
 interface IReset extends Document {
     _userId: IUser['_id'];
@@ -24,9 +30,16 @@ const resetSchema: Schema = new Schema({
         default: Date.now(),
         expires: 3600,
     },
-}, {toJSON: {virtuals: true}, toObject: {virtuals: true}});
+}, {
+    toJSON: {
+        virtuals: true
+    },
+    toObject: {
+        virtuals: true
+    }
+});
 
-resetSchema.virtual('id').get(function(this: IUser) {
+resetSchema.virtual('id').get(function (this: IUser) {
     return this._id;
 });
 
@@ -37,7 +50,7 @@ resetSchema.virtual('user', {
     justOne: true,
 });
 
-const Reset = mongoose.model<IReset>('Reset', resetSchema);
+const Reset = mongoose.model < IReset > ('Reset', resetSchema);
 
 export {
     Reset,

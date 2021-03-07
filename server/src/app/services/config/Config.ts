@@ -1,6 +1,15 @@
-import { default as dotenv } from 'dotenv';
+import {
+    default as dotenv
+} from 'dotenv';
 
-import { Environment, IAuth, IConfig, IMailer, IServer, Protocol } from "./config.types";
+import {
+    Environment,
+    IAuth,
+    IConfig,
+    IMailer,
+    IServer,
+    Protocol
+} from "./config.types";
 
 export default class Config implements IConfig {
     public env: Environment;

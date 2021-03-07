@@ -1,10 +1,38 @@
-import { NextFunction, Request, Response} from "express";
-import { default as passwordValidator } from "password-validator";
-import { default as bcrypt } from "bcrypt";
-import { default as Moment } from "moment";
+import {
+    NextFunction,
+    Request,
+    Response
+} from "express";
 
-import { Auth, IConfig } from "../../services";
-import { Club, Cyclist, IClub, ICyclist, IMember, IMilestone, IParent, IUser, Member, Milestone, Parent, User } from "../models";
+import {
+    default as passwordValidator
+} from "password-validator";
+
+import {
+    default as bcrypt
+} from "bcrypt";
+
+import {
+    default as Moment
+} from "moment";
+
+import {
+    Auth,
+    IConfig
+} from "../../services";
+
+import {
+    Club,
+    Cyclist,
+    IClub,
+    ICyclist,
+    IMember,
+    IParent,
+    IUser,
+    Member,
+    Parent,
+    User
+} from "../models";
 
 import 'moment/locale/nl-be';
 
@@ -17,7 +45,7 @@ export default class UserController {
         this.config = config;
     };
 
-    all = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    all = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
             // Get all users
             const users = await User.find().populate('cyclistInfo').populate('clubInfo').exec();
@@ -27,9 +55,11 @@ export default class UserController {
         };
     };
 
-    show = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    show = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const { userId } = req.params;
+            const {
+                userId
+            } = req.params;
 
             const user = await User.findById(userId);
 
@@ -37,117 +67,121 @@ export default class UserController {
 
             if (user.role === "clubmember") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'member',
-                    populate: {
-                        path: '_clubId',
+                    .populate({
+                        path: 'member',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
                             populate: {
-                                path: 'club',
+                                path: '_userId',
                                 populate: {
-                                    path: '_cyclistIds',
+                                    path: 'club',
                                     populate: {
-                                        path: '_userId',
+                                        path: '_cyclistIds',
                                         populate: {
-                                            path: 'cyclist',
-                                            popuplate: '_clubId',
-                                        }
+                                            path: '_userId',
+                                            populate: {
+                                                path: 'cyclist',
+                                                popuplate: '_clubId',
+                                            }
+                                        },
                                     },
                                 },
                             },
                         },
-                    },
-                })
-                .populate({
-                    path: 'member',
-                    populate: {
-                        path: '_clubId',
+                    })
+                    .populate({
+                        path: 'member',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
                             populate: {
-                                path: 'club',
+                                path: '_userId',
                                 populate: {
-                                    path: '_memberIds',
+                                    path: 'club',
                                     populate: {
-                                        path: '_userId',
+                                        path: '_memberIds',
+                                        populate: {
+                                            path: '_userId',
+                                        },
                                     },
                                 },
                             },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
             if (user.role === "cyclist") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_clubId',
+                    .populate({
+                        path: 'cyclist',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_parentIds',
+                    })
+                    .populate({
+                        path: 'cyclist',
                         populate: {
-                            path: '_userId',
+                            path: '_parentIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_activityIds',
-                        options: { sort: {_createdAt: -1} }
-                    },
-                })
-                .exec();
+                    })
+                    .populate({
+                        path: 'cyclist',
+                        populate: {
+                            path: '_activityIds',
+                            options: {
+                                sort: {
+                                    _createdAt: -1
+                                }
+                            }
+                        },
+                    })
+                    .exec();
             };
 
             if (user.role === "club") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'club',
-                    populate: {
-                        path: '_cyclistIds',
+                    .populate({
+                        path: 'club',
                         populate: {
-                            path: '_userId',
+                            path: '_cyclistIds',
                             populate: {
-                                path: 'cyclist',
+                                path: '_userId',
+                                populate: {
+                                    path: 'cyclist',
+                                },
                             },
                         },
-                    },
-                })
-                .populate({
-                    path: 'club',
-                    populate: {
-                        path: '_memberIds',
+                    })
+                    .populate({
+                        path: 'club',
                         populate: {
-                            path: '_userId',
+                            path: '_memberIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
             if (user.role === "parent") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'parent',
-                    populate: {
-                        path: '_cyclistIds',
+                    .populate({
+                        path: 'parent',
                         populate: {
-                            path: '_userId',
+                            path: '_cyclistIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
             if (!user) return res.status(404).json({
@@ -173,122 +207,126 @@ export default class UserController {
 
             if (user.role === "clubmember") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'member',
-                    populate: {
-                        path: '_clubId',
+                    .populate({
+                        path: 'member',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
                             populate: {
-                                path: 'club',
+                                path: '_userId',
                                 populate: {
-                                    path: '_cyclistIds',
+                                    path: 'club',
                                     populate: {
-                                        path: '_userId',
+                                        path: '_cyclistIds',
+                                        populate: {
+                                            path: '_userId',
+                                        },
                                     },
                                 },
                             },
                         },
-                    },
-                })
-                .populate({
-                    path: 'member',
-                    populate: {
-                        path: '_clubId',
+                    })
+                    .populate({
+                        path: 'member',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
                             populate: {
-                                path: 'club',
+                                path: '_userId',
                                 populate: {
-                                    path: '_memberIds',
+                                    path: 'club',
                                     populate: {
-                                        path: '_userId',
+                                        path: '_memberIds',
+                                        populate: {
+                                            path: '_userId',
+                                        },
                                     },
                                 },
                             },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
 
             if (user.role === "cyclist") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_clubId',
+                    .populate({
+                        path: 'cyclist',
                         populate: {
-                            path: '_userId',
+                            path: '_clubId',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_parentIds',
+                    })
+                    .populate({
+                        path: 'cyclist',
                         populate: {
-                            path: '_userId',
+                            path: '_parentIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_activityIds',
-                        options: { sort: {_createdAt: -1} }
-                    },
-                })
-                .populate({
-                    path: 'cyclist',
-                    populate: {
-                        path: '_challengeIds',
-                        populate: '_challengeId'
-                    },
-                })
-                .exec();
+                    })
+                    .populate({
+                        path: 'cyclist',
+                        populate: {
+                            path: '_activityIds',
+                            options: {
+                                sort: {
+                                    _createdAt: -1
+                                }
+                            }
+                        },
+                    })
+                    .populate({
+                        path: 'cyclist',
+                        populate: {
+                            path: '_challengeIds',
+                            populate: '_challengeId'
+                        },
+                    })
+                    .exec();
             };
 
 
             if (user.role === "club") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'club',
-                    populate: {
-                        path: '_cyclistIds',
+                    .populate({
+                        path: 'club',
                         populate: {
-                            path: '_userId',
+                            path: '_cyclistIds',
                             populate: {
-                                path: 'cyclist',
+                                path: '_userId',
+                                populate: {
+                                    path: 'cyclist',
+                                },
                             },
                         },
-                    },
-                })
-                .populate({
-                    path: 'club',
-                    populate: {
-                        path: '_memberIds',
+                    })
+                    .populate({
+                        path: 'club',
                         populate: {
-                            path: '_userId',
+                            path: '_memberIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
             if (user.role === "parent") {
                 giveSpecificProps = await User.findById(userId)
-                .populate({
-                    path: 'parent',
-                    populate: {
-                        path: '_cyclistIds',
+                    .populate({
+                        path: 'parent',
                         populate: {
-                            path: '_userId',
+                            path: '_cyclistIds',
+                            populate: {
+                                path: '_userId',
+                            },
                         },
-                    },
-                })
-                .exec();
+                    })
+                    .exec();
             };
 
             if (!user) return res.status(404).json({
@@ -310,15 +348,19 @@ export default class UserController {
 
             // Get users id
             const contentToken = req.params.userId;
-            
+
             const user = await User.findById(contentToken)
-            .populate({
-                path: 'cyclist',
-                populate: {
-                    path: '_activityIds',
-                    options: { sort: {_createdAt: -1} }
-                },
-            })
+                .populate({
+                    path: 'cyclist',
+                    populate: {
+                        path: '_activityIds',
+                        options: {
+                            sort: {
+                                _createdAt: -1
+                            }
+                        }
+                    },
+                })
 
             // Get last 6 months
             const date = new Date();
@@ -334,7 +376,7 @@ export default class UserController {
             // Deciding which month
             for (let i = 0; i < 5; i++) {
                 current -= 1;
-                if (current < 0 ){
+                if (current < 0) {
                     reserve -= 1;
                     arrayOfMonths.unshift(reserve);
                 } else {
@@ -356,7 +398,7 @@ export default class UserController {
                     const fullDate = Moment(user.cyclist._activityIds[j]._createdAt).format('L');
                     const splittedToMonth = fullDate.split('/')[1];
                     const setToIndex = Number(splittedToMonth) - 1;
-                    
+
                     if (setToIndex === arrayOfMonths[i]) {
                         object.totalDistance += Number(user.cyclist._activityIds[j].activity.total_distance);
                     };
@@ -390,13 +432,24 @@ export default class UserController {
             const contentToken = this.auth.checkId(req, res);
 
             // Changing following fields
-            const { name, location, cover, bio, avatar, firstName, lastName, _clubId } = req.body;
+            const {
+                name,
+                location,
+                cover,
+                bio,
+                avatar,
+                firstName,
+                lastName,
+                _clubId
+            } = req.body;
 
             const user = await User.findById(contentToken);
 
             let updatedUser;
 
-            if (user.role === 'club') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+            if (user.role === 'club') updatedUser = await User.findOneAndUpdate({
+                '_id': contentToken
+            }, {
                 $set: {
                     'club.name': name,
                     'club.location': location,
@@ -406,9 +459,13 @@ export default class UserController {
                     'firstName': firstName,
                     'lastName': lastName,
                 },
-            }, {new: true}).exec();   
-            
-            if (user.role === 'clubmember') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+            }, {
+                new: true
+            }).exec();
+
+            if (user.role === 'clubmember') updatedUser = await User.findOneAndUpdate({
+                '_id': contentToken
+            }, {
                 $set: {
                     'member._clubId': _clubId,
                     'profile.bio': bio,
@@ -416,9 +473,13 @@ export default class UserController {
                     'firstName': firstName,
                     'lastName': lastName,
                 },
-            }, {new: true}).exec();   
+            }, {
+                new: true
+            }).exec();
 
-            if (user.role === 'cyclist') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+            if (user.role === 'cyclist') updatedUser = await User.findOneAndUpdate({
+                '_id': contentToken
+            }, {
                 $set: {
                     'cyclist._clubId': _clubId,
                     'profile.bio': bio,
@@ -426,17 +487,23 @@ export default class UserController {
                     'firstName': firstName,
                     'lastName': lastName,
                 },
-            }, {new: true}).exec();  
+            }, {
+                new: true
+            }).exec();
 
 
-            if (user.role === 'parent') updatedUser = await User.findOneAndUpdate({'_id': contentToken}, {
+            if (user.role === 'parent') updatedUser = await User.findOneAndUpdate({
+                '_id': contentToken
+            }, {
                 $set: {
                     'profile.bio': bio,
                     'profile.avatar': avatar,
                     'firstName': firstName,
                     'lastName': lastName,
                 },
-            }, {new: true}).exec();  
+            }, {
+                new: true
+            }).exec();
 
             if (!updatedUser) return res.status(400).json({
                 message: "Deze gebruiker kon niet worden bijgewerkt.",
@@ -456,13 +523,19 @@ export default class UserController {
             const contentToken = this.auth.checkId(req, res);
 
             // Changing following fields
-            const { email } = req.body;
+            const {
+                email
+            } = req.body;
 
-            const user = await User.findOneAndUpdate({'_id': contentToken}, {
+            const user = await User.findOneAndUpdate({
+                '_id': contentToken
+            }, {
                 $set: {
                     'email': email,
                 },
-            }, {new: true}).exec();
+            }, {
+                new: true
+            }).exec();
 
             if (!user) return res.status(400).json({
                 message: "Deze gebruiker kon niet worden bijgewerkt.",
@@ -482,7 +555,9 @@ export default class UserController {
             const contentToken = this.auth.checkId(req, res);
 
             // Changing following fields
-            const { password } = req.body;
+            const {
+                password
+            } = req.body;
 
             bcrypt.genSalt(10, (e, salt) => {
                 if (e) return res.status(400).json({
@@ -492,7 +567,7 @@ export default class UserController {
                 });
 
                 bcrypt.hash(password, salt, async (er, hash) => {
-                    const user : IUser = await User.findByIdAndUpdate({
+                    const user: IUser = await User.findByIdAndUpdate({
                         _id: contentToken,
                     }, {
                         password: hash,
@@ -503,8 +578,8 @@ export default class UserController {
                         redirect: false,
                         status: 400,
                     });
-    
-                    return res.status(200).json(user);            
+
+                    return res.status(200).json(user);
                 });
             });
         } catch (e) {
@@ -512,30 +587,45 @@ export default class UserController {
         };
     };
 
-    connectUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-        const { id, code } = req.body;
+    connectUsers = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+        const {
+            id,
+            code
+        } = req.body;
 
         let connectionReceiver;
         let connectionSender;
 
-        const sendCode = await User.findOne({'_id': id});
-        const placedCode = await User.findOne({'profile.uniqueCode': code});
+        const sendCode = await User.findOne({
+            '_id': id
+        });
+        const placedCode = await User.findOne({
+            'profile.uniqueCode': code
+        });
 
         let receiver;
         let sender;
 
         switch (placedCode.role) {
             case "club":
-                receiver = await Club.findOne({_userId: placedCode._id});
+                receiver = await Club.findOne({
+                    _userId: placedCode._id
+                });
                 break;
             case "cyclist":
-                receiver = await Cyclist.findOne({_userId: placedCode._id});
+                receiver = await Cyclist.findOne({
+                    _userId: placedCode._id
+                });
                 break;
             case "parent":
-                receiver = await Parent.findOne({_userId: placedCode._id});
-                break;   
+                receiver = await Parent.findOne({
+                    _userId: placedCode._id
+                });
+                break;
             case "clubmember":
-                receiver = await Member.findOne({_userId: placedCode._id});
+                receiver = await Member.findOne({
+                    _userId: placedCode._id
+                });
                 break;
             default:
                 break;
@@ -543,16 +633,24 @@ export default class UserController {
 
         switch (sendCode.role) {
             case "club":
-                sender = await Club.findOne({_userId: sendCode._id});
+                sender = await Club.findOne({
+                    _userId: sendCode._id
+                });
                 break;
             case "cyclist":
-                sender = await Cyclist.findOne({_userId: sendCode._id});
+                sender = await Cyclist.findOne({
+                    _userId: sendCode._id
+                });
                 break;
             case "parent":
-                sender = await Parent.findOne({_userId: sendCode._id});
-                break;   
+                sender = await Parent.findOne({
+                    _userId: sendCode._id
+                });
+                break;
             case "clubmember":
-                sender = await Member.findOne({_userId: sendCode._id});
+                sender = await Member.findOne({
+                    _userId: sendCode._id
+                });
                 break;
             default:
                 break;
@@ -561,22 +659,30 @@ export default class UserController {
         if (sendCode.role === 'cyclist') {
             switch (placedCode.role) {
                 case "club":
-                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
+                    connectionSender = await User.findOneAndUpdate({
+                        _id: sendCode._id
+                    }, {
                         'cyclist._clubId': receiver._id,
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({
+                        _id: placedCode._id
+                    }, {
                         $push: {
                             'club._cyclistIds': sender._id,
                         },
                     });
                     break;
                 case "parent":
-                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
+                    connectionSender = await User.findOneAndUpdate({
+                        _id: sendCode._id
+                    }, {
                         $push: {
                             'cyclist._parentIds': sender._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({
+                        _id: placedCode._id
+                    }, {
                         $push: {
                             'parent._cyclistIds': sender._id,
                         },
@@ -590,12 +696,16 @@ export default class UserController {
         if (sendCode.role === 'clubmember') {
             switch (placedCode.role) {
                 case "club":
-                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
+                    connectionSender = await User.findOneAndUpdate({
+                        _id: sendCode._id
+                    }, {
                         $push: {
                             'member._clubId': receiver._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({
+                        _id: placedCode._id
+                    }, {
                         $push: {
                             'club._memberIds': sender._id,
                         },
@@ -609,12 +719,16 @@ export default class UserController {
         if (sendCode.role === 'parent') {
             switch (placedCode.role) {
                 case "cyclist":
-                    connectionReceiver = await User.findOneAndUpdate({_id: sendCode._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({
+                        _id: sendCode._id
+                    }, {
                         $push: {
                             'club._cyclistIds': receiver._id,
                         },
                     });
-                    connectionSender = await User.findOneAndUpdate({_id: placedCode._id}, {
+                    connectionSender = await User.findOneAndUpdate({
+                        _id: placedCode._id
+                    }, {
                         'cyclist._clubId': sender._id,
                     });
                     break;
@@ -626,12 +740,16 @@ export default class UserController {
         if (sendCode.role === 'club') {
             switch (placedCode.role) {
                 case "cyclist":
-                    connectionSender = await User.findOneAndUpdate({_id: sendCode._id}, {
+                    connectionSender = await User.findOneAndUpdate({
+                        _id: sendCode._id
+                    }, {
                         $push: {
                             'member._clubId': receiver._id,
                         },
                     });
-                    connectionReceiver = await User.findOneAndUpdate({_id: placedCode._id}, {
+                    connectionReceiver = await User.findOneAndUpdate({
+                        _id: placedCode._id
+                    }, {
                         $push: {
                             'club._memberIds': sender._id,
                         },
@@ -659,9 +777,12 @@ export default class UserController {
         return res.status(200).json(connectionSender);
     };
 
-    disconnectUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    disconnectUsers = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const { senderId, receiverId } = req.body;
+            const {
+                senderId,
+                receiverId
+            } = req.body;
 
             const sender = await User.findById(senderId).exec();
             const receiver = await User.findById(receiverId).exec();
@@ -672,22 +793,30 @@ export default class UserController {
             if (sender.role === 'cyclist') {
                 switch (receiver.role) {
                     case "club":
-                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        connectionSender = await User.findOneAndUpdate({
+                            _id: sender._id
+                        }, {
                             'cyclist._clubId': null,
                         });
-                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        connectionReceiver = await User.findOneAndUpdate({
+                            _id: receiver._id
+                        }, {
                             $pull: {
                                 'club._cyclistIds': sender._id,
                             },
                         });
                         break;
                     case "parent":
-                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        connectionSender = await User.findOneAndUpdate({
+                            _id: sender._id
+                        }, {
                             $pull: {
                                 'cyclist._parentIds': sender._id,
                             },
                         });
-                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        connectionReceiver = await User.findOneAndUpdate({
+                            _id: receiver._id
+                        }, {
                             $pull: {
                                 'parent._cyclistIds': sender._id,
                             },
@@ -701,12 +830,16 @@ export default class UserController {
             if (sender.role === 'clubmember') {
                 switch (receiver.role) {
                     case "club":
-                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        connectionSender = await User.findOneAndUpdate({
+                            _id: sender._id
+                        }, {
                             $pull: {
                                 'member._clubId': receiver._id,
                             },
                         });
-                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        connectionReceiver = await User.findOneAndUpdate({
+                            _id: receiver._id
+                        }, {
                             $pull: {
                                 'club._memberIds': sender._id,
                             },
@@ -716,16 +849,20 @@ export default class UserController {
                         break;
                 };
             };
-    
+
             if (sender.role === 'parent') {
                 switch (receiver.role) {
                     case "cyclist":
-                        connectionReceiver = await User.findOneAndUpdate({_id: sender._id}, {
+                        connectionReceiver = await User.findOneAndUpdate({
+                            _id: sender._id
+                        }, {
                             $pull: {
                                 'club._cyclistIds': receiver._id,
                             },
                         });
-                        connectionSender = await User.findOneAndUpdate({_id: receiver._id}, {
+                        connectionSender = await User.findOneAndUpdate({
+                            _id: receiver._id
+                        }, {
                             'cyclist._clubId': null,
                         });
                         break;
@@ -733,16 +870,20 @@ export default class UserController {
                         break;
                 };
             };
-    
+
             if (sender.role === 'club') {
                 switch (receiver.role) {
                     case "cyclist":
-                        connectionSender = await User.findOneAndUpdate({_id: sender._id}, {
+                        connectionSender = await User.findOneAndUpdate({
+                            _id: sender._id
+                        }, {
                             $pull: {
                                 'member._clubId': receiver._id,
                             },
                         });
-                        connectionReceiver = await User.findOneAndUpdate({_id: receiver._id}, {
+                        connectionReceiver = await User.findOneAndUpdate({
+                            _id: receiver._id
+                        }, {
                             $pull: {
                                 'club._memberIds': sender._id,
                             },
@@ -754,19 +895,19 @@ export default class UserController {
                         break;
                 };
             };
-    
+
             if (!connectionSender) return res.status(400).json({
                 message: "De zender kon niet worden bijgewerkt.",
                 redirect: false,
                 status: 400,
             });
-    
+
             if (!connectionReceiver) return res.status(400).json({
                 message: "De ontvanger kon niet worden bijgewerkt.",
                 redirect: false,
                 status: 400,
             });
-    
+
             return res.status(200).json(connectionSender);
         } catch (e) {
             next(e);
@@ -777,7 +918,7 @@ export default class UserController {
         try {
             // Check if user has admin role
             const contentToken = this.auth.checkRole(req, res);
-            
+
             if (contentToken !== 'admin') return res.status(400).json({
                 message: "Je kan deze actie niet uitvoeren.",
                 redirect: false,
@@ -816,9 +957,13 @@ export default class UserController {
         };
     };
 
-    firstCheck = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    firstCheck = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const { email, password, passwordRepeat } = req.body;
+            const {
+                email,
+                password,
+                passwordRepeat
+            } = req.body;
 
             // Check if password is valid
             let passwordCheck = new passwordValidator();
@@ -836,9 +981,11 @@ export default class UserController {
                 redirect: false,
                 status: 409,
             });
-    
+
             // Check if mail is already in use
-            const checkIfExists = await User.findOne({email: email});
+            const checkIfExists = await User.findOne({
+                email: email
+            });
 
             if (checkIfExists) return res.status(409).json({
                 message: "Dit e-mailadres word al gebruikt.",
@@ -857,12 +1004,20 @@ export default class UserController {
         };
     };
 
-    register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    register = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
-            const {email, password, firstName, lastName, role} = req.body;
+            const {
+                email,
+                password,
+                firstName,
+                lastName,
+                role
+            } = req.body;
 
-            const checkIfExists = await User.findOne({email: email});
-    
+            const checkIfExists = await User.findOne({
+                email: email
+            });
+
             if (checkIfExists) return res.status(409).json({
                 message: "This user already exists",
                 redirect: false,
@@ -887,7 +1042,7 @@ export default class UserController {
             //     arrayOfMilestones.push(savedMilestone);
             // };
 
-            let createUser : IUser = new User({
+            let createUser: IUser = new User({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -900,28 +1055,28 @@ export default class UserController {
                     uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
                 },
             });
-    
+
             switch (role) {
                 case "cyclist":
-                    const createCyclistDoc : ICyclist = new Cyclist({
+                    const createCyclistDoc: ICyclist = new Cyclist({
                         _userId: createUser._id,
                     });
                     await createCyclistDoc.save();
                     break;
                 case "parent":
-                    const createParentDoc : IParent = new Parent({
+                    const createParentDoc: IParent = new Parent({
                         _userId: createUser._id,
                     });
                     await createParentDoc.save();
                     break;
                 case "clubmember":
-                    const createMemberDoc : IMember = new Member({
+                    const createMemberDoc: IMember = new Member({
                         _userId: createUser._id,
                     });
                     await createMemberDoc.save();
                     break;
                 case "club":
-                    const createClubDoc : IClub = new Club({
+                    const createClubDoc: IClub = new Club({
                         _userId: createUser._id,
                     });
                     await createClubDoc.save();
@@ -929,7 +1084,7 @@ export default class UserController {
                 default:
                     break;
             };
-    
+
             const user: IUser = await createUser.save();
 
             if (!user) return res.status(400).json({
@@ -950,7 +1105,7 @@ export default class UserController {
         };
     };
 
-    login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    login = async (req: Request, res: Response, next: NextFunction): Promise < void > => {
         try {
             this.auth.passport.authenticate('local', {
                 session: this.config.auth.jwt.session,
@@ -958,7 +1113,7 @@ export default class UserController {
                 if (e) {
                     return next(e);
                 };
-    
+
                 if (!user) {
                     return res.status(404).json({
                         message: "Deze gebruiker lijkt niet te bestaan",
@@ -966,9 +1121,9 @@ export default class UserController {
                         status: 404,
                     });
                 };
-    
+
                 const token = this.auth.createToken(user);
-    
+
                 return res.status(200).json({
                     message: "User is logged in",
                     redirect: true,
@@ -981,14 +1136,16 @@ export default class UserController {
         };
     };
 
-    addExperience = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    addExperience = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
             // Get users id
             const contentToken = this.auth.checkId(req, res);
             const user = await User.findById(contentToken).exec();
 
             // Get xp
-            const { xp } = req.body;
+            const {
+                xp
+            } = req.body;
 
             if (!user) {
                 return res.status(404).json({

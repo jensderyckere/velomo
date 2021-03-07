@@ -15,7 +15,7 @@ export const CheckIfPopup = ({ children }) => {
 
   // Services
   const { currentUser } = useAuth();
-  const { viewPopups } = useApi();
+  const { viewPopups, viewedPopup } = useApi();
 
   // Fetch popups
   const fetchPopups = useCallback(async () => {
@@ -25,8 +25,10 @@ export const CheckIfPopup = ({ children }) => {
 
   const nextPopup = async (index) => {
     if (viewedIndex === popups.length) {
+      await viewedPopup(currentUser, popups[viewedIndex]._id);
       setPopups(false);
     } else {
+      await viewedPopup(currentUser, popups[viewedIndex]._id);
       setViewedIndex(index+1);
     };
   };
