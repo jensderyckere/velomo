@@ -46,7 +46,7 @@ export const UserStats = ({ user }) => {
         </div>
         {
         }
-        <h5 className="smallest-size secundary-font bold-font">{Number(avgSpeed).toFixed(2) === NaN ? Number(avgSpeed).toFixed(2) : 0}km/u</h5>
+        <h5 className="smallest-size secundary-font bold-font">{isNaN(Number(avgSpeed).toFixed(2)) ? Number(avgSpeed).toFixed(2) : 0}km/u</h5>
       </div>
       <div className="user-stats__line"></div>
       <div className="user-stats__item">

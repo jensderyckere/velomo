@@ -8,3 +8,4 @@ export * from './activity';
 export * from './challenges';
 export * from './popups';
 export * from './footer';
+export * from './notifications';

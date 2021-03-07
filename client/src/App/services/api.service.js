@@ -1,4 +1,7 @@
-import React, { createContext, useContext } from 'react';
+import React, {
+  createContext,
+  useContext
+} from 'react';
 
 // Config
 import * as Config from '../config';
@@ -6,7 +9,9 @@ import * as Config from '../config';
 const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
 
-const ApiProvider = ({children}) => {
+const ApiProvider = ({
+  children
+}) => {
   const uploadPicture = async (token, file) => {
     const url = `${Config.clientConfig.apiUrl}picture/upload`;
 
@@ -48,7 +53,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -63,7 +68,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -89,7 +94,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,      
+        'Authorization': `Bearer ${token}`,
       },
       mode: 'no-cors',
       body: formData,
@@ -105,7 +110,7 @@ const ApiProvider = ({children}) => {
       method: 'POST',
       headers: {
         // 'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,      
+        'Authorization': `Bearer ${token}`,
         // 'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
@@ -122,7 +127,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -138,7 +143,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -154,7 +159,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -169,7 +174,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -184,7 +189,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -200,7 +205,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -216,7 +221,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -231,7 +236,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -246,7 +251,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -261,7 +266,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -277,7 +282,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -292,7 +297,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(content),
     });
@@ -308,7 +313,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -323,7 +328,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -338,7 +343,7 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
@@ -353,40 +358,73 @@ const ApiProvider = ({children}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`      
+        'Authorization': `Bearer ${token}`
       },
     });
 
     return await res.json();
   };
 
-  return (
-    <ApiContext.Provider value={{
-      uploadPicture,
-      getVideo,
-      getActivity,
-      deleteActivity,
-      uploadActivity,
-      createActivity,
-      editActivity,
-      getClubChallenges,
-      getChallenge,
-      getParticipation,
-      participateChallenge,
-      withdrawChallenge,
-      getMyChallenges,
-      getRandomChallenge,
-      createChallenge,
-      editChallenge,
-      deleteChallenge,
-      submitSubmission,
-      approveSubmission,
-      viewMonthlyCharts,
-      viewPopups,
-      viewedPopup,
-    }}>
-      {children}
-    </ApiContext.Provider>
+  const getNotifications = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}notifications`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const viewNotification = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}notifications/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  return ( <ApiContext.Provider value = {
+      {
+        uploadPicture,
+        getVideo,
+        getActivity,
+        deleteActivity,
+        uploadActivity,
+        createActivity,
+        editActivity,
+        getClubChallenges,
+        getChallenge,
+        getParticipation,
+        participateChallenge,
+        withdrawChallenge,
+        getMyChallenges,
+        getRandomChallenge,
+        createChallenge,
+        editChallenge,
+        deleteChallenge,
+        submitSubmission,
+        approveSubmission,
+        viewMonthlyCharts,
+        viewPopups,
+        viewedPopup,
+        getNotifications,
+        viewNotification,
+      }
+    }> {
+      children
+    } </ApiContext.Provider>
   );
 };
 

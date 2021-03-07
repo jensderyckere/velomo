@@ -19,7 +19,7 @@ export const Challenge = () => {
   // Routing
   const history = useHistory();
 
-  //Services
+  // Services
   const { currentUser, getCurrentUser } = useAuth();
   const { getChallenge } = useApi();
 

@@ -13,3 +13,4 @@ export * from './Challenge';
 export * from './EditChallenge';
 export * from './Challenges';
 export * from './Submissions';
+export * from './Notifications';

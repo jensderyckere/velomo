@@ -2,11 +2,10 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 // Partials
-import { SettingsProfile, SettingsUser, SettingsPassword } from '.';
+import { SettingsProfile, SettingsUser, SettingsPassword, SettingsConnections } from '.';
 
 export const SettingsWrapper = ({ user }) => {
   const { setting } = useParams();
-  console.log(user);
 
   return (
     <div className="settings-wrapper">
@@ -23,6 +22,11 @@ export const SettingsWrapper = ({ user }) => {
       {
         setting === 'password' && (
           <SettingsPassword user={user} />
+        )
+      }
+      {
+        setting === 'connections' && (
+          <SettingsConnections user={user} />
         )
       }
     </div>

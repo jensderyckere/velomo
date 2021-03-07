@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // Partials
-import { UserOverview, ChallengeOverview, UserLevelBar } from '..';
+import { UserOverview, ChallengeOverview, UserLevelBar, UserBadges } from '..';
 
 // Components
 import { ColumnChart } from '../../components';
@@ -113,6 +113,9 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
           />
         )
       }
+      <UserBadges 
+        currentUser={currentUser}
+      />
       </>
     ) : '';
   };

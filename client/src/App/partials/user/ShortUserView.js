@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 
 // Images
@@ -13,12 +13,35 @@ import * as Routes from '../../routes';
 // Images
 import MyProfile from '../../assets/icons/profile.svg';
 
+// Services
+import { useAuth } from '../../services';
+
 export const ShortUserView = ({ user, club, cred }) => {
   const history = useHistory();
 
   const [ more, setMore ] = useState(false);
+  const [ viewingUser, setViewingUser ] = useState();
 
-  return user ? (
+  // Services
+  const { undoConnection, getCurrentUser, currentUser } = useAuth();
+
+  // Fetch
+  const fetchData = useCallback(async () => {
+    const data = await getCurrentUser(currentUser);
+    setViewingUser(data);
+  }, [getCurrentUser, currentUser]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Disconnect
+  const disconnectUser = async () => {
+    await undoConnection(currentUser, viewingUser._id, user._id);
+    window.location.reload();
+  };
+
+  return user ? viewingUser && (
     <div className="short-user-view">
       <div className="short-user-view__left" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id))}>
         <span className="avatar avatar-standard" style={{
@@ -51,7 +74,7 @@ export const ShortUserView = ({ user, club, cred }) => {
             </div>
             {
               cred && (
-                <div className="more-view__link--delete">
+                <div className="more-view__link--delete" onClick={disconnectUser}>
                   <TrashSVG />
                   <span>Verwijder</span>
                 </div>

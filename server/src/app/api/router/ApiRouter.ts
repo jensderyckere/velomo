@@ -21,7 +21,8 @@ import {
     UserController,
     ActivityController,
     ChallengeController,
-    VideoController
+    VideoController,
+    NotificationController,
 } from "../controllers";
 
 export default class ApiRouter {
@@ -36,6 +37,7 @@ export default class ApiRouter {
     private challengeController: ChallengeController;
     private videoController: VideoController;
     private popupController: PopupController;
+    private notificationController: NotificationController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -55,6 +57,7 @@ export default class ApiRouter {
         this.activityController = new ActivityController(this.auth);
         this.challengeController = new ChallengeController(this.auth);
         this.popupController = new PopupController(this.auth);
+        this.notificationController = new NotificationController(this.auth);
     };
 
     private initRoutes(): void {
@@ -112,6 +115,10 @@ export default class ApiRouter {
         // Popups
         this.router.get('/popups', this.userController.checkToken, this.popupController.viewAllPopups);
         this.router.get('/popups/viewed/:id', this.userController.checkToken, this.popupController.viewedPopup);
+
+        // Notifications
+        this.router.get('/notifications', this.userController.checkToken, this.notificationController.getNotifications);
+        this.router.get('/notifications/:id', this.userController.checkToken, this.notificationController.viewNotification);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

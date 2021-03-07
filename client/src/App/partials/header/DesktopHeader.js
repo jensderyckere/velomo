@@ -12,7 +12,7 @@ import { SearchEngine, Profile } from '.';
 // Routes
 import * as Routes from '../../routes';
 
-export const DesktopHeader = ({ user }) => {
+export const DesktopHeader = ({ user, notifications }) => {
   const history = useHistory();
 
   return (
@@ -99,7 +99,7 @@ export const DesktopHeader = ({ user }) => {
       <div className="header__content--right d-flex align-items-center justify-content-end">
         <SearchEngine />
         <div className="header__content--line"></div>
-        <Profile user={user} />
+        <Profile notifications={notifications} user={user} />
       </div>
     </div>
   );

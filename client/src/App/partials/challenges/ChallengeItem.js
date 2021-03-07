@@ -7,7 +7,7 @@ import { Badge, ImageUrl } from '../../components';
 // Routes
 import * as Routes from '../../routes';
 
-export const ChallengeItem = ({ challenge, completed }) => {
+export const ChallengeItem = ({ challenge }) => {
   // Routing
   const history = useHistory();
 

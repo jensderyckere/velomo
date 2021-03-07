@@ -22,3 +22,4 @@ export * from './CheckSVG';
 export * from './PreviousSVG';
 export * from './NextSVG';
 export * from './ClockSVG';
+export * from './NotificationSVG';

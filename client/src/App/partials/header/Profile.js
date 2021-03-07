@@ -6,7 +6,7 @@ import User from '../../assets/icons/user.svg';
 import MyProfile from '../../assets/icons/profile.svg';
 import Settings from '../../assets/icons/settings.svg';
 
-import { ActivitySVG, ArrowSVG, LogoutSVG } from '../../components';
+import { ActivitySVG, ArrowSVG, LogoutSVG, NotificationSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -17,7 +17,7 @@ import * as Config from '../../config';
 // Services
 import { useAuth } from '../../services';
 
-export const Profile = ({ user }) => {
+export const Profile = ({ user, notifications }) => {
   const history = useHistory();
 
   // Services
@@ -65,6 +65,12 @@ export const Profile = ({ user }) => {
                 </div>
               )
             }
+            <div className="more-view__link">
+              <NavLink to={Routes.NOTIFICATIONS}>
+                <NotificationSVG />
+                <span>{notifications} meldingen</span>
+              </NavLink>
+            </div>
             <div className="more-view__link" onClick={() => logOutUser()}>
               <LogoutSVG />
               <span>Afmelden</span>

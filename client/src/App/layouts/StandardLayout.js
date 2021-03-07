@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Services
-import { useAuth } from '../services';
+import { useApi, useAuth } from '../services';
 
 // Routes
 import * as Routes from '../routes';
@@ -16,21 +16,25 @@ export const StandardLayout = ({ children }) => {
 
   // Get token
   const { currentUser, getCurrentUser } = useAuth();
+  const { getNotifications } = useApi();
 
   // States
   const [ user, setUser ] = useState();
+  const [ amountNotifications, setAmountNotifications ] = useState(0);
 
   // Fetch current user
   const fetchUser = useCallback(async () => {
     try {
       if (currentUser) {
         const data = await getCurrentUser(currentUser);
+        const notificationsData = await getNotifications(currentUser);
         setUser(data);
+        setAmountNotifications(notificationsData.length);
       };
     } catch (e) {
       history.push(Routes.ERROR);
     };
-  }, [getCurrentUser, currentUser, history]);
+  }, [getCurrentUser, currentUser, history, getNotifications]);
 
   useEffect(() => {
     fetchUser();
@@ -40,7 +44,7 @@ export const StandardLayout = ({ children }) => {
     <div className="app">
       {
         user && (
-          <Header user={user} />
+          <Header user={user} notifications={amountNotifications} />
         )
       }
       <main>
