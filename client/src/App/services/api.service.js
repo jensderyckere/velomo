@@ -76,7 +76,7 @@ const ApiProvider = ({
   };
 
   const uploadActivity = async (token, content) => {
-    const url = `${Config.clientConfig.apiUrl}activity`;
+    const url = `${Config.clientConfig.apiUrl}upload-activity`;
 
     const formData = new FormData();
     formData.append('title', content.title);
@@ -85,18 +85,14 @@ const ApiProvider = ({
     formData.append('gpxFile', content.gpxFile);
     formData.append('feeling', content.feeling);
     formData.append('experience', content.experience);
-    console.log(token)
 
     if (content.images) formData.append('images', content.images);
 
     const res = await fetch(url, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      mode: 'no-cors',
       body: formData,
     });
 
@@ -109,9 +105,7 @@ const ApiProvider = ({
     const res = await fetch(url, {
       method: 'POST',
       headers: {
-        // 'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
-        // 'Content-Type': 'application/json',
       },
       body: JSON.stringify(content),
     });

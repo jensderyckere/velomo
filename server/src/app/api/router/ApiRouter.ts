@@ -23,6 +23,7 @@ import {
     ChallengeController,
     VideoController,
     NotificationController,
+    GoalController,
 } from "../controllers";
 
 export default class ApiRouter {
@@ -38,6 +39,7 @@ export default class ApiRouter {
     private videoController: VideoController;
     private popupController: PopupController;
     private notificationController: NotificationController;
+    private goalController: GoalController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -58,6 +60,7 @@ export default class ApiRouter {
         this.challengeController = new ChallengeController(this.auth);
         this.popupController = new PopupController(this.auth);
         this.notificationController = new NotificationController(this.auth);
+        this.goalController = new GoalController(this.auth);
     };
 
     private initRoutes(): void {
@@ -90,7 +93,7 @@ export default class ApiRouter {
 
         // Activity
         this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);
-        this.router.post('/activity', this.userController.checkToken, multer({
+        this.router.post('/upload-activity', this.userController.checkToken, multer({
             storage: memoryStorage()
         }).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);
         this.router.post('/manual-activity', this.userController.checkToken, this.activityController.createActivity);
@@ -119,6 +122,14 @@ export default class ApiRouter {
         // Notifications
         this.router.get('/notifications', this.userController.checkToken, this.notificationController.getNotifications);
         this.router.get('/notifications/:id', this.userController.checkToken, this.notificationController.viewNotification);
+
+        // Goals
+        this.router.get('/user-goals/:userId', this.userController.checkToken, this.goalController.showUserGoals);
+        this.router.get('/creator-goals/:userId', this.userController.checkToken, this.goalController.showCreatorGoals);
+        this.router.get('/goals/:goalId', this.userController.checkToken, this.goalController.showGoal);
+        this.router.post('/goals', this.userController.checkToken, this.goalController.createGoal);
+        this.router.patch('/goals/:id', this.userController.checkToken, this.goalController.editGoal);
+        this.router.delete('/goals/:id', this.userController.checkToken, this.goalController.deleteGoal);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

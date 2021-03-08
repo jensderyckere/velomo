@@ -23,7 +23,6 @@ export const CreateForm = ({ user }) => {
 
   // Services
   const { currentUser } = useAuth();
-  console.log(currentUser)
   const { uploadActivity, createActivity } = useApi();
 
   // Manuel upload
@@ -102,7 +101,7 @@ export const CreateForm = ({ user }) => {
         };
       };
 
-      history.push(Routes.ACTIVITIES);
+      // history.push(Routes.ACTIVITIES);
     };
 
     return (
@@ -275,7 +274,7 @@ export const CreateForm = ({ user }) => {
 
         history.push(Routes.ACTIVITIES);
       } catch (e) {
-        history.push(Routes.ERROR);
+        setError(true);
       };
     };
     return (

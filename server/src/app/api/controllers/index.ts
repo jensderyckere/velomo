@@ -6,6 +6,7 @@ import ChallengeController from "./ChallengeController";
 import VideoController from "./VideoController";
 import PopupController from "./PopupController";
 import NotificationController from "./NotificationController";
+import GoalController from "./GoalController";
 
 export {
     UserController,
@@ -16,4 +17,5 @@ export {
     VideoController,
     PopupController,
     NotificationController,
+    GoalController,
 };

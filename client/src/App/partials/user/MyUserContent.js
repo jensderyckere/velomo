@@ -101,8 +101,8 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
           }
         </h3>
         <div className="user-content__graph--options d-flex justify-content-end margin-bottom-0">
-          <h5 onClick={() => setTypeGraph("distance")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'distance' ? 'used-option' : 'non-used-option'} bold-font subtitle-size margin-right-10`}>Afstand</h5>
-          <h5 onClick={() => setTypeGraph("challenges")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'challenges' ? 'used-option' : 'non-used-option'} bold-font subtitle-size`}>Uitdagingen</h5>
+          {/* <h5 onClick={() => setTypeGraph("distance")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'distance' ? 'used-option' : 'non-used-option'} bold-font subtitle-size margin-right-10`}>Afstand</h5>
+          <h5 onClick={() => setTypeGraph("challenges")} className={`pointer secundary-font user-content__graph--options__option ${typeGraph === 'challenges' ? 'used-option' : 'non-used-option'} bold-font subtitle-size`}>Uitdagingen</h5> */}
         </div>
       </div>
       {

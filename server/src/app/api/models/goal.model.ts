@@ -19,7 +19,8 @@ interface IGoal extends Document {
   progress: number;
   start_date: string;
   end_date: string;
-  _userId: IUser['_id'];
+  _cyclistId: IUser['_id'];
+  _creatorId: IUser['_id'];
   _completedAt: string;
 };
 
@@ -64,7 +65,12 @@ const goalSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  _userId: {
+  _cyclistId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: false,
+  },
+  _creatorId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: false,

@@ -69,7 +69,6 @@ class Storage {
 
       fs.readFile(input, (e: any, data: any) => {
         const xml = e.path;
-        console.log(xml)
         const result = converter.xml2json(xml);
         const resultInJson = JSON.parse(result);
         const coordinates = resultInJson.elements[0].elements[1].elements[2].elements;

@@ -21,11 +21,11 @@ import {
 export default class Middleware {
     public static load(app: Application, config: IConfig) {
         app.use(bodyparser.urlencoded({
-            limit: '50mb',
-            extended: false
+            limit: '250mb',
+            extended: true
         }));
         app.use(bodyparser.json({
-            limit: '50mb'
+            limit: '250mb'
         }));
 
         app.use(helmet.hidePoweredBy());
