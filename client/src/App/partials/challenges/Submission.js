@@ -254,11 +254,122 @@ export const Submission = ({ challenge, user, hide }) => {
   };
 
   const MobileSubmission = () => {
+    const [ submissionForm, setSubmissionForm ] = useState({
+      text: '',
+      video: '',
+      activity: '',
+      _userId: user._id,
+    });
+
+    // Submit the submission
+    const createSubmission = async () => {
+      if (challenge.type === 'image') {
+        if (submissionForm.text.length === 0 || !image) {
+          setError(true);
+          return;
+        };
+      };
+
+      const result = await submitSubmission(currentUser, challenge._id, {
+        text: submissionForm.text,
+        image: image,
+        video: submissionForm.video,
+        activity: activity._id,
+        _userId: user._id,
+      });
+
+      if (result) {
+        setCorrectSubmission(true);
+      } else {
+        setError(true);
+      };
+    }; 
+
     return !correctSubmission ? (
       <div className="submission-mobile">
-        <h3 className="secundary-font bold-font subtitle-size">
-          Nieuwe inzending
-        </h3>
+          {
+            correctSubmission ? (
+              <>
+                <h1 className="secundary-font bold-font title-size text-center">
+                  Jouw inzending is verstuurd.
+                </h1>
+                <p className="tertiary-font light-font text-size text-center">
+                  De inzending moet enkel nog goedgekeurd worden door jouw club.
+                </p>
+                <div className="margin-top-30 d-flex justify-content-center">
+                  <StandardButton 
+                    text="Oké, ik snap het"
+                    action={hide}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="secundary-font bold-font title-size">
+                  Nieuwe inzending
+                </h3>
+                <div className="margin-top-30">
+                  <Textarea 
+                    id="text"
+                    name="text"
+                    label="Beschrijving"
+                    changeInput={(e) => setSubmissionForm({...submissionForm, text: e.target.value})}
+                  />
+                  {
+                    challenge.type === 'image' && (
+                      <>
+                      <ChallengeImageUpload />
+                      <div className="d-flex justify-content-end">
+                        {
+                          image && (
+                            <StandardButton 
+                              text="Uploaden"
+                              action={createSubmission}
+                              extraClasses="margin-right-10"
+                            />
+                          )
+                        }
+                        <GreyButton 
+                          text="Annuleren"
+                          action={hide}
+                        />
+                      </div>
+                      </>
+                    )
+                  }
+                  {
+                    challenge.type === 'activity' && (
+                      <>
+                        <ChallengeActivityUpload />
+                        <div className="d-flex justify-content-end">
+                        {
+                          activity && (
+                            <StandardButton 
+                              text="Uploaden"
+                              action={createSubmission}
+                              extraClasses="margin-right-10"
+                            />
+                          )
+                        }
+                        <GreyButton 
+                          text="Annuleren"
+                          action={hide}
+                        />
+                      </div>
+                      </>
+                    )
+                  }
+                  {
+                    error && (
+                      <div className="error-message margin-top-30">
+                        <span>Jouw inzending kon niet worden verstuurd. Heb je alle velden ingevuld? Of heb je al eens eerder ingediend?</span>
+                      </div>
+                    )
+                  }
+                </div>
+              </>
+            )
+          }
       </div>
     ) : (
       ''

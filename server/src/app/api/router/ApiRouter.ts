@@ -68,7 +68,7 @@ export default class ApiRouter {
         this.router.get('/users', this.userController.checkAdmin, this.userController.all);
         this.router.get('/users-charts/:userId', this.userController.checkToken, this.userController.getCharts);
         this.router.get('/users/:userId', this.userController.checkToken, this.userController.show);
-        this.router.get('/current-user/', this.userController.checkToken, this.userController.current);
+        this.router.get('/current-user', this.userController.checkToken, this.goalController.checkGoals, this.userController.current);
         this.router.patch('/users/profile', this.userController.checkToken, this.userController.updateProfile);
         this.router.patch('/users/settings', this.userController.checkToken, this.userController.updateSettings);
         this.router.patch('/users/password', this.userController.checkToken, this.userController.updatePassword);
@@ -127,6 +127,7 @@ export default class ApiRouter {
         this.router.get('/user-goals/:userId', this.userController.checkToken, this.goalController.showUserGoals);
         this.router.get('/creator-goals/:userId', this.userController.checkToken, this.goalController.showCreatorGoals);
         this.router.get('/goals/:goalId', this.userController.checkToken, this.goalController.showGoal);
+        this.router.get('/goals-progress/:userId/:goalId', this.userController.checkToken, this.goalController.showGoalStats);
         this.router.post('/goals', this.userController.checkToken, this.goalController.createGoal);
         this.router.patch('/goals/:id', this.userController.checkToken, this.goalController.editGoal);
         this.router.delete('/goals/:id', this.userController.checkToken, this.goalController.deleteGoal);
