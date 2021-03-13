@@ -9,3 +9,4 @@ export * from './challenges';
 export * from './popups';
 export * from './footer';
 export * from './notifications';
+export * from './goals';

@@ -14,3 +14,6 @@ export * from './EditChallenge';
 export * from './Challenges';
 export * from './Submissions';
 export * from './Notifications';
+export * from './Goals';
+export * from './CreateGoal';
+export * from './EditGoal';

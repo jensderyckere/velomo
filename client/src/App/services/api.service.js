@@ -389,6 +389,98 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const createGoal = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}goals`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const editGoal = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const getGoal = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getUserGoals = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}user-goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getCreatorGoals = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}creator-goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const deleteGoal = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -415,6 +507,12 @@ const ApiProvider = ({
         viewedPopup,
         getNotifications,
         viewNotification,
+        createGoal,
+        getGoal,
+        editGoal,
+        deleteGoal,
+        getUserGoals,
+        getCreatorGoals,
       }
     }> {
       children

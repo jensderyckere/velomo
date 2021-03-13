@@ -118,7 +118,7 @@ export const AddChallenge = ({ user }) => {
       history.push(Routes.CHALLENGE.replace(':id', result._id));
     } catch (e) {
       setError(true);
-    }
+    };
   };
 
   return (

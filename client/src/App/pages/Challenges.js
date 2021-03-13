@@ -81,10 +81,6 @@ export const Challenges = () => {
     )
   };
 
-  const ClubChallenges = () => {
-
-  };
-
   const ChallengeSection = ({ challenge }) => {
     return (
       <div className="challenges__item">

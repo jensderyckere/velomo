@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, Challenge, Challenges, CreateActivity, CreateChallenge, Dashboard, EditActivity, EditChallenge, MyProfile, MyProfileSettings, Notifications, Profile, Submissions } from './pages';
+import { Activities, Activity, AddConnection, Authentication, Challenge, Challenges, CreateActivity, CreateChallenge, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions } from './pages';
 
 // Context
 import * as Context from './context';
@@ -147,6 +147,21 @@ const App = () => {
                     <Route exact path={Routes.NOTIFICATIONS}>
                       <NeedsAuth>
                         <Notifications />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.GOALS}>
+                      <NeedsAuth>
+                        <Goals />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.CREATE_GOAL}>
+                      <NeedsAuth>
+                        <CreateGoal />
+                      </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.EDIT_GOAL}>
+                      <NeedsAuth>
+                        <EditGoal />
                       </NeedsAuth>
                     </Route>
                   </StandardLayout>

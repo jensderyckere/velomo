@@ -24,6 +24,9 @@ export const EDIT_CHALLENGE = '/edit-challenge/:id';
 export const SUBMISSIONS = '/submissions/:id';
 
 export const GOALS = '/goals';
+export const CREATE_GOAL = '/create-goal';
+export const EDIT_GOAL = '/edit-goal';
+export const GOAL = '/goal/:id';
 
 export const MY_PROFILE = '/my-profile';
 export const PROFILE = '/profile/:name/:id';

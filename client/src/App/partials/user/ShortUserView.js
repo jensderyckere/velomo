@@ -41,7 +41,7 @@ export const ShortUserView = ({ user, club, cred }) => {
     window.location.reload();
   };
 
-  return user ? viewingUser && (
+  return user ? viewingUser ? (
     <div className="short-user-view">
       <div className="short-user-view__left" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id))}>
         <span className="avatar avatar-standard" style={{
@@ -84,5 +84,5 @@ export const ShortUserView = ({ user, club, cred }) => {
         )
       }
     </div>
-  ) : ''
+  ) : '' : ''
 };
