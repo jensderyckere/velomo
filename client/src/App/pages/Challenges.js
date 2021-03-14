@@ -36,7 +36,7 @@ export const Challenges = () => {
       } else if (retrievedUser.role === 'club') {
 
       } else {
-        throw('Role not authorized');
+        throw new Error();
       };
     } catch (error) {
       history.push(Routes.ERROR);

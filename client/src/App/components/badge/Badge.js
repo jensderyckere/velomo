@@ -9,7 +9,7 @@ export const Badge = ({ badge }) => {
   const history = useHistory();
 
   return (
-    <span className="standard-badge pointer d-inline-flex" onClick={() => history.push(Routes.CHALLENGE.replace(':id', badge.id))}>
+    <span className="standard-badge pointer d-inline-flex" onClick={() => history.push(!badge.goal ? Routes.CHALLENGE.replace(':id', badge.id) : Routes.GOAL.replace(':id', badge.id))}>
       <div className={`avatar avatar-${badge.size}`} style={{
         backgroundImage: `url(${badge.image})`
       }}></div>

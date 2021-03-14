@@ -59,6 +59,7 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
     const [ distanceData, setDistanceData ] = useState();
     const [ distanceMax, setDistanceMax ] = useState();
 
+    // eslint-disable-next-line
     const [ typeGraph, setTypeGraph ] = useState("distance");
 
     // Services

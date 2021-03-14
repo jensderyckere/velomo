@@ -53,3 +53,20 @@
     }
   }
 }
+
+.circle-chart {
+  &__wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+
+    span {
+      position: absolute;
+      margin: auto;
+      top: 50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+  }
+}

@@ -46,7 +46,7 @@ export const ChallengeCard = ({ challenge, user }) => {
     if (user.role === 'cyclist') {
       fetchData();
     };
-  }, [fetchData]);
+  }, [fetchData, user.role]);
 
   const startParticipation = async () => {
     let result;

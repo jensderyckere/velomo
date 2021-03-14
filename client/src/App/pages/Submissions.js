@@ -32,7 +32,7 @@ export const Submissions = () => {
       setUser(userData);
 
       if (userData._id !== challengeData._userId) {
-        throw 'Not authorized';
+        throw new Error();
       };
     } catch (e) {
       history.push(Routes.ERROR);

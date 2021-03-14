@@ -239,12 +239,12 @@ export default class GoalController {
       const user = await User.findById(userId).exec();
 
       if (user.role === 'cyclist') {
-        const details = user.populate({
+        const details = await User.findById(userId).populate({
           path: 'cyclist',
           populate: {
             path: '_activityIds'
           }
-        });
+        }).exec();
 
         const goals = await Goal.find({
           _cyclistId: userId
@@ -255,7 +255,6 @@ export default class GoalController {
             // Check if between dates
             for (let j = 0; j < details.cyclist._activityIds.length; j++) {
               let distance = 0;
-
               if (details.cyclist._activityIds[j].activity.checkpoints) {
                 if (Moment(details.cyclist._activityIds[j].activity.starting_time).isBetween(goals[i].start_date, goals[i].end_date)) {
                   if (goals[i].type === 'ride') {

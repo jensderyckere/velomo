@@ -9,6 +9,8 @@ import { useApi, useAuth } from '../services';
 
 // Routes
 import * as Routes from '../routes';
+
+// Utils
 import { ScreenSizeClassSwitch } from '../utils';
 
 export const Goals = () => {
@@ -51,6 +53,7 @@ export const Goals = () => {
               id: goal._id,
               size: 'big',
               image: ImageUrl(goal.badge),
+              goal: true,
             }}
           />
           </div>

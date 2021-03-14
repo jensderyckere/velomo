@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DashboardCard, LoaderSVG } from '../components';
 
 // Partials
-import { Activitites, MessagesTeaser, RandomChallenge, Welcome } from '../partials';
+import { Activitites, RandomChallenge, Welcome } from '../partials';
 
 // Services
 import { useAuth, useStyling } from '../services';
@@ -28,6 +28,9 @@ export const Dashboard = () => {
     user ? (
       <>
       <div className={`container d-flex`}>
+        {
+          // eslint-disable-next-line 
+        }
         <section className={`left-sided ${screenSize === 'lg' || screenSize === 'xl' ? 'w-70': 'w-100'}`}>
           <Welcome 
             screenSize={screenSize}
@@ -39,15 +42,16 @@ export const Dashboard = () => {
               />
             )
           }
-          <MessagesTeaser 
+          {/* <MessagesTeaser 
             screenSize={screenSize}
-          />
+          /> */}
           <Activitites 
             screenSize={screenSize}
             user={user}
           />
         </section>
         {
+          // eslint-disable-next-line
           screenSize === 'lg' || screenSize === 'xl' && (
             <section className="right-sided w-30">
               <DashboardCard 

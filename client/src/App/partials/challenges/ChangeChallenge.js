@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { Datepicker, DeleteButton, Distance, Duration, GreyButton, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea, VideoUpload } from '../../components';
+import { Datepicker, Distance, Duration, GreyButton, IMGUpload, Inputfield, Message, Radio, Slider, StandardButton, Textarea, VideoUpload } from '../../components';
 
 // Partials
 import { BadgeUpload } from '.';

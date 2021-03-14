@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Components
-import { ConnectCard, ClubCard, CreateClubCard, CyclistsCard, ChallengesCard } from '.';
+import { ConnectCard, GoalsCard, ClubCard, CreateClubCard, CyclistsCard, ChallengesCard } from '.';
 
 // Routes
 import * as Routes from '../../routes';
+import { useApi, useAuth } from '../../services';
 
 export const DashboardCard = ({ user }) => {
   const history = useHistory();
+
+  // States
+  const [ goals, setGoals ] = useState();
+
+  // Services
+  const { currentUser } = useAuth();
+  const { getUserGoals, getCreatorGoals } = useApi();
+
+  // Fetch goals
+  const fetchData = useCallback(async () => {
+    let goalsData;
+
+    if (user.role === 'cyclist') {
+      goalsData = await getUserGoals(currentUser, user._id);
+    } else {
+      goalsData = await getCreatorGoals(currentUser, user._id);
+    };
+
+    setGoals(goalsData);
+  }, [getCreatorGoals, getUserGoals, currentUser, user]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   
   return (
     <section className="dashboard-card">
@@ -23,6 +48,14 @@ export const DashboardCard = ({ user }) => {
                 <ChallengesCard 
                   title="Actieve uitdagingen"
                   challenges={user.cyclist._challengeIds}
+                />
+              )
+            }
+            {
+              goals && goals.length !== 0 && (
+                <GoalsCard 
+                  title="Actieve doelstellingen"
+                  goals={goals}
                 />
               )
             }

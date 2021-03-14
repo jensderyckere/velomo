@@ -11,7 +11,7 @@ import * as Routes from '../../routes';
 import { Inputfield, Radio, Textarea, Datepicker, Distance, Message, StandardButton, GreyButton } from '../../components';
 import { BadgeUpload } from '../challenges';
 
-export const AddGoal = ({ }) => {
+export const AddGoal = () => {
   // Routing
   const history = useHistory();
   const location = useLocation();
@@ -28,18 +28,10 @@ export const AddGoal = ({ }) => {
     description: '',
     start_date: Date.now(),
     end_date: Date.now(),
-    goal: 0,
+    distance: 0,
     badge: '',
   });
   const [ error, setError ] = useState(false);
-
-  // Change states
-  const changeStates = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const changeStartDate = (date) => {
     setForm({
@@ -64,13 +56,24 @@ export const AddGoal = ({ }) => {
     });
   };
 
+  console.log({
+    title: form.title,
+    description: form.description,
+    type: type,
+    goal: form.goal,
+    badge: form.badge,
+    start_date: form.start_date,
+    end_date: form.end_date,
+    _cyclistId: state.cyclistId,
+  })
+
   const uploadGoal = async () => {
     if (!type) {
       setError(true);
       return;
     };
 
-    if (form.title.length === 0 || form.description.length === 0 || form.goal === 0) {
+    if (form.title.length === 0 || form.description.length === 0 || form.distance === 0) {
       setError(true);
       return;
     };
@@ -82,9 +85,9 @@ export const AddGoal = ({ }) => {
 
     const result = await createGoal(currentUser, {
       title: form.title,
-      description: form.title,
+      description: form.description,
       type: type,
-      goal: form.goal,
+      goal: form.distance,
       badge: form.badge,
       start_date: form.start_date,
       end_date: form.end_date,
@@ -150,14 +153,14 @@ export const AddGoal = ({ }) => {
               id="title"
               name="title"
               size="large"
-              changeInput={(e) => changeStates(e)}
+              changeInput={(e) => setForm({...form, title: e.target.value})}
             />
             <Textarea 
               label="Beschrijving"
               id="description"
               name="description"
               size="large"
-              changeInput={(e) => changeStates(e)}
+              changeInput={(e) => setForm({...form, description: e.target.value})}
             />
           </div>
         </div>
@@ -180,9 +183,9 @@ export const AddGoal = ({ }) => {
         <div className="row">
           <div className="col-lg-4 col-12">
             <Distance 
-              id="goal" 
-              name="goal"
-              defaultValue={form.goal}
+              id="distance" 
+              name="distance"
+              defaultValue={form.distance}
               form={form}
               setForm={setForm}
             />

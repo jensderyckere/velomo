@@ -481,6 +481,21 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const showGoalsStats = async (token, userId, goalId) => {
+    const url = `${Config.clientConfig.apiUrl}goals-progress/${userId}/${goalId}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -513,6 +528,7 @@ const ApiProvider = ({
         deleteGoal,
         getUserGoals,
         getCreatorGoals,
+        showGoalsStats,
       }
     }> {
       children

@@ -1,16 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
-
-// Services
-// import { useApi } from '../../services';
+import React, { useState } from 'react';
 
 // Utils
 import { axiosInstance } from '../../utils';
 
-export const VideoUpload = ({ media, setMedia, label, description }) => {
+export const VideoUpload = ({ setMedia, label, description }) => {
   // States
   const [ video, setVideo ] = useState();
-  const [ srcVideo, setSrcVideo ] = useState();
   const [ progress, setProgress ] = useState({
     shown: true,
     percentage: 0,
@@ -19,26 +14,6 @@ export const VideoUpload = ({ media, setMedia, label, description }) => {
     shown: false,
     message: '',
   });
-
-  // Services
-  // const { getVideo } = useApi();
-
-  // Show video
-  // const fetchVideo = useCallback(async () => {
-  //   try {
-  //     const result = await getVideo(video);
-  //     setSrcVideo(result);
-  //     console.log(result);
-  //   } catch (e) {
-  //     setError({
-  //       message: "Kon video niet ophalen",
-  //       shown: true,
-  //     });
-  //   };
-  // }, [getVideo, video]);
-
-  // useEffect(() => {
-  // }, [fetchVideo]);
 
   // Check upload
   const whenUploading = (e) => {
