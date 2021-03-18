@@ -9,22 +9,22 @@ import {
 } from './user.model';
 
 interface IPopup extends Document {
-  addedXp: number;
-  previousXp: number;
-  currentXp: number;
+  addedPt: number;
+  previousPt: number;
+  currentPt: number;
   text: string;
   seen: boolean;
   _userId: IUser['_id'];
 };
 
 const popupSchema: Schema = new Schema({
-  addedXp: {
+  addedPt: {
     type: Number,
   },
-  previousXp: {
+  previousPt: {
     type: Number,
   },
-  currentXp: {
+  currentPt: {
     type: Number,
   },
   text: {

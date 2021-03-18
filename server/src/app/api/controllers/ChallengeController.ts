@@ -616,11 +616,11 @@ export default class ChallengeController {
           let distance = 0;
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[j].activity.checkpoints) {
-              const totalDistance = user.cyclist._activityIds[j].activity.total_distance;
+            if (user.cyclist._activityIds[j].result) {
+              const totalDistance = user.cyclist._activityIds[j].result.distance / 1000;
 
               // Check if between dates
-              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+              if (Moment(user.cyclist._activityIds[j].result.start_date_local).isBetween(challenge.start_date, challenge.end_date)) {
                 distance = distance + totalDistance;
               };
             };
@@ -643,10 +643,10 @@ export default class ChallengeController {
             }).exec();
 
             const newPopup : IPopup = new Popup({
-              addedXp: 500,
-              previousXp: user.cyclist.xp,
-              currentXp: user.cyclist.xp + 500,
-              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+              addedPt: 2,
+              previousPt: user.cyclist.pts,
+              currentPt: user.cyclist.pts + 2,
+              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
               _userId: userId,
             });
 
@@ -674,10 +674,10 @@ export default class ChallengeController {
           let duration = Moment.duration('00:00:00');
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
+            if (user.cyclist._activityIds[i].result) {
+              const totalDuration = user.cyclist._activityIds[i].result.moving_time;
               // Check if between dates
-              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+              if (Moment(user.cyclist._activityIds[j].result.start_date_local).isBetween(challenge.start_date, challenge.end_date)) {
                 duration = Moment.duration(duration).add(Moment.duration(totalDuration));
               };
             };
@@ -699,10 +699,10 @@ export default class ChallengeController {
             }).exec();
 
             const newPopup : IPopup = new Popup({
-              addedXp: 500,
-              previousXp: user.cyclist.xp,
-              currentXp: user.cyclist.xp + 500,
-              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+              addedPt: 2,
+              previousPt: user.cyclist.pts,
+              currentPt: user.cyclist.pts + 2,
+              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
               _userId: userId,
             });
 
@@ -767,11 +767,11 @@ export default class ChallengeController {
           let distance = 0;
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[j].activity.checkpoints) {
-              const totalDistance = user.cyclist._activityIds[j].activity.total_distance;
+            if (user.cyclist._activityIds[j].result) {
+              const totalDistance = user.cyclist._activityIds[j].result.distance / 1000;
 
               // Check if between dates
-              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+              if (Moment(user.cyclist._activityIds[j].result.start_date_local).isBetween(challenge.start_date, challenge.end_date)) {
                 distance = distance + totalDistance;
               };
             };
@@ -814,10 +814,10 @@ export default class ChallengeController {
           let duration = Moment.duration('00:00:00');
 
           for (let j = 0; j < user.cyclist._activityIds.length; j++) {
-            if (user.cyclist._activityIds[i].activity.checkpoints) {
-              const totalDuration = user.cyclist._activityIds[i].activity.total_duration;
+            if (user.cyclist._activityIds[i].result) {
+              const totalDuration = user.cyclist._activityIds[i].result.moving_time;
               // Check if between dates
-              if (Moment(user.cyclist._activityIds[j].activity.starting_time).isBetween(challenge.start_date, challenge.end_date)) {
+              if (Moment(user.cyclist._activityIds[j].moving_time.start_date_local).isBetween(challenge.start_date, challenge.end_date)) {
                 duration = Moment.duration(duration).add(Moment.duration(totalDuration));
               };
             };
@@ -1013,10 +1013,10 @@ export default class ChallengeController {
       });
 
       const newPopup : IPopup = new Popup({
-        addedXp: 500,
-        previousXp: user.cyclist.xp,
-        currentXp: user.cyclist.xp + 500,
-        text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+        addedPt: 2,
+        previousPt: user.cyclist.pts,
+        currentPt: user.cyclist.pts + 2,
+        text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
         _userId: userId,
       });
 

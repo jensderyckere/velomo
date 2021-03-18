@@ -66,7 +66,7 @@ export const Activity = () => {
           </div>
         ) : (
           <>
-            {/* <ActivityMap activity={activity} /> */}
+            <ActivityMap activity={activity} />
             <section className="padding-30">
               <ActivityBio user={user} activity={activity} />
             </section>

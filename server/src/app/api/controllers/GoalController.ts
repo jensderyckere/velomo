@@ -213,13 +213,13 @@ export default class GoalController {
       let totalDistance = 0;
 
       for (let i = 0; i < user.cyclist._activityIds.length; i++) {
-        if (Moment(user.cyclist._activityIds[i].activity.starting_time).isBetween(goal.start_date, goal.end_date)) {
-          if (user.cyclist._activityIds[i].activity.checkpoints) {
-            if (user.cyclist._activityIds[i].activity.total_distance > maxRide) {
-              maxRide = user.cyclist._activityIds[i].activity.total_distance;
+        if (Moment(user.cyclist._activityIds[i].result.starting_time_local).isBetween(goal.start_date, goal.end_date)) {
+          if (user.cyclist._activityIds[i].result) {
+            if ((user.cyclist._activityIds[i].result.distance / 1000) > maxRide) {
+              maxRide = user.cyclist._activityIds[i].result.distance;
             };
 
-            totalDistance = totalDistance + user.cyclist._activityIds[i].activity.total_distance;
+            totalDistance = totalDistance + (user.cyclist._activityIds[i].result.distance / 1000);
           };
         };
       };
@@ -255,10 +255,10 @@ export default class GoalController {
             // Check if between dates
             for (let j = 0; j < details.cyclist._activityIds.length; j++) {
               let distance = 0;
-              if (details.cyclist._activityIds[j].activity.checkpoints) {
-                if (Moment(details.cyclist._activityIds[j].activity.starting_time).isBetween(goals[i].start_date, goals[i].end_date)) {
+              if (details.cyclist._activityIds[j].result) {
+                if (Moment(details.cyclist._activityIds[j].result.starting_time_local).isBetween(goals[i].start_date, goals[i].end_date)) {
                   if (goals[i].type === 'ride') {
-                    if (details.cyclist._activityIds[j].activity.total_distance >= goals[i].goal) {
+                    if ((details.cyclist._activityIds[j].result.distance / 1000) >= goals[i].goal) {
                       await Goal.findByIdAndUpdate(goals[i]._id, {
                         $set: {
                           completed: true,
@@ -267,10 +267,10 @@ export default class GoalController {
                       });
 
                       const newPopup: IPopup = new Popup({
-                        addedXp: 500,
-                        previousXp: user.cyclist.xp,
-                        currentXp: user.cyclist.xp + 500,
-                        text: `Je hebt de doelstelling "${goals[i].title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+                        addedPt: 2,
+                        previousPt: user.cyclist.pts,
+                        currentPt: user.cyclist.pts + 2,
+                        text: `Je hebt de doelstelling "${goals[i].title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
                         _userId: userId,
                       });
 
@@ -279,7 +279,7 @@ export default class GoalController {
                   };
 
                   if (goals[i].type === 'month' || goals[i].type === 'year') {
-                    distance = distance + details.cyclist._activityIds[j].activity.total_distance;
+                    distance = distance + (details.cyclist._activityIds[j].result.distance / 1000);
 
                     if (distance >= goals[i].goal) {
                       await Goal.findByIdAndUpdate(goals[i]._id, {
@@ -290,10 +290,10 @@ export default class GoalController {
                       });
 
                       const newPopup: IPopup = new Popup({
-                        addedXp: 500,
-                        previousXp: user.cyclist.xp,
-                        currentXp: user.cyclist.xp + 500,
-                        text: `Je hebt de doelstelling "${goals[i].title}" voltooid. Daarvoor verkrijg je een aantal XP-punten en een badge. Proficiat!`,
+                        addedPt: 2,
+                        previousPt: user.cyclist.pts,
+                        currentPt: user.cyclist.pts + 2,
+                        text: `Je hebt de doelstelling "${goals[i].title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
                         _userId: userId,
                       });
 

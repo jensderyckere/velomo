@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+import Polyline from '@mapbox/polyline';
+import Moment from 'moment';
 
 // Components
-import { Map, DateText, TimeText, TeamSVG, DistanceSVG, ImageUrl, SlugText } from '../../components';
+import { Map, DateText, TimeText, TeamSVG, DistanceSVG, ImageUrl, SlugText, SpeedSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -14,18 +16,17 @@ export const ActivityItem = ({activity, user}) => {
   const [ coordinates, setCoordinates ] = useState();
 
   useEffect(() => {
-    if (activity.activity.checkpoints) {
-      const checkpoints = activity.activity.checkpoints;
-      let array = [];
-  
-      for (let i = 0; i < checkpoints.length; i++) {
-        const coordinate = [checkpoints[i].lon, checkpoints[i].lat];
-        array.push(coordinate);
-      };
-  
-      setCoordinates(array);
+    const polyline = activity.result.map.summary_polyline;
+    const longLatArray = Polyline.decode(polyline);
+
+    let correctArray = [];
+
+    for (let i = 0; i < longLatArray.length; i++) {
+      correctArray.push([longLatArray[i][1], longLatArray[i][0]]);
     };
-  }, [activity.activity]);
+
+    setCoordinates(correctArray);
+  }, [activity]);
 
   return (
     <div className="activities__overview--item">
@@ -40,13 +41,19 @@ export const ActivityItem = ({activity, user}) => {
                     <div className="activities__overview--item--map__details--item margin-right-20">
                       <TeamSVG />
                       <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
-                        {activity.type}
+                        {Moment.utc(activity.result.elapsed_time * 1000).format('HH:mm:ss')}
                       </span>
                     </div>
                     <div className="activities__overview--item--map__details--item margin-right-20">
                       <DistanceSVG />
                       <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
-                        {activity.activity.total_distance.toFixed(2)}<span className="smallest-size"> km</span>
+                        {(activity.result.distance / 1000).toFixed(2)}<span className="smallest-size">km</span>
+                      </span>
+                    </div>
+                    <div className="activities__overview--item--map__details--item margin-right-20">
+                      <SpeedSVG />
+                      <span className="activities__overview--item--map__details--item__text text-size secundary-font bold-font margin-left-10">
+                        {(((activity.result.average_speed) * 3600) / 1000).toFixed(2)}<span className="smallest-size">km/u</span>
                       </span>
                     </div>
                   </div>
@@ -58,13 +65,13 @@ export const ActivityItem = ({activity, user}) => {
         <div className="col-12 col-md-6">
           <div className="activities__overview--item--content">
             <span className="activities__overview--item--content--date tertiary-font smallest-size">
-              {DateText(activity.activity.starting_time) + ' om ' + TimeText(activity.activity.starting_time)}
+              {DateText(activity.result.start_date_local) + ' om ' + TimeText(activity.result.start_date_local)}
             </span>
             <h3 className="activities__overview--item--content--title secundary-font bold-font title-size">
-              {activity.title}
+              {activity.result.name}
             </h3>
             <p className="activities__overview--item--content--description tertiary-font text-size margin-top-20">
-              {activity.description}
+              {activity.result.description ? activity.result.description : 'Er is geen beschrijving voor deze rit'}
             </p>
             <div className="activities__overview--item--content--creator d-flex align-items-center margin-top-30 margin-bottom-20">
               <span className="avatar avatar-standard pointer" onClick={() => history.push(Routes.PROFILE.replace(':id', user._id).replace(':name', SlugText(user.firstName + ' ' + user.lastName)))} style={{
@@ -80,29 +87,6 @@ export const ActivityItem = ({activity, user}) => {
             </NavLink>
           </div>
         </div>
-        {
-          !activity.activity.checkpoints && (
-            <div className="col-12 col-md-6">
-              <div className="activities__overview--item--details">
-                <div className="activities__overview--item--details__wrapper">
-                    <h5 className="secundary-font bold-font text-size">Jouw activiteit samengevat</h5>
-                    <div className="activities__overview--item--details__wrapper--item">
-                      <TeamSVG />
-                      <span className="activities__overview--item--details__wrapper--item--text text-size secundary-font margin-left-10">
-                        {activity.type}
-                      </span>
-                    </div>
-                    <div className="activities__overview--item--details__wrapper--item">
-                      <DistanceSVG />
-                      <span className="activities__overview--item--map__details--item__text text-size secundary-font margin-left-10">
-                        {activity.activity.total_distance}<span className="smallest-size"> km</span>
-                      </span>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          )
-        }
       </div>
     </div>
   )

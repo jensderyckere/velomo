@@ -400,7 +400,7 @@ export default class UserController {
                     const setToIndex = Number(splittedToMonth) - 1;
 
                     if (setToIndex === arrayOfMonths[i]) {
-                        object.totalDistance += Number(user.cyclist._activityIds[j].activity.total_distance);
+                        object.totalDistance += (Number(user.cyclist._activityIds[j].result.distance) / 1000);
                     };
                 };
 
@@ -949,14 +949,6 @@ export default class UserController {
         };
     };
 
-    addAndCheckExperience = async (xp: Number) => {
-        try {
-
-        } catch (e) {
-
-        };
-    };
-
     firstCheck = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
             const {
@@ -1136,7 +1128,7 @@ export default class UserController {
         };
     };
 
-    addExperience = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    addPoints = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
         try {
             // Get users id
             const contentToken = this.auth.checkId(req, res);
@@ -1144,7 +1136,7 @@ export default class UserController {
 
             // Get xp
             const {
-                xp
+                pts
             } = req.body;
 
             if (!user) {
@@ -1157,7 +1149,7 @@ export default class UserController {
 
             const updatedUser = await User.findByIdAndUpdate(contentToken, {
                 $set: {
-                    'cyclist.xp': user.cyclist.xp + xp,
+                    'cyclist.xp': user.cyclist.pts + pts,
                 },
             }).exec();
 

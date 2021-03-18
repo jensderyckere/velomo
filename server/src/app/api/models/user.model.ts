@@ -33,9 +33,7 @@ interface IProfile {
 };
 
 interface ICyclistInfo {
-    level: number;
-    level_name: string;
-    xp: number;
+    pts: number;
     _milestoneIds: Array < IMilestone['_id'] > ;
     _challengeIds: Array < IChallengeParticipated['_id'] > ;
     _goalIds: Array < IGoal['_id'] > ;
@@ -138,15 +136,7 @@ const userSchema: Schema = new Schema({
         }],
     },
     cyclist: {
-        level: {
-            type: Number,
-            default: 0,
-        },
-        level_name: {
-            type: String,
-            default: 'Potentieel',
-        },
-        xp: {
+        pts: {
             type: Number,
             default: 0,
         },

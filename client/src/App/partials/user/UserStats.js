@@ -15,14 +15,14 @@ export const UserStats = ({ user }) => {
       let totalSpeed = 0;
 
       for (let i = 0; i < user.cyclist._activityIds.length; i++) {
-        totalDistance +=Number(user.cyclist._activityIds[i].activity.total_distance);
-        totalSpeed += Number(user.cyclist._activityIds[i].activity.avg_speed);
+        totalDistance +=Number(user.cyclist._activityIds[i].result.distance);
+        totalSpeed += Number(user.cyclist._activityIds[i].result.average_speed);
       };
 
       totalSpeed = totalSpeed / user.cyclist._activityIds.length;
 
-      setAvgSpeed(totalSpeed);
-      setDistance(totalDistance);
+      setAvgSpeed(((totalSpeed * 3600) / 1000).toFixed(2));
+      setDistance(totalDistance / 1000);
       setAchievements(0);
     } else {
       setAvgSpeed(0);
@@ -44,8 +44,6 @@ export const UserStats = ({ user }) => {
         <div className="d-flex justify-content-center">
           <TotalSpeedSVG />
         </div>
-        {
-        }
         <h5 className="smallest-size secundary-font bold-font">{isNaN(Number(avgSpeed).toFixed(2)) ? Number(avgSpeed).toFixed(2) : 0}km/u</h5>
       </div>
       <div className="user-stats__line"></div>
