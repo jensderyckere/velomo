@@ -129,6 +129,22 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const importStravaActivities = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}strava-activities`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
   const createChallenge = async (token, content) => {
     const url = `${Config.clientConfig.apiUrl}challenge`;
 
@@ -505,6 +521,7 @@ const ApiProvider = ({
         uploadActivity,
         createActivity,
         editActivity,
+        importStravaActivities,
         getClubChallenges,
         getChallenge,
         getParticipation,

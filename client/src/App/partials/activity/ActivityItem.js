@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+import Moment from 'moment';
 
 // Partials
 import { MoreActivity } from '..';
@@ -14,8 +15,8 @@ import * as Routes from '../../routes';
 import { useApi, useAuth } from '../../services';
 
 export const ActivityItem = ({ user, cred, activity }) => {
-  // States
-  const [ showMore, setShowMore ] = useState(false);
+    // States
+    const [ showMore, setShowMore ] = useState(false);
 
     // Routing
     const history = useHistory();
@@ -41,25 +42,25 @@ export const ActivityItem = ({ user, cred, activity }) => {
 
   return (
     <div className="activities-overview__item">
-      <p className="tertiary-font smallest-size light-font margin-0">{DateText(activity.activity.starting_time) + ' om ' + TimeText(activity.activity.starting_time)}</p>
-      <NavLink to={Routes.ACTIVITY.replace(':id', activity._id)}><h5 className="secundary-font subtitle-size bold-font">{activity.title}</h5></NavLink>
+      <p className="tertiary-font smallest-size light-font margin-0">{DateText(activity.result.start_date_local) + ' om ' + TimeText(activity.result.start_date_local)}</p>
+      <NavLink to={Routes.ACTIVITY.replace(':id', activity._id)}><h5 className="secundary-font subtitle-size bold-font">{activity.result.name}</h5></NavLink>
       <div className="d-flex align-items-center">
         <div className="activities__bio--details--item d-flex align-items-center">
           <SpeedSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.checkpoints ? activity.activity.avg_speed.toFixed(2) : activity.activity.avg_speed}<span className="smallest-size">km/u</span>
+            {(((activity.result.average_speed) * 3600) / 1000).toFixed(2)}<span className="smallest-size">km/u</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <DistanceSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.checkpoints ? activity.activity.total_distance.toFixed(2) : activity.activity.total_distance}<span className="smallest-size">km</span>
+            {(activity.result.distance / 1000).toFixed(2)}<span className="smallest-size">km</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <TeamSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.type}
+            {Moment.utc(activity.result.elapsed_time * 1000).format('HH:mm:ss')}<span className="smallest-size">u</span>
           </span>
         </div>
       </div>

@@ -9,52 +9,21 @@ import {
 } from './user.model';
 
 interface IActivity extends Document {
-  title: string;
-  description: string;
-  type: string;
-  activity: object;
-  images: Array < string > ;
-  feeling: number;
-  experience: number;
+  result: object;
+  stravaId: string;
   _userId: IUser['_id'];
-  _createdAt: number;
+  _createdAt: string;
   _modifiedAt: number;
 };
 
 const activitySchema: Schema = new Schema({
-  title: {
-    type: String,
-    unique: false,
-    required: true,
-    default: "Jouw activiteit"
-  },
-  description: {
-    type: String,
-    unique: false,
-    required: true,
-  },
-  type: {
-    type: String,
-    unique: false,
-    required: true,
-  },
-  activity: {
+  result: {
     type: Object,
-    unique: false,
     required: true,
   },
-  images: [{
+  stravaId: {
     type: String,
-    required: false,
-    unique: false,
-  }],
-  feeling: {
-    type: Number,
-    default: 0,
-  },
-  experience: {
-    type: Number,
-    default: 0,
+    required: true,
   },
   _userId: {
     type: Schema.Types.ObjectId,
@@ -62,7 +31,7 @@ const activitySchema: Schema = new Schema({
     required: false,
   },
   _createdAt: {
-    type: Number,
+    type: String,
     required: false,
     default: Date.now(),
   },

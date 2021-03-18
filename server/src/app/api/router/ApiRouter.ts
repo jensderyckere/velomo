@@ -93,6 +93,7 @@ export default class ApiRouter {
 
         // Activity
         this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);
+        this.router.post('/strava-activities', this.userController.checkToken, this.activityController.importStravaActivities);
         this.router.post('/upload-activity', this.userController.checkToken, multer({
             storage: memoryStorage()
         }).single('gpxFile'), Storage.uploadGPX, this.activityController.uploadActivity);

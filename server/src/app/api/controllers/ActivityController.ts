@@ -250,4 +250,40 @@ export default class ActivityController {
       next();
     };
   };
+
+  importStravaActivities = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      const id = this.auth.checkId(req, res);
+      const { activities } = req.body;
+
+      let arrayOfResults = []; 
+
+      for (let i = 0; i < activities.length; i++) {
+        const checkIfExist = await Activity.findOne({stravaId: activities[i].id}).exec();
+
+        if (!checkIfExist && activities[i].type === "Ride") {
+          const activity : IActivity = new Activity({
+            result: activities[i],
+            stravaId: activities[i].id,
+            _userId: id,
+            _createdAt: activities[i].start_date_local,
+          });
+
+          const savedActivity = await activity.save();
+
+          arrayOfResults.push(savedActivity);
+
+          await User.findByIdAndUpdate(id, {
+            $push: {
+              'cyclist._activityIds': savedActivity._id,
+            },
+          });
+        };
+      };
+
+      return res.status(200).json(arrayOfResults);
+    } catch (e) {
+      next(e);
+    };
+  };
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Moment from 'moment';
 
 // Components
 import { DateText, DistanceSVG, ImageUrl, MoreSVG, SlugText, SpeedSVG, TeamSVG, TimeText } from '../../components';
@@ -59,33 +60,33 @@ export const ActivityBio = ({user, activity}) => {
         )
       }
       <span className="tertiary-font text-size darkgrey-color">
-        {DateText(activity.activity.starting_time) + ' om ' + TimeText(activity.activity.starting_time)}
+        {DateText(activity.result.start_date_local) + ' om ' + TimeText(activity.result.start_date_local)}
       </span>
       <h3 className="secundary-font title-size bold-font margin-top-10">
-        {activity.title}
+        {activity.result.name}
       </h3>
       <div className="activities__bio--details d-flex align-items-center">
         <div className="activities__bio--details--item d-flex align-items-center">
           <SpeedSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.checkpoints ? activity.activity.avg_speed.toFixed(2) : activity.activity.avg_speed}<span className="smallest-size">km/u</span>
+            {(((activity.result.average_speed) * 3600) / 1000).toFixed(2)}<span className="smallest-size">km/u</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <DistanceSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.activity.checkpoints ? activity.activity.total_distance.toFixed(2) : activity.activity.total_distance}<span className="smallest-size">km</span>
+            {(activity.result.distance / 1000).toFixed(2)}<span className="smallest-size">km</span>
           </span>
         </div>
         <div className="activities__bio--details--item d-flex align-items-center">
           <TeamSVG />
           <span className="text-size secundary-font margin-left-10">
-            {activity.type}
+            {Moment.utc(activity.result.elapsed_time * 1000).format('HH:mm:ss')}
           </span>
         </div>
       </div>
       <p className="tertiary-font text-size light-font margin-top-30">
-        {activity.description}
+        {activity.description ? 'Er is geen beschrijving aan deze rit toegevoegd' : 'Er is geen beschrijving aan deze rit toegevoegd'}
       </p>
       <div onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(`${activity.user.firstName + ' ' + activity.user.lastName}`)).replace(':id', activity.user._id))} className="activities__bio--details--user margin-top-30">
         <span className="avatar avatar-standard" style={{
@@ -96,7 +97,7 @@ export const ActivityBio = ({user, activity}) => {
         </p>
       </div>
       {
-        activity.images.length !== 0 && (
+        activity.photos && activity.photos.length !== 0 && (
           <div className="m-top-30">
             <ActivityImages images={activity.images} />
           </div>

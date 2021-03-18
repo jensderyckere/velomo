@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, Challenge, Challenges, CreateActivity, CreateChallenge, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions } from './pages';
+import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions } from './pages';
 
 // Context
 import * as Context from './context';
@@ -167,6 +167,11 @@ const App = () => {
                     <Route exact path={Routes.EDIT_GOAL}>
                       <NeedsAuth>
                         <EditGoal />
+                      </NeedsAuth>
+                    </Route>
+                    <Route path={Routes.STRAVA_CALLBACK}>
+                      <NeedsAuth>
+                        <CallbackStrava />
                       </NeedsAuth>
                     </Route>
                   </StandardLayout>

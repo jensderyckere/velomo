@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/polyline": "^1.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -55,6 +56,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/preset-react": "^7.12.13"
+    "@babel/preset-react": "^7.12.13",
+    "@types/mapbox__polyline": "^1.0.2"
   }
 }

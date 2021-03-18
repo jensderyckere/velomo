@@ -58,7 +58,7 @@ export const Activity = () => {
             </section>
             <section className="right-sided w-40">
               {
-                activity.activity.checkpoints && (
+                activity.result && (
                   <ActivityMap activity={activity} />
                 )
               }
@@ -66,7 +66,7 @@ export const Activity = () => {
           </div>
         ) : (
           <>
-            <ActivityMap activity={activity} />
+            {/* <ActivityMap activity={activity} /> */}
             <section className="padding-30">
               <ActivityBio user={user} activity={activity} />
             </section>
