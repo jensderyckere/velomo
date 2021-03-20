@@ -7,6 +7,8 @@ import VideoController from "./VideoController";
 import PopupController from "./PopupController";
 import NotificationController from "./NotificationController";
 import GoalController from "./GoalController";
+import CommentController from "./CommentController";
+import EventController from "./EventController";
 
 export {
     UserController,
@@ -18,4 +20,6 @@ export {
     PopupController,
     NotificationController,
     GoalController,
+    CommentController,
+    EventController,
 };

@@ -24,6 +24,7 @@ import {
     VideoController,
     NotificationController,
     GoalController,
+    CommentController,
 } from "../controllers";
 
 export default class ApiRouter {
@@ -40,6 +41,7 @@ export default class ApiRouter {
     private popupController: PopupController;
     private notificationController: NotificationController;
     private goalController: GoalController;
+    private commentController: CommentController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -61,6 +63,7 @@ export default class ApiRouter {
         this.popupController = new PopupController(this.auth);
         this.notificationController = new NotificationController(this.auth);
         this.goalController = new GoalController(this.auth);
+        this.commentController = new CommentController(this.auth);
     };
 
     private initRoutes(): void {
@@ -132,6 +135,12 @@ export default class ApiRouter {
         this.router.post('/goals', this.userController.checkToken, this.goalController.createGoal);
         this.router.patch('/goals/:id', this.userController.checkToken, this.goalController.editGoal);
         this.router.delete('/goals/:id', this.userController.checkToken, this.goalController.deleteGoal);
+
+        // Comments
+        this.router.get('/comments/:eventId', this.userController.checkToken, this.commentController.getComments);
+        this.router.post('/comments/:eventId', this.userController.checkToken, this.commentController.createComment);
+        this.router.patch('/comments/:commentId', this.userController.checkToken, this.commentController.editComment);
+        this.router.delete('/comments/:commentId', this.userController.checkToken, this.commentController.deleteComment);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

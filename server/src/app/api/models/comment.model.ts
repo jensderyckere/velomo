@@ -4,6 +4,10 @@ import {
   Schema
 } from 'mongoose';
 
+import { 
+  IEvent 
+} from './event.model';
+
 import {
   IUser
 } from './user.model';
@@ -11,6 +15,7 @@ import {
 interface IComment extends Document {
   text: string;
   commenterId: IUser['_id'];
+  eventId: IEvent['_id'];
   _createdAt: string;
   _modifiedAt: string;
 };
@@ -24,6 +29,11 @@ const commentSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User',
+  },
+  eventId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Event',
   },
   _createdAt: {
     type: String,
