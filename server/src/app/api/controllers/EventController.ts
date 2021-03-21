@@ -116,6 +116,26 @@ export default class EventController {
     };
   };
 
+  getParticipatedEvents = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    try {
+      const userId = this.auth.checkId(req, res);
+
+      let result = [];
+
+      const events = await Event.find().sort({_createdAt: -1}).exec();
+
+      for (let i = 0; i < events.length; i++) {
+        if (events[i].participants.includes(userId)) {
+          result.push(events[i]);
+        };
+      };
+
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    };
+  };
+
   getEvent = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       const {

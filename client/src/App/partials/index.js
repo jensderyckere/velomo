@@ -10,3 +10,4 @@ export * from './popups';
 export * from './footer';
 export * from './notifications';
 export * from './goals';
+export * from './event';

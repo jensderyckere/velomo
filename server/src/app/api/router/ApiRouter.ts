@@ -25,6 +25,7 @@ import {
     NotificationController,
     GoalController,
     CommentController,
+    EventController,
 } from "../controllers";
 
 export default class ApiRouter {
@@ -42,6 +43,7 @@ export default class ApiRouter {
     private notificationController: NotificationController;
     private goalController: GoalController;
     private commentController: CommentController;
+    private eventController: EventController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -64,6 +66,7 @@ export default class ApiRouter {
         this.notificationController = new NotificationController(this.auth);
         this.goalController = new GoalController(this.auth);
         this.commentController = new CommentController(this.auth);
+        this.eventController = new EventController(this.auth);
     };
 
     private initRoutes(): void {
@@ -141,6 +144,16 @@ export default class ApiRouter {
         this.router.post('/comments/:eventId', this.userController.checkToken, this.commentController.createComment);
         this.router.patch('/comments/:commentId', this.userController.checkToken, this.commentController.editComment);
         this.router.delete('/comments/:commentId', this.userController.checkToken, this.commentController.deleteComment);
+
+        // Events
+        this.router.get('/events', this.userController.checkToken, this.eventController.getEvents);
+        this.router.get('/event/:eventId', this.userController.checkToken, this.eventController.getEvent);
+        this.router.get('/participated-events', this.userController.checkToken, this.eventController.getParticipatedEvents);
+        this.router.post('/event', this.userController.checkToken, this.eventController.createEvent);
+        this.router.patch('/event', this.userController.checkToken, this.eventController.updateEvent);
+        this.router.delete('/event', this.userController.checkToken, this.eventController.deleteEvent);
+        this.router.post('/participate-event', this.userController.checkToken, this.eventController.participateEvent);
+        this.router.post('/withdraw-event', this.userController.checkToken, this.eventController.withdrawEvent);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

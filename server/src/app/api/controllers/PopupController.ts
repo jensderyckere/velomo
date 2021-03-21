@@ -57,7 +57,7 @@ export default class PopupController {
       const userId = this.auth.checkId(req, res);
       const user = await User.findById(userId).exec();
 
-      const xp = user.cyclist.xp + popup.addedXp;
+      const xp = user.cyclist.pts + popup.addedPt;
       let level_name = '';
       let level = 0;
 

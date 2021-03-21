@@ -512,6 +512,36 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getEvents = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}events`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getParticipatedEvents = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}participated-events`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -546,6 +576,8 @@ const ApiProvider = ({
         getUserGoals,
         getCreatorGoals,
         showGoalsStats,
+        getEvents,
+        getParticipatedEvents,
       }
     }> {
       children

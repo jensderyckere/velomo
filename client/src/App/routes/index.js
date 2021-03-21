@@ -40,6 +40,11 @@ export const ACTIVITIES = '/activities';
 export const EDIT_ACTIVITY = '/edit-activity';
 export const CREATE_ACTIVITY = '/create-activity';
 
+export const EVENT = '/event/:id';
+export const EVENTS = '/events';
+export const CREATE_EVENT = '/create-event';
+export const EDIT_EVENT = '/edit-event';
+
 export const STRAVA_CALLBACK = '/exchange_token';
 
 export const ERROR = '/somethings-wrong';
