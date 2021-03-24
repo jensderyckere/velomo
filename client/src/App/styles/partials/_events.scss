@@ -6,6 +6,21 @@
   width: 100%;
   min-height: 500px;
 
+  .lower-date {
+    margin-top: 55.5px;
+  }
+
+  &__month-change {
+    svg {
+      cursor: pointer;
+    }
+
+    p {
+      padding: 0 10px;
+      margin: 0;
+    }
+  }
+
   &__dates-wrapper {
     margin-top: 40px;
     display: flex;

@@ -20,3 +20,4 @@ export * from './CreateGoal';
 export * from './EditGoal';
 export * from './CallbackStrava';
 export * from './Events';
+export * from './CreateEvent';

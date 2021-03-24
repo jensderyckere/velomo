@@ -1,4 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+
+// Components
+import { StandardButton } from '../components';
 
 // Partials
 import { EventsCalendar } from '../partials';
@@ -6,7 +10,13 @@ import { EventsCalendar } from '../partials';
 // Services
 import { useApi, useAuth } from '../services';
 
+// Routes
+import * as Routes from '../routes';
+
 export const Events = () => {
+  // Routing
+  const history = useHistory();
+
   // States
   const [ user, setUser ] = useState();
   const [ events, setEvents ] = useState();
@@ -35,11 +45,21 @@ export const Events = () => {
   return user ? events ? participatedEvents ? (
     <div className="container">
       <section className="w-100">
-        <div className="row">
+        <div className="row d-flex justify-content-between">
+          <div className="col-12 margin-bottom-30">
+            {
+              user.role !== 'parent' && (
+                <StandardButton 
+                  text="Evenement maken"
+                  action={() => history.push(Routes.CREATE_EVENT)}
+                />
+              )
+            }
+          </div>
           <div className="col-lg-6 d-lg-flex d-none">
             <EventsCalendar />
           </div>
-          <div className="col-lg-6 col-12">
+          <div className="col-lg-5 col-12">
             <h2 className="secundary-font title-size bold-font">Alle beschikbare evenementen</h2>
           </div>
         </div>
