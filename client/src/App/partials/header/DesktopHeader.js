@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Images
-import { DashboardSVG, ChallengeSVG, ChatSVG, GoalsSVG, TeamSVG } from '../../components';
+import { DashboardSVG, ChallengeSVG, ChatSVG, GoalsSVG, TeamSVG, LocationSVG } from '../../components';
 import Logo from '../../assets/logos/full-logo.svg';
 
 // Components
@@ -95,6 +95,12 @@ export const DesktopHeader = ({ user, notifications }) => {
             />
           )
         }
+        <HeaderButton 
+          title="Evenementen"
+          icon={<LocationSVG />}
+          slug="events"
+          route={Routes.EVENTS}
+        />
       </div>
       <div className="header__content--right d-flex align-items-center justify-content-end">
         <SearchEngine />

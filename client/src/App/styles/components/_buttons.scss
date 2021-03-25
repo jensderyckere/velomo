@@ -12,9 +12,10 @@
     display: flex;
     align-items: center;
 
-    svg {
+    svg, path {
       height: 18px;
       margin-right: 10px;
+      fill: $darkgrey;
     };
 
     text-decoration: none;

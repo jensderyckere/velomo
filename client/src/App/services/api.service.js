@@ -527,11 +527,72 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getEvent = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const getParticipatedEvents = async (token) => {
     const url = `${Config.clientConfig.apiUrl}participated-events`;
 
     const res = await fetch(url, {
       method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const createEvent = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}event`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const participateEvent = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}participate-event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const withdrawEvent = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}withdraw-event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -577,7 +638,11 @@ const ApiProvider = ({
         getCreatorGoals,
         showGoalsStats,
         getEvents,
+        getEvent,
         getParticipatedEvents,
+        createEvent,
+        participateEvent,
+        withdrawEvent,
       }
     }> {
       children

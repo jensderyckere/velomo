@@ -4,7 +4,6 @@ import React from 'react';
 import { Badge, DateText, ImageUrl } from '../../components';
 
 export const GoalCard = ({ goal }) => {
-  console.log(goal)
   return (
     <div className="challenge-card radius-10 box-shadow no-overflow">
       <h4 className="secundary-font bold-font subtitle-size text-center">

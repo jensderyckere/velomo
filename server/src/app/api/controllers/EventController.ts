@@ -37,15 +37,15 @@ export default class EventController {
 
       if (user.role === 'cyclist') {
         for (let event of events) {
-          if (event._creatorId._id === user.cyclist._clubId) {
+          if (String(event._creatorId._id) === String(user.cyclist._clubId)) {
             arrayOfEvents.push(event);
           };
 
-          if (event._creatorId.role === 'cyclist' && event._creatorId.cyclist._clubId === user.cyclist._clubId) {
+          if (event._creatorId.role === 'cyclist' && String(event._creatorId.cyclist._clubId) === String(user.cyclist._clubId)) {
             arrayOfEvents.push(event);
           };
 
-          if (event._creatorId.role === 'clubmember' && event._creatorId.member._clubId === user.cyclist._clubId) {
+          if (event._creatorId.role === 'clubmember' && String(event._creatorId.member._clubId) === String(user.cyclist._clubId)) {
             arrayOfEvents.push(event);
           };
         };
@@ -56,18 +56,18 @@ export default class EventController {
         const clubMembers = user.club._memberIds;
 
         for (let event of events) {
-          if (event._creatorId === userId) {
+          if (String(event._creatorId) === String(userId)) {
             arrayOfEvents.push(event);
           };
 
           for (let cyclist of clubCyclist) {
-            if (event._creatorId === cyclist) {
+            if (String(event._creatorId) === String(cyclist)) {
               arrayOfEvents.push(event);
             };
           };
 
           for (let member of clubMembers) {
-            if (event._creatorId === member) {
+            if (String(event._creatorId) === String(member)) {
               arrayOfEvents.push(event);
             };
           };
@@ -78,7 +78,7 @@ export default class EventController {
         const club = await User.findById(user.member._clubId).exec();
 
         for (let event of events) {
-          if (event._creatorId === club._id) {
+          if (String(event._creatorId) === String(club._id)) {
             arrayOfEvents.push(event);
           };
 
@@ -182,6 +182,7 @@ export default class EventController {
           details: details,
           gpxFile: gpxFile || null,
           type: 'Ride',
+          _creatorId: userId,
         });
 
         result = await newEvent.save();
@@ -194,6 +195,7 @@ export default class EventController {
           details: details,
           gpxFile: gpxFile || null,
           type: type,
+          _creatorId: userId,
         });
 
         result = await newEvent.save();

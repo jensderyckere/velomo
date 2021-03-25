@@ -20,6 +20,9 @@ export const SettingsConnections = ({ user }) => {
         </h3>
       </div>
       <div className="margin-top-30">
+        <h1 className="secundary-font title-size bold-font margin-bottom-30">
+          Activiteiten importeren
+        </h1>
         <StandardButton text="Verbind strava" action={ConnectStrava} />
       </div>
     </>

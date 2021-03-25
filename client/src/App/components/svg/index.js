@@ -23,3 +23,5 @@ export * from './PreviousSVG';
 export * from './NextSVG';
 export * from './ClockSVG';
 export * from './NotificationSVG';
+export * from './LocationSVG';
+export * from './ParticipantSVG';

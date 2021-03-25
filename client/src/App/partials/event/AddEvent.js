@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
 // Components
-import { Inputfield, Radio, StandardButton, Textarea } from '../../components';
+import { Datepicker, Duration, GreyButton, Inputfield, Message, Radio, StandardButton, Textarea } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
 
 // Services
-import { useAuth } from '../../services';
+import { useApi, useAuth } from '../../services';
 
 export const AddEvent = ({ user }) => {
   // Routing
@@ -16,29 +16,69 @@ export const AddEvent = ({ user }) => {
 
   // Services
   const { currentUser } = useAuth();
+  const { createEvent } = useApi();
 
   // States
   const [ form, setForm ] = useState({
     title: '',
     description: '',
-    details: {
-      location: '',
-      speed: '',
-      date: '',
-      duration: '',
-    },
+    location: '',
+    speed: '',
+    date: Date.now(),
+    duration: '00:00:00',
     gpxFile: '',
     type: 'ride',
   });
 
   const [ error, setError ] = useState(false);
 
+  const uploadEvent = async () => {
+    if (form.title.length === 0 || form.description.length === 0 || form.location.length === 0 || form.date.length || 0) {
+      setError(true);
+      return;
+    };
+
+    if (form.type === "ride") {
+      if (form.duration === '00:00:00' || form.speed.length === 0) {
+        setError(true);
+        return;
+      };
+
+      const result = await createEvent(currentUser, {
+        title: form.title,
+        description: form.description,
+        details: {
+          location: form.location,
+          speed: form.speed,
+          date: form.date,
+          duration: form.duration,
+        },
+        type: form.type,
+        gpxFile: form.gpxFile,
+      });
+
+      history.push(Routes.EVENT.replace(':id', result._id));
+    } else {
+      const result = await createEvent(currentUser, {
+        title: form.title,
+        description: form.description,
+        details: {
+          location: form.location,
+          date: form.date,
+        },
+        type: form.type,
+      });
+
+      history.push(Routes.EVENT.replace(':id', result._id));
+    };
+  };
+
   return (
     <>
       <div className="create-challenge">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="secundary-font bold-font title-size">Evenement maken</h5>
-          <StandardButton text="Keer terug" action={() => history.push(Routes.CREATE_EVENT)} />
+          <StandardButton text="Keer terug" action={() => history.push(Routes.EVENTS)} />
         </div>
         <div className="section-title">
           <h5>TYPE EVENEMENT</h5>
@@ -84,7 +124,71 @@ export const AddEvent = ({ user }) => {
             />
           </div>
         </div>
+        <div className="section-title margin-top-50">
+          <h5>SPECIFIEKE GEGEVENS</h5>
+        </div>
+        {
+          form.type === "ride" && (
+            <div className="row">
+              <div className="col-lg-3 col-md-6 col-12">
+                <Duration 
+                  defaultHours={form.duration.split(':')[0]} 
+                  defaultMinutes={form.duration.split(':')[1]} 
+                  defaultSeconds={form.duration.split(':')[2]} 
+                  form={form}
+                  changeFully={setForm}
+                />
+              </div>
+              <div className="col-lg-3 col-md-6 col-12">
+                <Inputfield 
+                  label="Snelheid"
+                  id="speed"
+                  name="speed"
+                  size="large"
+                  changeInput={(e) => setForm({...form, speed: e.target.value})}
+                />
+              </div>
+            </div>
+          )
+        }
+        <div className="row">
+          <div className="col-lg-3 col-md-6 col-12">
+            <Inputfield 
+              label="Locatie"
+              id="location"
+              name="location"
+              size="large"
+              changeInput={(e) => setForm({...form, location: e.target.value})}
+            />
+          </div>
+          <div className="col-lg-3 col-md-6 col-12">
+            <Datepicker 
+              label="Datum" 
+              startDate={form.date} 
+              whenChanging={(date) => setForm({...form, date: date})} 
+            />
+          </div>
+        </div>
+        {
+          error && (
+            <Message 
+              error={true}
+              message="Dit evenement kon niet worden aangemaakt."
+            />
+          )
+        }
+        <div className="d-flex justify-content-end margin-top-50">
+          <StandardButton  
+            text="Evenement aanmaken"
+            extraClasses="margin-right-10"
+            action={uploadEvent}
+          />
+          <GreyButton
+            text="Annuleren"
+            action={() => history.push(Routes.EVENTS)}
+          />
+        </div>
       </div>
     </>
-  )
+  );
 };

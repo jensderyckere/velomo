@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { StandardButton } from '../components';
 
 // Partials
-import { EventsCalendar } from '../partials';
+import { EventsCalendar, EventsOverview } from '../partials';
 
 // Services
 import { useApi, useAuth } from '../services';
@@ -61,6 +61,9 @@ export const Events = () => {
           </div>
           <div className="col-lg-5 col-12">
             <h2 className="secundary-font title-size bold-font">Alle beschikbare evenementen</h2>
+            <EventsOverview 
+              events={events}
+            />
           </div>
         </div>
       </section>

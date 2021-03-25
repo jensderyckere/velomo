@@ -50,8 +50,8 @@ export const Activities = () => {
             Alle activiteiten
           </h1>
           <StandardButton 
-            text="Activiteit maken"
-            action={() => history.push(Routes.CREATE_ACTIVITY)}
+            text="Activiteiten importeren"
+            action={() => history.push(Routes.SETTINGS.replace(':setting', 'connections'))}
           />
         </div>
         <ActivitiesOverview 
