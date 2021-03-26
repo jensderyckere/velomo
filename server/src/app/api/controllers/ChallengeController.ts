@@ -642,15 +642,15 @@ export default class ChallengeController {
               seen: false,
             }).exec();
 
-            const newPopup : IPopup = new Popup({
-              addedPt: 2,
-              previousPt: user.cyclist.pts,
-              currentPt: user.cyclist.pts + 2,
-              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
-              _userId: userId,
-            });
+            // const newPopup : IPopup = new Popup({
+            //   addedPt: 2,
+            //   previousPt: user.cyclist.pts,
+            //   currentPt: user.cyclist.pts + 2,
+            //   text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
+            //   _userId: userId,
+            // });
 
-            await newPopup.save();
+            // await newPopup.save();
           };
         };
       };
@@ -698,15 +698,15 @@ export default class ChallengeController {
               seen: false,
             }).exec();
 
-            const newPopup : IPopup = new Popup({
-              addedPt: 2,
-              previousPt: user.cyclist.pts,
-              currentPt: user.cyclist.pts + 2,
-              text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
-              _userId: userId,
-            });
+            // const newPopup : IPopup = new Popup({
+            //   addedPt: 2,
+            //   previousPt: user.cyclist.pts,
+            //   currentPt: user.cyclist.pts + 2,
+            //   text: `Je hebt de uitdaging "${challenge.title}" voltooid. Daarvoor verkrijg je een aantal punten en een badge. Proficiat!`,
+            //   _userId: userId,
+            // });
 
-            await newPopup.save();
+            // await newPopup.save();
           };
         };
       };

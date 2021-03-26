@@ -239,7 +239,7 @@ export const RandomChallenge = ({ user }) => {
     )
   };
 
-  return challenge ? (
+  return challenge ? Moment(Date.now()).isBetween(challenge.start_date, challenge.end_date) && (
     <div className="grey-card d-lg-block d-none dashboard-challenge margin-top-20">
       <h1 className="secundary-font title-size bold-font margin-top-30 margin-bottom-50">Op de hoogte van de recentste ontwikkelingen!</h1>
       <DesktopRandomView />

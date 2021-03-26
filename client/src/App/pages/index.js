@@ -22,3 +22,4 @@ export * from './CallbackStrava';
 export * from './Events';
 export * from './CreateEvent';
 export * from './Event';
+export * from './EditEvent';

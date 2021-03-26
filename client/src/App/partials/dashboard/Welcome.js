@@ -16,7 +16,7 @@ export const Welcome = ({ screenSize }) => {
           <img src={Placeholder} alt="wva"/>
         </div>
         <div className="welcome__holder--text">
-          <h2 className={`primary-font white-color text-shadow ${screenSize === 'xl' || screenSize === 'lg' ? 'giant-title-size' : 'subtitle-size'}`}>Nog {Moment(Date.now()).diff(Moment('01/04/2021'), 'days')} dagen tot de Ronde van Vlaanderen</h2>
+          <h2 className={`primary-font white-color text-shadow ${screenSize === 'xl' || screenSize === 'lg' ? 'giant-title-size' : 'subtitle-size'}`}>Nog {Moment(Moment('04/01/2021')).diff(Date.now(), 'days')} dagen tot de Ronde van Vlaanderen</h2>
           <p className={`secundary-font white-color text-shadow ${screenSize === 'xl' || screenSize === 'lg' ? 'title-size' : 'text-size'}`}>
             -{DateText(Date.now())}
           </p>

@@ -42,7 +42,7 @@ export const EventsOverview = ({ events }) => {
           </span>
           <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
             <ParticipantSVG />
-             {item.participants.length} deelnemers
+             {item.participants.length} deelnemer(s)
           </span>
         </div>
       </div>

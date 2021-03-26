@@ -573,6 +573,37 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const editEvent = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const deleteEvent = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const participateEvent = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}participate-event/${id}`;
 
@@ -593,6 +624,68 @@ const ApiProvider = ({
 
     const res = await fetch(url, {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getComments = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}comments/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const createComment = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}comments/${id}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const editComment = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}comments/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const deleteComment = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}comments/${id}`;
+
+    const res = await fetch(url, {
+      method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -643,6 +736,12 @@ const ApiProvider = ({
         createEvent,
         participateEvent,
         withdrawEvent,
+        editEvent,
+        deleteEvent,
+        getComments,
+        createComment,
+        editComment,
+        deleteComment,
       }
     }> {
       children

@@ -96,7 +96,7 @@ export default class CommentController {
 
       const comment = await Comment.findById(commentId).exec();
 
-      if (comment.commenterId !== userId) return res.status(404).json({
+      if (String(comment.commenterId) !== String(userId)) return res.status(404).json({
         message: "Comment can't be edited",
         redirect: false,
         status: 401,
@@ -125,7 +125,7 @@ export default class CommentController {
 
       const comment = await Comment.findById(commentId).exec();
 
-      if (comment.commenterId !== userId) return res.status(404).json({
+      if (String(comment.commenterId) !== String(userId)) return res.status(404).json({
         message: "Comment can't be edited",
         redirect: false,
         status: 401,

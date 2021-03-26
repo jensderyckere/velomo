@@ -11,7 +11,7 @@ import { useApi, useAuth } from '../services';
 import * as Routes from '../routes';
 
 // Partials
-import { EventContent } from '../partials';
+import { Comments, EventContent } from '../partials';
 
 export const Event = () => {
   // Routing
@@ -53,6 +53,7 @@ export const Event = () => {
     <div className="container">
       <section className="w-100">
         <EventContent event={event} user={user} refresh={refreshStates} />
+        <Comments event={event} user={user} />
       </section>
     </div>
   ) : <LoaderSVG /> : <LoaderSVG />;

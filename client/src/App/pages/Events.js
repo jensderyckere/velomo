@@ -57,7 +57,7 @@ export const Events = () => {
             }
           </div>
           <div className="col-lg-6 d-lg-flex d-none">
-            <EventsCalendar />
+            <EventsCalendar events={participatedEvents} />
           </div>
           <div className="col-lg-5 col-12">
             <h2 className="secundary-font title-size bold-font">Alle beschikbare evenementen</h2>

@@ -81,11 +81,11 @@
     font-family: $secundary-family;
     font-weight: 700;
     font-size: $d-text;
-    margin: 0 0 10px 20px;
+    margin: 0 0 5px 20px;
   }
 
   button {
-    margin-top: 10px;
+    margin-top: 5px;
     background: $white;
     border: 0.5px solid $grey;
     box-sizing: border-box;
@@ -199,10 +199,6 @@
 
 @mixin slider {
   margin-bottom: 80px;
-
-  span, input {
-    // display: block;
-  }
 
   .slider__label {
     font-family: $secundary-family;

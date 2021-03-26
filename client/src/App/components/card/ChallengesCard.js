@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { default as Moment } from 'moment';
 import 'moment/locale/nl-be';
@@ -13,6 +13,17 @@ import * as Routes from '../../routes';
 export const ChallengesCard = ({ title, challenges }) => {
   // Routing
   const history = useHistory();
+
+  // States
+  const [ noChallenges, setNoChallenges ] = useState(true);
+
+  useEffect(() => {
+    for (let challengeItem of challenges) {
+      if (Moment(Date.now()).isBetween(challengeItem.start_date, challengeItem.end_date)) {
+        setNoChallenges(false);
+      };
+    };
+  }, [challenges]);
 
   const ChallengeShort = ({ challenge }) => {
     return !challenge.completed && Moment(Date.now()).isBetween(challenge.start_date, challenge.end_date) ? (
@@ -40,9 +51,11 @@ export const ChallengesCard = ({ title, challenges }) => {
     <div className="grey-card challenge-card">
       <h3 className="secundary-font text-center title-size bold-font margin-bottom-30">{title}</h3>
       {
-        challenges.map((challenge, index) => {
+        !noChallenges ? challenges.map((challenge, index) => {
           return challenge._challengeId ? <ChallengeShort key={index} challenge={challenge._challengeId} /> : <ChallengeShort key={index} challenge={challenge} />
-        })
+        }) : (
+          <div className="text-center light-font secundary-font text-size">Er zijn geen actieve uitdagingen momenteel.</div>
+        )
       }
     </div>
   )

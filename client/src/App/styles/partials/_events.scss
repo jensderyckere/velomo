@@ -6,6 +6,37 @@
   width: 100%;
   min-height: 500px;
 
+  &__events {
+    margin-top: 20px;
+
+    &-item {
+      background-color: $lightgrey;
+      cursor: pointer;
+      padding: 15px 20px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: ease-in-out 0.5s;
+
+      h5 {
+        margin-bottom: 5px;
+      }
+      
+      span {
+        background-color: $orange;
+        padding: 5px 20px;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+
+    &-item:hover {
+      opacity: 0.8;
+    }
+  }
+
   .lower-date {
     margin-top: 55.5px;
   }
@@ -109,5 +140,47 @@
         width: 20px;
       }
     }
+  }
+}
+
+.comments {
+  &__edit {
+    width: 100%;
+  }
+  &__item {
+    border-bottom: 1px solid $lightgrey;
+    padding: 20px 0;
+
+    &--actions {
+      svg:nth-of-type(1) {
+        fill: $orange;
+        margin-right: 10px;
+      }
+
+      svg,path {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+      }
+    }
+  }
+  &__field {
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  &__field:focus {
+    border: 2px solid rgba($color: $orange, $alpha: 0.3);
+    outline: none;
   }
 }

@@ -55,7 +55,12 @@ export const EventContent = ({ event, user, refresh }) => {
           }
           {
             event.gpxFile && (
-              <GreyButton text="Download route" />
+              <GreyButton extraClasses="margin-left-10" text="Download route" />
+            )
+          }
+          {
+            user._id === event._creatorId._id && (
+              <StandardButton extraClasses="margin-left-10" text="Bewerken" action={() => history.push(Routes.EDIT_EVENT, {id: event._id})} />
             )
           }
         </div>
@@ -70,8 +75,8 @@ export const EventContent = ({ event, user, refresh }) => {
           <p className="light-font tertiary-font text-size">
             {event.description}
           </p>
-          <div className="margin-top-20 d-flex align-items-center">
-            <div className="avatar avatar-standard margin-right-20 pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(event._creatorId.firstName + ' ' + event._creatorId.lastName)).replace(':id', event._creatorId._id))} style={{
+          <div className="margin-top-30 d-flex align-items-center">
+            <div className="avatar avatar-small margin-right-20 pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(event._creatorId.firstName + ' ' + event._creatorId.lastName)).replace(':id', event._creatorId._id))} style={{
               backgroundImage: `url(${ImageUrl(event._creatorId.profile.avatar, DefaultUser)})`
             }}></div>
             <span className="secundary-font bold-font hover-text pointer text-size" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(event._creatorId.firstName + ' ' + event._creatorId.lastName)).replace(':id', event._creatorId._id))}>
@@ -80,7 +85,7 @@ export const EventContent = ({ event, user, refresh }) => {
           </div>
         </div>
       </div>
-      <div className="col-md-5 col-12 d-flex justify-content-end">
+      <div className="col-md-5 col-12 d-flex justify-content-md-end justify-content-start margin-top-30">
         <div>
           <h5 className="secundary-font subtitle-size bold-font margin-bottom-20">Details</h5>
           {
@@ -123,7 +128,7 @@ export const EventContent = ({ event, user, refresh }) => {
               ) : (
                 event.participants.map((participant, index) => {
                   return index < 3 ? (
-                    <div className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(participant.firstName + ' ' + participant.lastName)).replace(':id', participant._id))} style={{
+                    <div key={index} className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(participant.firstName + ' ' + participant.lastName)).replace(':id', participant._id))} style={{
                       backgroundImage: `url(${ImageUrl(participant.profile.avatar, DefaultUser)})`
                     }}></div>
                   ) : (

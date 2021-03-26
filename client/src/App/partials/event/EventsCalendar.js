@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Moment from 'moment';
 import 'moment/locale/nl-be';
-import { NextSVG, PreviousSVG } from '../../components';
+import { DateText, NextSVG, PreviousSVG } from '../../components';
 
-export const EventsCalendar = () => {
+export const EventsCalendar = ({events}) => {
   // Variables
   const MONTHS = Moment.months();
 
@@ -13,6 +13,8 @@ export const EventsCalendar = () => {
   const [ day, setDay ] = useState(Moment(Date.now()).date());
   // eslint-disable-next-line
   const [ year, setYear ] = useState(Moment(Date.now()).year());
+
+  const [ visibleEvents, setVisibleEvents ] = useState();
 
   const [ mondays, setMondays ] = useState([]);
   const [ tuesdays, setTuesdays ] = useState([]);
@@ -30,6 +32,16 @@ export const EventsCalendar = () => {
     let fridaysArray = [];
     let saturdaysArray = [];
     let sundaysArray = [];
+
+    let currentEvents = [];
+
+    for (let i = 0; i < events.length; i++) {
+      if (Moment(events[i].details.date).month() === month) {
+        currentEvents.push(events[i]);
+      };
+    };
+
+    setVisibleEvents(currentEvents);
 
     for (let i = 0; i < days; i++) {
       const dayIndex = i+1;
@@ -71,7 +83,7 @@ export const EventsCalendar = () => {
       setSaturdays(saturdaysArray);
       setSunday(sundaysArray);
     };
-  }, [month, days, year]);
+  }, [month, days, year, events]);
 
   const Day = ({ number, extraClass }) => {
     return <div className={`text-center text-size light-font secundary-font events-calendar__dates-wrapper--bar--digit ${day === number ? 'current-day' : ''} ${extraClass && extraClass}`} onClick={() => setDay(number)}>{number}</div>
@@ -230,6 +242,29 @@ export const EventsCalendar = () => {
         </div>
       </div>
       <h4 className="secundary-font subtitle-size bold-font margin-top-50">Jouw komende evenementen</h4>
+      <div className="events-calendar__events">
+        {
+          visibleEvents && visibleEvents.length !== 0 ? visibleEvents.map((visibleEvent, index) => {
+             return <div className="events-calendar__events-item" key={index}>
+               <div>
+                <h5 className="secundary-font text-size bold-font margin-0">
+                  {visibleEvent.title}
+                </h5>
+                <p className="margin-0 text-size light-font secundary-font">
+                  Op {DateText(visibleEvent.details.date)}
+                </p>
+               </div>
+               <span className="secundary-font text-size bold-font">
+                 {visibleEvent.type}
+               </span>
+            </div>
+          }) : (
+            <span className="secundary-font light-font text-size">
+              Er zijn nog geen evenementen op jouw agenda
+            </span>
+          )
+        }
+      </div>
     </div>
   );
 };
