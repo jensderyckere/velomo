@@ -1016,33 +1016,12 @@ export default class UserController {
                 status: 409,
             });
 
-            // Create all milestones
-            // let arrayOfMilestones = [];
-            // const milestones = Content.milestones;
-
-            // for (let i = 0; i < milestones.length; i++) {
-            //     let createdMilestone: IMilestone = new Milestone({
-            //         title: milestones[i].title,
-            //         description: milestones[i].description,
-            //         type: milestones[i].type,
-            //         goal: milestones[i].goal,
-            //         badge: milestones[i].badge,
-            //     });
-
-            //     let savedMilestone = await createdMilestone.save();
-
-            //     arrayOfMilestones.push(savedMilestone);
-            // };
-
             let createUser: IUser = new User({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 role: role,
                 password: password,
-                // cyclist: {
-                //     _milestoneIds: arrayOfMilestones,
-                // },
                 profile: {
                     uniqueCode: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
                 },

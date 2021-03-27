@@ -10,6 +10,9 @@ import * as Routes from '../routes';
 // Partials
 import { ChangeChallenge } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const EditChallenge = () => {
   const { id } = useParams();
 
@@ -54,5 +57,5 @@ export const EditChallenge = () => {
         </section>
       </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

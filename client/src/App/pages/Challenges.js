@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Badge, ImageUrl } from '../components';
+
+// Components
+import { Badge, ImageUrl, LoaderSVG } from '../components';
 
 // Routes
 import * as Routes from '../routes';
@@ -121,5 +123,5 @@ export const Challenges = () => {
         }
       </section>
     </div>
-  ) : '';
+  ) : <LoaderSVG />;
 };

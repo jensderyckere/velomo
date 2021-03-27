@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+// Components
+import { LoaderSVG } from '../components';
+
 // Partials
 import { 
   NotificationsOverview 
@@ -62,6 +65,6 @@ export const Notifications = () => {
           <NotificationsOverview notifications={notifications} />
         </section>
       </div>
-    ) : ''
+    ) : <LoaderSVG />
   );
 };

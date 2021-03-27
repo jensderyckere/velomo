@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
+// Components
+import { LoaderSVG } from '../components';
+
 // Partials
 import { EditForm } from '../partials';
 
@@ -30,5 +33,5 @@ export const EditActivity = () => {
         </section>
       </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

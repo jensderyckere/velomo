@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 // Components
-import { Badge, ImageUrl, StandardButton } from '../components';
+import { Badge, ImageUrl, LoaderSVG, StandardButton } from '../components';
 
 // Services
 import { useApi, useAuth } from '../services';
@@ -96,5 +96,5 @@ export const Goals = () => {
         </div>
       </section>
     </div>
-  ) : '';
+  ) : <LoaderSVG />;
 };

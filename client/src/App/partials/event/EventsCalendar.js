@@ -260,7 +260,7 @@ export const EventsCalendar = ({events}) => {
             </div>
           }) : (
             <span className="secundary-font light-font text-size">
-              Er zijn nog geen evenementen op jouw agenda
+              Er zijn nog geen evenementen op jouw agenda.
             </span>
           )
         }

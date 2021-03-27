@@ -11,7 +11,7 @@ import * as Routes from '../routes';
 import { ScreenSizeClassSwitch } from '../utils';
 
 // Components
-import { SideSwitch, SideSwitchLink } from '../components';
+import { LoaderSVG, SideSwitch, SideSwitchLink } from '../components';
 
 // Partials
 import { SettingsWrapper } from '../partials';
@@ -73,6 +73,6 @@ export const MyProfileSettings = () => {
           </section>
         </div>
       </>
-    ) : ''
+    ) : <LoaderSVG />
   );
 };

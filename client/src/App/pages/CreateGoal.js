@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+// Components
+import { LoaderSVG } from '../components';
+
 // Partials
 import { AddGoal } from '../partials';
 
@@ -28,5 +31,5 @@ export const CreateGoal = () => {
         <AddGoal user={user} />
       </section>
     </div>
-  ) : '';
+  ) : <LoaderSVG />;
 };

@@ -10,6 +10,9 @@ import * as Routes from '../routes';
 // Partials
 import { CreateForm } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const CreateActivity = () => {
   // Routing
   const history = useHistory();
@@ -42,5 +45,5 @@ export const CreateActivity = () => {
         </section>
       </div>
     </>
-  ) : ''
+  ) : <LoaderSVG />
 };

@@ -10,6 +10,9 @@ import * as Routes from '../routes';
 // Partials
 import { ChangeEvent } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const EditEvent = () => {
   const { state } = useLocation();
   const id = state.id;
@@ -53,5 +56,5 @@ export const EditEvent = () => {
         </section>
       </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

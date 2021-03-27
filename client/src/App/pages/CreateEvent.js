@@ -6,7 +6,12 @@ import { useAuth } from '../services';
 
 // Routes
 import * as Routes from '../routes';
+
+// Partials
 import { AddEvent } from '../partials';
+
+// Components
+import { LoaderSVG } from '../components';
 
 export const CreateEvent = () => {
   // Routing
@@ -44,5 +49,5 @@ export const CreateEvent = () => {
         </section>
       </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

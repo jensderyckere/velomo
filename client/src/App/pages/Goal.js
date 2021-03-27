@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+// Components
+import { LoaderSVG } from '../components';
+
 // Partials
 import { GoalCard, GoalCharts, GoalContent } from '../partials';
 
@@ -55,5 +58,5 @@ export const Goal = () => {
         />
       </section>
     </div>
-  ) : '' : '';
+  ) : <LoaderSVG /> : <LoaderSVG />;
 };

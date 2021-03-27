@@ -5,3 +5,4 @@ export * from './UserOverview';
 export * from './UserStats';
 export * from './UserLevelBar';
 export * from './UserBadges';
+export * from './UserPts';

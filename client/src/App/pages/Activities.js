@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { StandardButton } from '../components';
+
+// Components
+import { LoaderSVG, StandardButton } from '../components';
 
 // Partials
 import { ActivitiesOverview } from '../partials/activity';
@@ -62,5 +64,5 @@ export const Activities = () => {
       </div>
     </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

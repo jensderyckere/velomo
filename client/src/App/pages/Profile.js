@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+// Components
+import { LoaderSVG } from '../components';
+
 // Partials
 import { MyUserContent, UserCard } from '../partials';
 
@@ -62,6 +65,6 @@ export const Profile = () => {
           </section>
         </div>
       </>
-    ) : ''
+    ) : <LoaderSVG />
   )
 };

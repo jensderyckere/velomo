@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // Partials
-import { UserOverview, ChallengeOverview, UserLevelBar, UserBadges } from '..';
+import { UserOverview, ChallengeOverview, UserBadges, UserPts } from '..';
 
 // Components
 import { ColumnChart } from '../../components';
@@ -87,10 +87,13 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
 
     return distanceData ? (
       <>
-      <UserLevelBar 
+      {/* <UserLevelBar 
         lvl={user.cyclist.level}
         title={user.cyclist.level_name}
         xp={user.cyclist.xp}
+      /> */}
+      <UserPts 
+        user={user}
       />
       <div className="user-content__graph margin-top-50">
         <h3 className="secundary-font bold-font title-size margin-bottom-30">

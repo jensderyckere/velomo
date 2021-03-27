@@ -13,6 +13,9 @@ import { ScreenSizeClassSwitch } from '../utils';
 // Routes
 import * as Routes from '../routes';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const Challenge = () => {
   const { id } = useParams();
 
@@ -74,6 +77,6 @@ export const Challenge = () => {
           />
         </section>
       </div>
-    ) : ''
+    ) : <LoaderSVG />
   );
 };

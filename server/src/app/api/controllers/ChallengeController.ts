@@ -99,7 +99,7 @@ export default class ChallengeController {
       };
 
       // Get challenges from myself
-      const participatedChallenges = await ChallengeParticipated.find({
+      let participatedChallenges = await ChallengeParticipated.find({
         _userId: userId
       }).populate({
         path: '_challengeId'

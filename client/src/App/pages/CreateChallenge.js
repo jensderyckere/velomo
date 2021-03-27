@@ -10,6 +10,9 @@ import * as Routes from '../routes';
 // Partials
 import { AddChallenge } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const CreateChallenge = () => {
   // Routing
   const history = useHistory();
@@ -46,5 +49,5 @@ export const CreateChallenge = () => {
         </section>
       </div>
     </>
-  ) : '';
+  ) : <LoaderSVG />;
 };

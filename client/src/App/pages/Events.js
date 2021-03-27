@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 // Components
-import { StandardButton } from '../components';
+import { LoaderSVG, StandardButton } from '../components';
 
 // Partials
 import { EventsCalendar, EventsOverview } from '../partials';
@@ -57,7 +57,9 @@ export const Events = () => {
             }
           </div>
           <div className="col-lg-6 d-lg-flex d-none">
-            <EventsCalendar events={participatedEvents} />
+            <EventsCalendar 
+              events={participatedEvents} 
+            />
           </div>
           <div className="col-lg-5 col-12">
             <h2 className="secundary-font title-size bold-font">Alle beschikbare evenementen</h2>
@@ -68,5 +70,5 @@ export const Events = () => {
         </div>
       </section>
     </div>
-  ) : '' : '' : '';
+  ) : <LoaderSVG /> : <LoaderSVG /> : <LoaderSVG />;
 };

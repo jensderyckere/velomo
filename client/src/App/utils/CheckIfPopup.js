@@ -40,10 +40,10 @@ export const CheckIfPopup = ({ children }) => {
   return popups ? popups[viewedIndex] ? (
     <>
       <XPAdded 
-        addedXp={popups[viewedIndex].addedXp}
+        addedXp={popups[viewedIndex].addedPt}
         text={popups[viewedIndex].text}
-        currentXp={popups[viewedIndex].currentXp}
-        previousXp={popups[viewedIndex].previousXp}
+        currentXp={popups[viewedIndex].currentPt}
+        previousXp={popups[viewedIndex].previousPt}
         action={() => nextPopup(viewedIndex)}
       />
       {children}

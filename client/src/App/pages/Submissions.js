@@ -10,6 +10,9 @@ import * as Routes from '../routes';
 // Partials
 import { SubmissionCard } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const Submissions = () => {
   const { id } = useParams();
 
@@ -56,5 +59,5 @@ export const Submissions = () => {
         </div>
       </section>
     </div>
-  ) : '';
+  ) : <LoaderSVG />;
 };

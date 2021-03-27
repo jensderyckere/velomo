@@ -13,6 +13,9 @@ import * as Routes from '../routes';
 // Partials
 import { ActivityBio, ActivityMap } from '../partials';
 
+// Components
+import { LoaderSVG } from '../components';
+
 export const Activity = () => {
   // Id of activity 
   const { id } = useParams();
@@ -75,7 +78,7 @@ export const Activity = () => {
       }
       </>
     ) : (
-      <></>
+      <LoaderSVG />
     )
   );
 };
