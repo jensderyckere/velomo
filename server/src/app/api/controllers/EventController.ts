@@ -122,11 +122,15 @@ export default class EventController {
 
       let result = [];
 
-      const events = await Event.find().sort({_createdAt: -1}).exec();
+      const events = await Event.find().sort({
+        _createdAt: -1
+      }).exec();
 
       for (let i = 0; i < events.length; i++) {
-        if (events[i].participants.includes(userId)) {
-          result.push(events[i]);
+        for (let participant of events[i].participants) {
+          if (String(participant._userId) === String(userId)) {
+            result.push(events[i]);
+          };
         };
       };
 
@@ -143,7 +147,10 @@ export default class EventController {
       } = req.params;
 
       const event = await Event.findById(eventId).populate({
-        path: 'participants'
+        path: 'participants',
+        populate: {
+          path: '_userId',
+        }
       }).populate({
         path: '_creatorId'
       }).exec();
@@ -217,7 +224,9 @@ export default class EventController {
 
   updateEvent = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
-      const { eventId } = req.params;
+      const {
+        eventId
+      } = req.params;
 
       const {
         title,
@@ -254,14 +263,16 @@ export default class EventController {
       }).exec();
 
       return res.status(200).json(updatedEvent);
-    } catch(e) {
+    } catch (e) {
       next(e);
     };
   };
 
   deleteEvent = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
-      const { eventId } = req.params;
+      const {
+        eventId
+      } = req.params;
 
       const userId = this.auth.checkId(req, res);
 
@@ -304,15 +315,22 @@ export default class EventController {
         status: 404,
       });
 
-      if (event.participants.includes(userId)) return res.status(400).json({
-        message: "Already participating",
-        redirect: false,
-        status: 400,
-      });
+      for (let participant of event.participants) {
+        if (String(participant._userId === userId)) {
+          return res.status(400).json({
+            message: "Already participating",
+            redirect: false,
+            status: 400,
+          });
+        };
+      };
 
       const updatedEvent = await Event.findByIdAndUpdate(eventId, {
         $push: {
-          participants: userId,
+          participants: {
+            _userId: userId,
+            present: false,
+          },
         },
       }).exec();
 
@@ -340,19 +358,58 @@ export default class EventController {
         status: 404,
       });
 
-      if (!event.participants.includes(userId)) return res.status(400).json({
-        message: "Already not participating",
-        redirect: false,
-        status: 400,
-      });
-
       const updatedEvent = await Event.findByIdAndUpdate(eventId, {
         $pull: {
-          participants: user._id,
+          participants: {
+            _userId: user._id,
+          },
         },
       }).exec();
 
       return res.status(200).json(updatedEvent);
+    } catch (e) {
+      next(e);
+    };
+  };
+
+  approvePresence = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    try {
+      const {
+        eventId,
+        userId,
+      } = req.params;
+
+      const creatorId = this.auth.checkId(req, res);
+
+      const event = await Event.findById(eventId)
+        .exec();
+
+      if (!event) {
+        return res.status(404).json({
+          message: "No event has been found",
+          redirect: false,
+          status: 404,
+        });
+      };
+
+      if (String(creatorId) !== String(event._creatorId)) {
+        return res.status(401).json({
+          message: "Unauthorized",
+          redirect: false,
+          status: 401,
+        });
+      };
+
+      const updatedEvent = await Event.findOneAndUpdate({
+        _id: eventId,
+        'participants._userId': userId
+      }, {
+        $set: {
+          'participants.$.present': true,
+        }
+      }).exec();
+
+      return res.status(400).json(updatedEvent);
     } catch (e) {
       next(e);
     };

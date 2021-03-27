@@ -154,6 +154,7 @@ export default class ApiRouter {
         this.router.delete('/event/:eventId', this.userController.checkToken, this.eventController.deleteEvent);
         this.router.post('/participate-event/:eventId', this.userController.checkToken, this.eventController.participateEvent);
         this.router.post('/withdraw-event/:eventId', this.userController.checkToken, this.eventController.withdrawEvent);
+        this.router.post('/approve-presence/:eventId/:userId', this.userController.checkToken, this.eventController.approvePresence);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

@@ -4,3 +4,4 @@ export * from './AddEvent';
 export * from './EventContent';
 export * from './Comments';
 export * from './ChangeEvent';
+export * from './CheckPresence';

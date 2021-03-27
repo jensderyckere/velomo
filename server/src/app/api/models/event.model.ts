@@ -8,15 +8,16 @@ import {
   IUser,
 } from './user.model';
 
-import {
-  IComment,
-} from './comment.model';
-
 interface IDetails {
   location: string;
   speed: number;
   date: string;
   duration: string;
+};
+
+interface IParticipant {
+  _userId: IUser['_id'];
+  present: boolean;
 };
 
 interface IEvent extends Document {
@@ -25,8 +26,7 @@ interface IEvent extends Document {
   details: IDetails;
   gpxFile: string;
   type: string;
-  participants: Array<IUser['_id']>;
-  comments: Array<IComment['_id']>
+  participants: Array<IParticipant>;
   _creatorId: IUser['_id'];
   _createdAt: string;
   _modifiedAt: string;
@@ -69,8 +69,14 @@ const eventSchema : Schema = new Schema({
     required: true,
   },
   participants: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+    _userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    present: {
+      type: Boolean,
+      default: false,
+    },
   }],
   comments: [{
     type: Schema.Types.ObjectId,

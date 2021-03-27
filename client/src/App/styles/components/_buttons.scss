@@ -62,7 +62,12 @@
 
     svg {
       height: 18px;
+      width: 18px;
       margin-right: 10px;
+    };
+
+    svg, path {
+      fill: $orange;
     };
 
     text-decoration: none;

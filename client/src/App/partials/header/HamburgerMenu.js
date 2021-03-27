@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import User from '../../assets/icons/user.svg';
 import Logo from '../../assets/logos/full-logo.svg';
 
-import { ExitSVG, HamburgerButton, DashboardSVG, ChallengeSVG, ChatSVG, TeamSVG, GoalsSVG } from '../../components';
+import { ExitSVG, HamburgerButton, DashboardSVG, ChallengeSVG, ChatSVG, TeamSVG, GoalsSVG, LocationSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -107,6 +107,12 @@ export const HamburgerMenu = ({ user, hide }) => {
             />
           )
         }
+        <HamburgerButton 
+          title="Evenementen"
+          icon={<LocationSVG />}
+          slug="events"
+          route={Routes.EVENTS}
+        />
       </div>
     </div>
   );

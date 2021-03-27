@@ -63,6 +63,11 @@ export const EventContent = ({ event, user, refresh }) => {
               <StandardButton extraClasses="margin-left-10" text="Bewerken" action={() => history.push(Routes.EDIT_EVENT, {id: event._id})} />
             )
           }
+          {
+            user.role === 'club' && user._id === event._creatorId._id && (
+              <StandardButton extraClasses="margin-left-10" text="Aanwezigheden" action={() => history.push(Routes.APPROVE_EVENT.replace(':id', event._id))} />
+            )
+          }
         </div>
         <div className="margin-top-30">
           <h4 className="secundary-font title-size bold-font">
@@ -128,8 +133,8 @@ export const EventContent = ({ event, user, refresh }) => {
               ) : (
                 event.participants.map((participant, index) => {
                   return index < 3 ? (
-                    <div key={index} className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(participant.firstName + ' ' + participant.lastName)).replace(':id', participant._id))} style={{
-                      backgroundImage: `url(${ImageUrl(participant.profile.avatar, DefaultUser)})`
+                    <div key={index} className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(participant._userId.firstName + ' ' + participant._userId.lastName)).replace(':id', participant._userId._id))} style={{
+                      backgroundImage: `url(${ImageUrl(participant._userId.profile.avatar, DefaultUser)})`
                     }}></div>
                   ) : (
                     <div>

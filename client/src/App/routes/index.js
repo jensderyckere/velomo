@@ -44,6 +44,7 @@ export const EVENT = '/event/:id';
 export const EVENTS = '/events';
 export const CREATE_EVENT = '/create-event';
 export const EDIT_EVENT = '/edit-event';
+export const APPROVE_EVENT = '/approve-presence/:id';
 
 export const STRAVA_CALLBACK = '/exchange_token';
 

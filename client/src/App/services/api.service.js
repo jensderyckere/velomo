@@ -634,6 +634,21 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const approvePresence = async (token, eventId, userId) => {
+    const url = `${Config.clientConfig.apiUrl}approve-presence/${eventId}/${userId}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const getComments = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}comments/${id}`;
 
@@ -695,6 +710,7 @@ const ApiProvider = ({
 
     return await res.json();
   };
+  
 
   return ( <ApiContext.Provider value = {
       {
@@ -738,6 +754,7 @@ const ApiProvider = ({
         withdrawEvent,
         editEvent,
         deleteEvent,
+        approvePresence,
         getComments,
         createComment,
         editComment,
