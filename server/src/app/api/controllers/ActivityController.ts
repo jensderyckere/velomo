@@ -11,8 +11,11 @@ import {
 import {
   Activity,
   IActivity,
-  User
+  User,
+  Event,
 } from "../models";
+
+import Moment from 'moment';
 
 export default class ActivityController {
   private auth: Auth;
@@ -182,6 +185,27 @@ export default class ActivityController {
     } catch (e) {
       next(e);
     }
+  };
+
+  checkIfEvent = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    try {
+      const { id } = req.params;
+
+      const activity = await Activity.findById(id).exec();
+      const events = await Event.find().populate({path: 'participants', populate: {path: '_userId'}}).exec();
+
+      let checkIf : any = false;
+
+      for (let event of events) {
+        if (event.type === 'Ride' && Moment(activity.result.start_date_local).format('YYYY-MM-DD') === Moment(event.details.date).format('YYYY-MM-DD')) {
+          checkIf = event;
+        };
+      };
+
+      return res.status(200).json(checkIf);
+    } catch (e) {
+      next(e);
+    };
   };
 
   createActivity = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {

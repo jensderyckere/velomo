@@ -30,7 +30,7 @@ export const CheckPrensence = ({ event, refresh }) => {
   return (
     <div className="row">
       <div className="col-12">
-        <h2>Alle deelnemers</h2>
+        <h2 className="secundary-font bold-font title-size margin-bottom-30">Alle deelnemers</h2>
         <div className="presence-wrapper">
           {
             event.participants.length !== 0 ? event.participants.map((participant, index) => {
@@ -40,9 +40,9 @@ export const CheckPrensence = ({ event, refresh }) => {
                     <div className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(participant._userId.firstName + ' ' + participant._userId.lastName)).replace(':id', participant._userId._id))} style={{
                       backgroundImage: `url(${ImageUrl(participant._userId.profile.avatar, DefaultUser)})`
                     }}></div>
-                    <h5 className="secundary-font bold-font subtitle-size margin-left-20">
+                    <span className="secundary-font bold-font text-size margin-left-20">
                       {participant._userId.firstName + ' ' + participant._userId.lastName}
-                    </h5>
+                    </span>
                   </div>
                   <div className="presence-wrapper__item--check" onClick={() => approve(participant._userId._id)}> 
                     <CheckSVG />

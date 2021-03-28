@@ -26,6 +26,7 @@ import {
     GoalController,
     CommentController,
     EventController,
+    PointsystemController,
 } from "../controllers";
 
 export default class ApiRouter {
@@ -44,6 +45,7 @@ export default class ApiRouter {
     private goalController: GoalController;
     private commentController: CommentController;
     private eventController: EventController;
+    private pointsystemController: PointsystemController;
 
     constructor(config: IConfig, auth: Auth) {
         this.config = config;
@@ -67,6 +69,7 @@ export default class ApiRouter {
         this.goalController = new GoalController(this.auth);
         this.commentController = new CommentController(this.auth);
         this.eventController = new EventController(this.auth);
+        this.pointsystemController = new PointsystemController(this.auth);
     };
 
     private initRoutes(): void {
@@ -99,6 +102,7 @@ export default class ApiRouter {
 
         // Activity
         this.router.get('/activity/:id', this.userController.checkToken, this.activityController.showActivity);
+        this.router.get('/if-event/:id', this.userController.checkToken, this.activityController.checkIfEvent);
         this.router.post('/strava-activities', this.userController.checkToken, this.activityController.importStravaActivities);
         this.router.post('/upload-activity', this.userController.checkToken, multer({
             storage: memoryStorage()
@@ -155,6 +159,14 @@ export default class ApiRouter {
         this.router.post('/participate-event/:eventId', this.userController.checkToken, this.eventController.participateEvent);
         this.router.post('/withdraw-event/:eventId', this.userController.checkToken, this.eventController.withdrawEvent);
         this.router.post('/approve-presence/:eventId/:userId', this.userController.checkToken, this.eventController.approvePresence);
+
+        // Pointsystem
+        this.router.get('/system/:clubId', this.userController.checkToken, this.pointsystemController.getSystem);
+        this.router.get('/reward/:id', this.userController.checkToken, this.pointsystemController.getReward);
+        this.router.post('/system', this.userController.checkToken, this.pointsystemController.createSystem);
+        this.router.post('/reward', this.userController.checkToken, this.pointsystemController.createReward);
+        this.router.delete('/system', this.userController.checkToken, this.pointsystemController.deleteSystem);
+        this.router.delete('/reward/:rewardId', this.userController.checkToken, this.pointsystemController.deleteReward);
 
         // Reset
         this.router.post('/reset', this.resetController.send);

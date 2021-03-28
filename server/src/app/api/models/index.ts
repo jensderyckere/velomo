@@ -14,3 +14,7 @@ export * from './submission.model';
 export * from './popup.model';
 export * from './comment.model';
 export * from './event.model';
+export * from './reward.model';
+export * from './requirement.model';
+export * from './achievedRequirement.model';
+export * from './pointsystem.model';

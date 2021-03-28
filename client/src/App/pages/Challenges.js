@@ -36,7 +36,9 @@ export const Challenges = () => {
         setClubChallenges(retrievedClubChallenges.club._challengeIds);
         setUser(retrievedUser);
       } else if (retrievedUser.role === 'club') {
-
+        const retrievedClubChallenges = await getClubChallenges(currentUser, retrievedUser._id);       
+        setClubChallenges(retrievedClubChallenges.club._challengeIds);
+        setUser(retrievedUser);
       } else {
         throw new Error();
       };
@@ -119,6 +121,11 @@ export const Challenges = () => {
               <ParticipatedChallenges />
               <AvailableChallenges />
             </>
+          )
+        }
+        {
+          user.role === 'club' && (
+            <AvailableChallenges />
           )
         }
       </section>

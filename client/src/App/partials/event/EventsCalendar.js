@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+
 import Moment from 'moment';
 import 'moment/locale/nl-be';
+
+// Components
 import { DateText, NextSVG, PreviousSVG } from '../../components';
 
+// Routes
+import * as Routes from '../../routes';
+
 export const EventsCalendar = ({events}) => {
+  // Routing
+  const history = useHistory();
+
   // Variables
   const MONTHS = Moment.months();
 
@@ -245,7 +255,7 @@ export const EventsCalendar = ({events}) => {
       <div className="events-calendar__events">
         {
           visibleEvents && visibleEvents.length !== 0 ? visibleEvents.map((visibleEvent, index) => {
-             return <div className="events-calendar__events-item" key={index}>
+             return <div onClick={() => history.push(Routes.EVENT.replace(':id', visibleEvent._id))} className="events-calendar__events-item" key={index}>
                <div>
                 <h5 className="secundary-font text-size bold-font margin-0">
                   {visibleEvent.title}

@@ -6,3 +6,4 @@ export * from './EditForm';
 export * from './ActivitiesOverview';
 export * from './ActivityItem';
 export * from './ActivityImages';
+export * from './ActivityEvent';

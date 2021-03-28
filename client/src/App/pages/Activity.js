@@ -11,7 +11,7 @@ import { ScreenSizeClassSwitch } from '../utils';
 import * as Routes from '../routes';
 
 // Partials
-import { ActivityBio, ActivityMap } from '../partials';
+import { ActivityBio, ActivityEvent, ActivityMap } from '../partials';
 
 // Components
 import { LoaderSVG } from '../components';
@@ -26,24 +26,27 @@ export const Activity = () => {
   // Services
   const { screenSize } = useStyling();
   const { currentUser, getCurrentUser } = useAuth();
-  const { getActivity } = useApi();
+  const { getActivity, ifEvent } = useApi();
 
   // States
   const [ user, setUser ] = useState();
   const [ activity, setActivity ] = useState();
+  const [ event, setEvent ] = useState();
 
   // Fetch activity and current user
   const fetchData = useCallback(async () => {
     try {
       const userData = await getCurrentUser(currentUser);
       const activityData = await getActivity(currentUser, id);
+      const checkIfEvent = await ifEvent(currentUser, id);
 
       setUser(userData);
+      setEvent(checkIfEvent);
       setActivity(activityData);
     } catch (e) {
       history.push(Routes.ERROR);
     };
-  }, [getCurrentUser, currentUser, history, id, getActivity]);
+  }, [getCurrentUser, currentUser, history, id, getActivity, ifEvent]);
 
   useEffect(() => {
     fetchData();
@@ -55,6 +58,7 @@ export const Activity = () => {
       <>
       {
         screenSize === 'xl' || screenSize === 'lg' ? (
+          <>
           <div className={`container d-flex ${ScreenSizeClassSwitch('', 'flex-wrap')}`}>
             <section className="left-sided w-60">
               <ActivityBio user={user} activity={activity} />
@@ -67,6 +71,16 @@ export const Activity = () => {
               }
             </section>
           </div>
+          <div className="container d-flex">
+            <section className="left-sided w-50">
+                {
+                  event && (
+                    <ActivityEvent event={event} />
+                  )
+                }
+            </section>
+          </div>
+          </>
         ) : (
           <>
             <ActivityMap activity={activity} />

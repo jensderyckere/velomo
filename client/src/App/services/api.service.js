@@ -129,6 +129,21 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const ifEvent = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}if-event/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const importStravaActivities = async (token, content) => {
     const url = `${Config.clientConfig.apiUrl}strava-activities`;
 
@@ -710,7 +725,6 @@ const ApiProvider = ({
 
     return await res.json();
   };
-  
 
   return ( <ApiContext.Provider value = {
       {
@@ -752,6 +766,7 @@ const ApiProvider = ({
         createEvent,
         participateEvent,
         withdrawEvent,
+        ifEvent,
         editEvent,
         deleteEvent,
         approvePresence,

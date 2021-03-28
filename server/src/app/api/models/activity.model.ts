@@ -8,8 +8,12 @@ import {
   IUser
 } from './user.model';
 
+interface IExtendedActivity {
+  start_date_local: string;
+};
+
 interface IActivity extends Document {
-  result: object;
+  result: IExtendedActivity;
   stravaId: string;
   _userId: IUser['_id'];
   _createdAt: string;

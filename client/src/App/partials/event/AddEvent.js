@@ -53,7 +53,7 @@ export const AddEvent = ({ user }) => {
           date: form.date,
           duration: form.duration,
         },
-        type: form.type,
+        type: 'Ride',
         gpxFile: form.gpxFile,
       });
 
@@ -66,7 +66,7 @@ export const AddEvent = ({ user }) => {
           location: form.location,
           date: form.date,
         },
-        type: form.type,
+        type: 'Team',
       });
 
       history.push(Routes.EVENT.replace(':id', result._id));

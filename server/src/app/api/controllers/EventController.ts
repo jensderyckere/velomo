@@ -24,8 +24,6 @@ export default class EventController {
     try {
       const userId = this.auth.checkId(req, res);
 
-      const user = await User.findById(userId).exec();
-
       // Filter events
       const events = await Event.find().populate({
         path: '_creatorId'
@@ -35,39 +33,49 @@ export default class EventController {
 
       let arrayOfEvents = [];
 
+      let user = await User.findById(userId).exec();
+
       if (user.role === 'cyclist') {
+        user = await User.findById(userId).populate({path: 'cyclist', populate: {path: '_clubId'}});
+
         for (let event of events) {
-          if (String(event._creatorId._id) === String(user.cyclist._clubId)) {
+          if (String(event._creatorId._id) === String(user._id)) {
             arrayOfEvents.push(event);
           };
 
-          if (event._creatorId.role === 'cyclist' && String(event._creatorId.cyclist._clubId) === String(user.cyclist._clubId)) {
+          if (event._creatorId.role === 'cyclist' && String(event._creatorId.cyclist._clubId._userId) === String(user.cyclist._clubId._userId)) {
             arrayOfEvents.push(event);
           };
 
-          if (event._creatorId.role === 'clubmember' && String(event._creatorId.member._clubId) === String(user.cyclist._clubId)) {
+          if (event._creatorId.role === 'clubmember' && String(event._creatorId.member._clubId._userId) === String(user.cyclist._clubId._userId)) {
+            arrayOfEvents.push(event);
+          };
+
+          if (event._creatorId.role === 'club' && String(event._creatorId._id) === String(user.cyclist._clubId._userId)) {
             arrayOfEvents.push(event);
           };
         };
       };
 
       if (user.role === 'club') {
+        user = await User.findById(userId).populate({path: 'club', populate: {path: '_cyclistIds'}}).populate({path: 'club', populate: {path: '_memberIds'}});
+
         const clubCyclist = user.club._cyclistIds;
         const clubMembers = user.club._memberIds;
 
         for (let event of events) {
-          if (String(event._creatorId) === String(userId)) {
+          if (String(event._creatorId._id) === String(userId)) {
             arrayOfEvents.push(event);
           };
 
           for (let cyclist of clubCyclist) {
-            if (String(event._creatorId) === String(cyclist)) {
+            if (String(event._creatorId._id) === String(cyclist._userId)) {
               arrayOfEvents.push(event);
             };
           };
 
           for (let member of clubMembers) {
-            if (String(event._creatorId) === String(member)) {
+            if (String(event._creatorId._id) === String(member._userId)) {
               arrayOfEvents.push(event);
             };
           };
@@ -246,7 +254,7 @@ export default class EventController {
         status: 404,
       });
 
-      if (event._creatorId !== userId) return res.status(401).json({
+      if (String(event._creatorId) !== String(userId)) return res.status(401).json({
         message: "Unauthorized",
         redirect: false,
         status: 401,
@@ -309,6 +317,8 @@ export default class EventController {
       const event = await Event.findById(eventId)
         .exec();
 
+      console.log(event)
+
       if (!event) return res.status(404).json({
         message: "No event has been found",
         redirect: false,
@@ -316,7 +326,7 @@ export default class EventController {
       });
 
       for (let participant of event.participants) {
-        if (String(participant._userId === userId)) {
+        if (String(participant._userId._id === String(userId))) {
           return res.status(400).json({
             message: "Already participating",
             redirect: false,

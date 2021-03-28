@@ -68,20 +68,20 @@ export const DesktopHeader = ({ user, notifications }) => {
         {
           user.role === 'club' && (
             <HeaderButton 
-              title="Gesprekken"
-              icon={<ChatSVG />}
-              slug="chat"
-              route={Routes.CHAT}
+              title="Uitdagingen"
+              icon={<ChallengeSVG />}
+              slug="challenges"
+              route={Routes.CHALLENGES}
             />
           )
         }
         {
           user.role === 'club' && (
             <HeaderButton 
-              title="Team"
-              icon={<TeamSVG />}
-              slug="team"
-              route={Routes.TEAM}
+              title="Doelstellingen"
+              icon={<GoalsSVG />}
+              slug="goals"
+              route={Routes.GOALS}
             />
           )
         }

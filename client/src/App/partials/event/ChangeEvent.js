@@ -44,7 +44,7 @@ export const ChangeEvent = ({ user, event }) => {
         return;
       };
 
-      const result = await editEvent(currentUser, event._id, {
+      await editEvent(currentUser, event._id, {
         title: form.title,
         description: form.description,
         details: {
@@ -57,9 +57,9 @@ export const ChangeEvent = ({ user, event }) => {
         gpxFile: form.gpxFile,
       });
 
-      history.push(Routes.EVENT.replace(':id', result._id));
+      history.push(Routes.EVENT.replace(':id', event._id));
     } else {
-      const result = await editEvent(currentUser, event._id, {
+      await editEvent(currentUser, event._id, {
         title: form.title,
         description: form.description,
         details: {
@@ -69,7 +69,7 @@ export const ChangeEvent = ({ user, event }) => {
         type: form.type,
       });
 
-      history.push(Routes.EVENT.replace(':id', result._id));
+      history.push(Routes.EVENT.replace(':id', event._id));
     };
   };
 

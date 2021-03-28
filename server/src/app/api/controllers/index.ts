@@ -9,6 +9,7 @@ import NotificationController from "./NotificationController";
 import GoalController from "./GoalController";
 import CommentController from "./CommentController";
 import EventController from "./EventController";
+import PointsystemController from "./PointsystemController";
 
 export {
     UserController,
@@ -22,4 +23,5 @@ export {
     GoalController,
     CommentController,
     EventController,
+    PointsystemController,
 };

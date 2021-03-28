@@ -26,7 +26,7 @@ export const EventContent = ({ event, user, refresh }) => {
 
   useEffect(() => {
     for (let participant of event.participants) {
-      if (participant._id === user._id) {
+      if (String(participant._userId._id) === String(user._id)) {
         setParticipated(true);
       };
     };
@@ -124,7 +124,7 @@ export const EventContent = ({ event, user, refresh }) => {
             )
           }
           <h5 className="secundary-font subtitle-size bold-font margin-top-30 margin-bottom-20">Deelnemers</h5>
-          <div className="event__participants">
+          <div className="event__participants d-flex">
             {
               event.participants.length === 0 ? (
                 <span className="tertiary-font light-font text-size">
