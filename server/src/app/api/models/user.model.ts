@@ -40,6 +40,7 @@ interface ICyclistInfo {
     _clubId: IClub['_id'];
     _parentIds: Array < IParent['_id'] > ;
     _activityIds: Array < IActivity['_id'] > ;
+    lastManuelPoints: number;
 };
 
 interface IMemberInfo {
@@ -170,6 +171,10 @@ const userSchema: Schema = new Schema({
             ref: 'ChallengeParticipated',
             required: false,
         }],
+        lastManualPoints: {
+            type: Number,
+            default: 0,
+        },
     },
     member: {
         _clubId: {

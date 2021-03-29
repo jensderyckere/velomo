@@ -9,7 +9,9 @@ import {
 } from './user.model';
 
 interface IExtendedActivity {
-  start_date_local: string;
+  start_date_local?: string;
+  distance?: number;
+  moving_time?: number;
 };
 
 interface IActivity extends Document {

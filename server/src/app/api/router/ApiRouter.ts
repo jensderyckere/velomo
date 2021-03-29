@@ -77,7 +77,7 @@ export default class ApiRouter {
         this.router.get('/users', this.userController.checkAdmin, this.userController.all);
         this.router.get('/users-charts/:userId', this.userController.checkToken, this.userController.getCharts);
         this.router.get('/users/:userId', this.userController.checkToken, this.userController.show);
-        this.router.get('/current-user', this.userController.checkToken, this.goalController.checkGoals, this.userController.current);
+        this.router.get('/current-user', this.userController.checkToken, this.goalController.checkGoals, this.pointsystemController.checkRequirements, this.userController.current);
         this.router.patch('/users/profile', this.userController.checkToken, this.userController.updateProfile);
         this.router.patch('/users/settings', this.userController.checkToken, this.userController.updateSettings);
         this.router.patch('/users/password', this.userController.checkToken, this.userController.updatePassword);
@@ -163,10 +163,17 @@ export default class ApiRouter {
         // Pointsystem
         this.router.get('/system/:clubId', this.userController.checkToken, this.pointsystemController.getSystem);
         this.router.get('/reward/:id', this.userController.checkToken, this.pointsystemController.getReward);
+        this.router.get('/requirement/:id', this.userController.checkToken, this.pointsystemController.getRequirement);
+        this.router.get('/requirement-stats', this.userController.checkToken, this.pointsystemController.getRequirementsStatus);
+        this.router.post('/give-points', this.userController.checkToken, this.pointsystemController.giveManualPoints);
         this.router.post('/system', this.userController.checkToken, this.pointsystemController.createSystem);
         this.router.post('/reward', this.userController.checkToken, this.pointsystemController.createReward);
+        this.router.post('/requirement', this.userController.checkToken, this.pointsystemController.createRequirement);
+        this.router.patch('/reward/:rewardId', this.userController.checkToken, this.pointsystemController.editReward);
+        this.router.patch('/requirement/:requirementId', this.userController.checkToken, this.pointsystemController.editRequirement);
         this.router.delete('/system', this.userController.checkToken, this.pointsystemController.deleteSystem);
         this.router.delete('/reward/:rewardId', this.userController.checkToken, this.pointsystemController.deleteReward);
+        this.router.delete('/requirement/:requirementId', this.userController.checkToken, this.pointsystemController.deleteRequirement);
 
         // Reset
         this.router.post('/reset', this.resetController.send);
