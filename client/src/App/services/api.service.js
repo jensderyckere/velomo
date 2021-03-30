@@ -726,6 +726,36 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getSystem = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}system/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const createSystem = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}system`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -774,6 +804,8 @@ const ApiProvider = ({
         createComment,
         editComment,
         deleteComment,
+        getSystem,
+        createSystem,
       }
     }> {
       children

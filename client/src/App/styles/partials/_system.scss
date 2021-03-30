@@ -1,0 +1,18 @@
+.reward-content {
+  box-shadow: $standard-shadow;
+  background: white;
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+
+  &-none {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    h2 {
+      margin: 0;
+    }
+  }
+}

@@ -11,3 +11,4 @@ export * from './footer';
 export * from './notifications';
 export * from './goals';
 export * from './event';
+export * from './system';

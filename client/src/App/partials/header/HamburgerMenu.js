@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import User from '../../assets/icons/user.svg';
 import Logo from '../../assets/logos/full-logo.svg';
 
-import { ExitSVG, HamburgerButton, DashboardSVG, ChallengeSVG, ChatSVG, TeamSVG, GoalsSVG, LocationSVG } from '../../components';
+import { ExitSVG, HamburgerButton, DashboardSVG, ChallengeSVG, ChatSVG, TeamSVG, GoalsSVG, LocationSVG, PointsSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -60,10 +60,10 @@ export const HamburgerMenu = ({ user, hide }) => {
         {
           user.role === 'club' && (
             <HamburgerButton 
-              title="Gesprekken"
-              icon={<ChatSVG />}
-              slug="chat"
-              route={Routes.CHAT}
+              title="Uitdagingen"
+              icon={<ChallengeSVG />}
+              slug="challenges"
+              route={Routes.CHALLENGES}
             />
           )
         }
@@ -100,10 +100,10 @@ export const HamburgerMenu = ({ user, hide }) => {
         {
           user.role === 'club' && (
             <HamburgerButton 
-              title="Team"
-              icon={<TeamSVG />}
-              slug="team"
-              route={Routes.TEAM}
+              title="Doelstellingen"
+              icon={<GoalsSVG />}
+              slug="goals"
+              route={Routes.GOALS}
             />
           )
         }
@@ -112,6 +112,12 @@ export const HamburgerMenu = ({ user, hide }) => {
           icon={<LocationSVG />}
           slug="events"
           route={Routes.EVENTS}
+        />
+        <HamburgerButton 
+          title="Puntensysteem"
+          icon={<PointsSVG />}
+          slug="point-system"
+          route={Routes.POINTS_SYSTEM}
         />
       </div>
     </div>

@@ -50,7 +50,7 @@ export default class PointsystemController {
         });
       };
 
-      const checkIfSystem = await PointSystem.find({
+      const checkIfSystem = await PointSystem.findOne({
         _clubId: clubId
       }).populate({
         path: '_clubId'
@@ -84,7 +84,7 @@ export default class PointsystemController {
         });
       };
 
-      const checkIfSystem = await PointSystem.find({
+      const checkIfSystem = await PointSystem.findOne({
         _clubId: id
       }).exec();
 

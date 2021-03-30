@@ -25,3 +25,4 @@ export * from './ClockSVG';
 export * from './NotificationSVG';
 export * from './LocationSVG';
 export * from './ParticipantSVG';
+export * from './PointsSVG';

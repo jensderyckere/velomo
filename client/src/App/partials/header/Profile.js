@@ -6,7 +6,7 @@ import User from '../../assets/icons/user.svg';
 import MyProfile from '../../assets/icons/profile.svg';
 import Settings from '../../assets/icons/settings.svg';
 
-import { ActivitySVG, ArrowSVG, LogoutSVG, NotificationSVG } from '../../components';
+import { ActivitySVG, ArrowSVG, LogoutSVG, NotificationSVG, PointsSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -69,6 +69,12 @@ export const Profile = ({ user, notifications }) => {
               <NavLink to={Routes.NOTIFICATIONS}>
                 <NotificationSVG />
                 <span>{notifications} meldingen</span>
+              </NavLink>
+            </div>
+            <div className="more-view__link">
+              <NavLink to={Routes.POINTS_SYSTEM}>
+                <PointsSVG />
+                <span>Puntensysteem</span>
               </NavLink>
             </div>
             <div className="more-view__link" onClick={() => logOutUser()}>

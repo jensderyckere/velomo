@@ -48,4 +48,7 @@ export const APPROVE_EVENT = '/approve-presence/:id';
 
 export const STRAVA_CALLBACK = '/exchange_token';
 
+export const POINTS_SYSTEM = '/points-system';
+export const CREATE_REWARD = '/create-reward';
+
 export const ERROR = '/somethings-wrong';
