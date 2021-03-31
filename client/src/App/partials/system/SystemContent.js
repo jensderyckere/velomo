@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { ScreenSizeClassSwitch } from '../../utils';
 
 // Partials
-import { RewardContent } from '.';
+import { RewardContent, SystemShortcuts } from '.';
+import { UserPts } from '../user';
+import { AvailableRewards } from './AvailableRewards';
 
 export const SystemContent = ({ system, user }) => {
   // States
@@ -20,7 +22,26 @@ export const SystemContent = ({ system, user }) => {
           />
         </section>
         <section className="right-sided p-relative w-40">
-
+          {
+            user.role === "cyclist" && (
+              <UserPts
+                user={user} 
+              />
+            )
+          }
+          {
+            user.role === "club" ? user._id === system._clubId._id && (
+              <SystemShortcuts 
+                system={system}
+              />
+            ) : ''
+          }
+          <AvailableRewards 
+            user={user}
+            selectedReward={selectedReward}
+            setSelectedReward={setSelectedReward}
+            rewards={system._rewardIds}
+          />
         </section>
       </div>
     );

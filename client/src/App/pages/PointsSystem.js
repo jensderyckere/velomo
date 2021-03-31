@@ -34,7 +34,7 @@ export const PointsSystem = () => {
           setSystem(false);
         };
       } else if (userData.role === 'clubmember') {
-        const systemData = await getSystem(currentUser, userData.member._clubId);
+        const systemData = await getSystem(currentUser, userData.member._clubId._userId._id);
 
         if (systemData.length !== 0) {
           setSystem(systemData);
@@ -42,7 +42,7 @@ export const PointsSystem = () => {
           setSystem(false);
         };
       } else if (userData.role === 'cyclist') {
-        const systemData = await getSystem(currentUser, userData._id);
+        const systemData = await getSystem(currentUser, userData.cyclist._clubId._userId._id);
 
         if (systemData.length !== 0) {
           setSystem(systemData);

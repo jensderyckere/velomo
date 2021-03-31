@@ -25,3 +25,4 @@ export * from './Event';
 export * from './EditEvent';
 export * from './EventPresence';
 export * from './PointsSystem';
+export * from './EditSystem';

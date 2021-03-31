@@ -30,7 +30,7 @@ export const RewardContent = ({ reward, user }) => {
                 )}
               </p>
               {
-                user.role == "club" && (
+                user.role === "club" && (
                   <div className="d-flex justify-content-center margin-top-20">
                     <StandardButton 
                       text="Beloning maken"
