@@ -756,6 +756,53 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const createReward = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}reward`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const editReward = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}reward/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const deleteReward = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}reward/${id}`;
+
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -806,6 +853,9 @@ const ApiProvider = ({
         deleteComment,
         getSystem,
         createSystem,
+        createReward,
+        editReward,
+        deleteReward,
       }
     }> {
       children

@@ -25,3 +25,22 @@
   width: 100%;
   border-radius: 10px;
 }
+
+.crud-system {
+  &--item {
+    padding: 20px 0;
+    border-bottom: 1px solid $lightgrey;
+
+    &__buttons {
+      span {
+        cursor: pointer;
+
+        svg, path {
+          fill: $orange;
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+  }
+}

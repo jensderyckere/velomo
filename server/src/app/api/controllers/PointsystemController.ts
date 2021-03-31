@@ -202,7 +202,7 @@ export default class PointsystemController {
 
       const reward = await createdReward.save();
 
-      const updatedSystem = await checkIfSystem.update({
+      const updatedSystem = await PointSystem.findByIdAndUpdate(checkIfSystem._id, {
         $push: {
           _rewardsIds: reward._id,
         },

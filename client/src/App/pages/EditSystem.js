@@ -43,6 +43,11 @@ export const EditSystem = () => {
     setSystem(systemData);
   }, [getCurrentUser, currentUser, getSystem, history]);
 
+  const refreshStates = async () => {
+    const systemData = await getSystem(currentUser, userData._id);
+    setSystem(systemData);
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -56,6 +61,7 @@ export const EditSystem = () => {
         </div>
         <CRUDRewards 
           rewards={system._rewardIds}
+          refresh={refreshStates}
         />
         <div className="section-title margin-top-50">
           <h5>Voorwaarden</h5>
