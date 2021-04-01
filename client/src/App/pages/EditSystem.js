@@ -9,7 +9,7 @@ import { useApi, useAuth } from '../services';
 
 // Routes
 import * as Routes from '../routes';
-import { CRUDRewards } from '../partials';
+import { CRUDRequirements, CRUDRewards } from '../partials';
 
 export const EditSystem = () => {
   // Routing
@@ -66,6 +66,10 @@ export const EditSystem = () => {
         <div className="section-title margin-top-50">
           <h5>Voorwaarden</h5>
         </div>
+        <CRUDRequirements 
+          requirements={system._requirementIds}
+          refresh={refreshStates}
+        />
       </section>
     </div>
   ) : <LoaderSVG /> : <LoaderSVG />;

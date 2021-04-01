@@ -210,7 +210,7 @@ export const CRUDRewards = ({ rewards, refresh }) => {
       }
       {
         editView ? (
-          <div className="cru-system__form margin-top-30">
+          <div className="crud-system__form margin-top-30">
           <Inputfield 
             name="title"
             id="title"
@@ -307,7 +307,7 @@ export const CRUDRewards = ({ rewards, refresh }) => {
         </div>
         ) : (
           createView ? (
-            <div className="cru-system__form margin-top-30">
+            <div className="crud-system__form margin-top-30">
               <Inputfield 
                 name="title"
                 id="title"

@@ -3,3 +3,4 @@ export * from './RewardContent';
 export * from './SystemShortcuts';
 export * from './AvailableRewards';
 export * from './CRUDRewards';
+export * from './CRUDRequirements';

@@ -756,6 +756,53 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const createRequirement = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}requirement`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const editRequirement = async (token, id, content) => {
+    const url = `${Config.clientConfig.apiUrl}requirement/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
+  const deleteRequirement = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}requirement/${id}`;
+
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const createReward = async (token, content) => {
     const url = `${Config.clientConfig.apiUrl}reward`;
 
@@ -856,6 +903,9 @@ const ApiProvider = ({
         createReward,
         editReward,
         deleteReward,
+        createRequirement,
+        deleteRequirement,
+        editRequirement,
       }
     }> {
       children
