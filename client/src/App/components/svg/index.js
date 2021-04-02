@@ -26,3 +26,4 @@ export * from './NotificationSVG';
 export * from './LocationSVG';
 export * from './ParticipantSVG';
 export * from './PointsSVG';
+export * from './InfoSVG';

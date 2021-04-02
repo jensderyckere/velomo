@@ -756,6 +756,21 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getRequirementStats = async (token) => {
+    const url = `${Config.clientConfig.apiUrl}requirement-stats`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const createRequirement = async (token, content) => {
     const url = `${Config.clientConfig.apiUrl}requirement`;
 
@@ -850,6 +865,22 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const handleManualPoints = async (token, content) => {
+    const url = `${Config.clientConfig.apiUrl}give-points`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(content),
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -903,9 +934,11 @@ const ApiProvider = ({
         createReward,
         editReward,
         deleteReward,
+        getRequirementStats,
         createRequirement,
         deleteRequirement,
         editRequirement,
+        handleManualPoints,
       }
     }> {
       children

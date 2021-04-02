@@ -11,3 +11,4 @@ export * from './Duration';
 export * from './Datepicker';
 export * from './Slider';
 export * from './VideoUpload';
+export * from './SelectUser';

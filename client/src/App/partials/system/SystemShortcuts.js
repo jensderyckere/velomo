@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 // Components
-import { StandardButton } from '../../components';
+import { GreyButton, StandardButton } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -20,6 +20,12 @@ export const SystemShortcuts = ({ system }) => {
         <StandardButton 
           text="Puntensysteem uitbreiden"
           action={() => history.push(Routes.EDIT_SYSTEM)}
+        />
+      </div>
+      <div className="d-flex justify-content-center margin-top-20">
+        <GreyButton 
+          text="Manueel punten geven"
+          action={() => history.push(Routes.MANUAL_POINTS)}
         />
       </div>
     </div>

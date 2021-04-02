@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // Components
-import { StandardButton, Textarea, Inputfield, GreyButton, Radio, Distance, Duration } from '../../components';
+import { StandardButton, Textarea, Inputfield, GreyButton, Radio, Distance, Duration, EditSVG, TrashSVG } from '../../components';
 
 // Services
 import { useApi, useAuth } from '../../services';
@@ -93,6 +93,13 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
     setEditView(true);
   };
 
+  const setType = (e) => {
+    setForm({
+      ...form,
+      type: e
+    });
+  };
+
   const cancelEdit = () => {
     setForm({
       type: 'distance',
@@ -159,14 +166,14 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
               value={form.description}
               changeInput={(e) => setForm({...form, description: e.target.value})}
             />
-            <div className="crud-system__form--radio">
-              <h6 className="secundary-font text-size bold-font margin-bottom-30">Type</h6>
+            <div className="crud-system__form--radio margin-top-20 margin-bottom-30">
+              <h6 className="secundary-font text-size bold-font margin-bottom-30 margin-left-20">Type</h6>
               <Radio 
                 id="distance"
                 name="distance"
                 index={"distance"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "distance" ? true : false}
+                setIndex={setType}
+                checked={form.type === "distance" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Afstand
@@ -176,8 +183,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="duration"
                 name="duration"
                 index={"duration"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "duration" ? true : false}
+                setIndex={setType}
+                checked={form.type === "duration" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Duur
@@ -187,8 +194,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="days"
                 name="days"
                 index={"days"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "days" ? true : false}
+                setIndex={setType}
+                checked={form.type === "days" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Dagen
@@ -198,8 +205,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="challenges"
                 name="challenges"
                 index={"challenges"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "challenges" ? true : false}
+                setIndex={setType}
+                checked={form.type === "challenges" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Uitdagingen
@@ -209,8 +216,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="goals"
                 name="goals"
                 index={"goals"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "goals" ? true : false}
+                setIndex={setType}
+                checked={form.type === "goals" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Doelstellingen
@@ -220,8 +227,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="events"
                 name="events"
                 index={"events"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "events" ? true : false}
+                setIndex={setType}
+                checked={form.type === "events" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Evenementen
@@ -316,14 +323,14 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
               label="Beschrijving"
               changeInput={(e) => setForm({...form, description: e.target.value})}
             />
-            <div className="crud-system__form--radio">
-              <h6 className="secundary-font text-size bold-font margin-bottom-30">Type</h6>
+            <div className="crud-system__form--radio margin-top-20 margin-bottom-30">
+              <h6 className="secundary-font text-size bold-font margin-bottom-30 margin-left-20">Type</h6>
               <Radio 
                 id="distance"
                 name="distance"
                 index={"distance"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "distance" ? true : false}
+                setIndex={setType}
+                checked={form.type === "distance" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Afstand
@@ -333,8 +340,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="duration"
                 name="duration"
                 index={"duration"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "duration" ? true : false}
+                setIndex={setType}
+                checked={form.type === "duration" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Duur
@@ -344,8 +351,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="days"
                 name="days"
                 index={"days"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "days" ? true : false}
+                setIndex={setType}
+                checked={form.type === "days" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Dagen
@@ -355,8 +362,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="challenges"
                 name="challenges"
                 index={"challenges"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "challenges" ? true : false}
+                setIndex={setType}
+                checked={form.type === "challenges" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Uitdagingen
@@ -366,8 +373,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="goals"
                 name="goals"
                 index={"goals"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "goals" ? true : false}
+                setIndex={setType}
+                checked={form.type === "goals" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Doelstellingen
@@ -377,8 +384,8 @@ export const CRUDRequirements = ({ requirements, refresh }) => {
                 id="events"
                 name="events"
                 index={"events"}
-                setIndex={setTypeTraining}
-                checked={typeTraining === "events" ? true : false}
+                setIndex={setType}
+                checked={form.type === "events" ? true : false}
               >
                 <span className="secundary-font text-size">
                   Evenementen

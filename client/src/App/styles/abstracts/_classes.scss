@@ -83,6 +83,10 @@
   @include datepicker;
 }
 
+.select-user {
+  @include select-user;
+}
+
 .react-datepicker-wrapper {
   width: 100%;
 }

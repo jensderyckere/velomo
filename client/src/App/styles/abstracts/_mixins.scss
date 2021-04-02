@@ -102,6 +102,69 @@
   }
 }
 
+@mixin select-user {
+  margin-bottom: 20px;
+  position: relative;
+
+  label {
+    font-family: $secundary-family;
+    font-weight: 700;
+    font-size: $d-text;
+    margin: 0 0 10px 20px;
+  }
+
+  &__list {
+    position: absolute;
+    background-color: white;
+    box-shadow: $standard-shadow;
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+    border-radius: 10px;
+    top: 95px;
+
+    &--option {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid $lightgrey;
+      background-color: white;
+
+      h6 {
+        margin: 0 0 0 20px;
+      }
+    }
+
+    &--option:hover {
+      background-color: $lightgrey;
+      cursor: pointer;
+    }
+  }
+
+  &__input {
+    background: $white;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    box-shadow: $standard-shadow;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    font-family: $tertiary-family;
+    font-size: $d-text;
+    transition: ease-in-out 0.2s;
+
+    input {
+      border: none;
+      background: none;
+      margin-left: 10px;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
+}
+
 @mixin videoUpload {
   margin-bottom: 20px;
 

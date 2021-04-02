@@ -1,10 +1,68 @@
 .reward-content {
+  &-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+  }
+
+  position: fixed;
   box-shadow: $standard-shadow;
   background: white;
-  height: 500px;
-  width: inherit;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
-  width: 100%;
+  overflow: hidden;
+  padding-bottom: 20px;
+
+  &--progress {
+    &-wrapper {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 20px;
+      }
+    }
+
+    flex: 1;
+    height: 3px;
+    background-color: $grey;
+    border-radius: 5px;
+    overflow: hidden;
+
+    &__inner {
+      background-color: $orange;
+      height: 3px;
+    }
+  }
+
+  &__head {
+    padding: 30px 30px 10px 30px;
+
+    &--avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 100%;
+      background-size: cover;
+    }
+  }
+
+  &__inner {
+    padding: 0 30px;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__banner {
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
 
   &-none {
     display: flex;
@@ -13,6 +71,73 @@
     height: 100%;
 
     h2 {
+      margin: 0;
+    }
+  }
+}
+
+.reward-item.selected-reward {
+  opacity: 0.7;
+}
+
+.reward-item {
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  &__avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    background-size: cover;
+  }
+
+  &__content {
+    background-color: $lightgrey;
+    flex: 1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-left: 10px;
+    position: relative;
+
+    &--check {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: $orange;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      top: -10px;
+      right: -10px;
+
+      svg, path {
+        height: 15px;
+        width: 15px;
+      }
+    }
+
+    &--progress {
+      width: 100%;
+      height: 3px;
+      background-color: $darkgrey;
+      margin-top: 20px;
+      border-radius: 5px;
+      overflow: hidden;
+
+      &__inner {
+        background-color: $orange;
+        height: 3px;
+      }
+    }
+
+    h6 {
+      margin: 0 0 5px 0;
+    }
+
+    p {
       margin: 0;
     }
   }

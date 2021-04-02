@@ -26,3 +26,5 @@ export * from './EditEvent';
 export * from './EventPresence';
 export * from './PointsSystem';
 export * from './EditSystem';
+export * from './Requirements';
+export * from './ManualPoints';

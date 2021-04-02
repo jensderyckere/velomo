@@ -44,7 +44,7 @@ export const EditSystem = () => {
   }, [getCurrentUser, currentUser, getSystem, history]);
 
   const refreshStates = async () => {
-    const systemData = await getSystem(currentUser, userData._id);
+    const systemData = await getSystem(currentUser, user._id);
     setSystem(systemData);
   };
 

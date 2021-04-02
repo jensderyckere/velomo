@@ -51,5 +51,7 @@ export const STRAVA_CALLBACK = '/exchange_token';
 export const POINTS_SYSTEM = '/points-system';
 export const CREATE_REWARD = '/create-reward';
 export const EDIT_SYSTEM = '/edit-system';
+export const REQUIREMENTS = '/requirements';
+export const MANUAL_POINTS = '/manual-points';
 
 export const ERROR = '/somethings-wrong';
