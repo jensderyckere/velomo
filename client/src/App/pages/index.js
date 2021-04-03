@@ -28,3 +28,4 @@ export * from './PointsSystem';
 export * from './EditSystem';
 export * from './Requirements';
 export * from './ManualPoints';
+export * from './EventsArchived';

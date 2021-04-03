@@ -1,15 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 // Partials
 import { UserOverview, ChallengeOverview, UserBadges, UserPts } from '..';
 
 // Components
-import { ColumnChart } from '../../components';
+import { ColumnChart, StandardButton } from '../../components';
 
 // Services
 import { useAuth } from '../../services';
 
-export const MyUserContent = ({ user, screenSize, cred }) => {
+// Utils
+import { ScreenSizeClassSwitch } from '../../utils';
+
+// Routes
+import * as Routes from '../../routes';
+
+export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
+  // Routing
+  const history = useHistory();
+
   const ClubContent = () => {
     return (
       <>
@@ -92,6 +102,16 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
         title={user.cyclist.level_name}
         xp={user.cyclist.xp}
       /> */}
+      {
+        user.role === 'cyclist' && user.cyclist._clubId && user.cyclist._clubId._userId._id === watchingUser._id && (
+          <div className={`d-flex justify-content-end ${ScreenSizeClassSwitch('', 'margin-top-30')} margin-bottom-20`}>
+            <StandardButton 
+              text="Doelstelling maken"
+              action={() => history.push(Routes.CREATE_GOAL, {cyclistId: user._id})}
+            />
+          </div>
+        )
+      }
       <UserPts 
         user={user}
       />
@@ -119,6 +139,7 @@ export const MyUserContent = ({ user, screenSize, cred }) => {
       }
       <UserBadges 
         currentUser={currentUser}
+        user={user}
       />
       </>
     ) : '';

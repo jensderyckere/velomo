@@ -268,6 +268,21 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getCompletedChallenges = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}completed-challenges/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const getRandomChallenge = async (token) => {
     const url = `${Config.clientConfig.apiUrl}random-challenge`;
 
@@ -454,6 +469,21 @@ const ApiProvider = ({
 
   const getGoal = async (token, id) => {
     const url = `${Config.clientConfig.apiUrl}goals/${id}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
+  const getCompletedGoals = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}completed-goals/${id}`;
 
     const res = await fetch(url, {
       method: 'GET',
@@ -892,6 +922,7 @@ const ApiProvider = ({
         editActivity,
         importStravaActivities,
         getClubChallenges,
+        getCompletedChallenges,
         getChallenge,
         getParticipation,
         participateChallenge,
@@ -910,6 +941,7 @@ const ApiProvider = ({
         viewNotification,
         createGoal,
         getGoal,
+        getCompletedGoals,
         editGoal,
         deleteGoal,
         getUserGoals,

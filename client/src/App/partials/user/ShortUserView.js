@@ -5,7 +5,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import UserDefault from '../../assets/icons/user.svg';
 
 // Components
-import { ChatSVG, ImageUrl, MoreSVG, SlugText, TrashSVG } from '../../components';
+import { ImageUrl, MoreSVG, SlugText, TrashSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
@@ -64,12 +64,6 @@ export const ShortUserView = ({ user, club, cred }) => {
               <NavLink to={Routes.PROFILE.replace(':name', SlugText(`${user.firstName + ' ' + user.lastName}`)).replace(':id', user._id)}>
                 <img src={MyProfile} alt="profile" />
                 <span>Mijn profiel</span>
-              </NavLink>
-            </div>
-            <div className="more-view__link">
-              <NavLink to={Routes.CREATE_CHAT}>
-                <ChatSVG />
-                <span>Stuur bericht</span>
               </NavLink>
             </div>
             {

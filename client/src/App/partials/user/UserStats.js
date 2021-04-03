@@ -24,7 +24,7 @@ export const UserStats = ({ user }) => {
       setAvgSpeed(totalSpeed / 1000);
       setDistance(totalDistance / 1000);
 
-      setAchievements(0);
+      setAchievements(user.cyclist._goalIds.length + user.cyclist._challengeIds.length);
     } else {
       setAvgSpeed(0);
       setDistance(0);
@@ -32,8 +32,6 @@ export const UserStats = ({ user }) => {
       setAchievements(0);
     }
   }, [user]);
-
-  console.log(avgSpeed)
 
   return (
     <div className="user-stats d-flex justify-content-center align-items-center">

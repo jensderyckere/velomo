@@ -38,8 +38,6 @@ export const DashboardCard = ({ user }) => {
     const wrapper = document.getElementById('wrapper').getBoundingClientRect().width;
     setWidth(wrapper);
   }, [fetchData]);
-
-  console.log(user)
   
   return (
     <section className="dashboard-card" id="wrapper">

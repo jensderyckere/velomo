@@ -96,6 +96,12 @@
   };
 };
 
+.user-badges {
+  .inactive {
+    opacity: 0.5;
+  }
+}
+
 .user-pts {
   padding: 30px 30px 10px 30px;
 

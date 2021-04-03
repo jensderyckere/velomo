@@ -25,9 +25,10 @@ export const Profile = () => {
 
   // States
   const [ user, setUser ] = useState();
+  const [ watchingUser, setWatchingUser ] = useState();
 
   // Services
-  const { currentUser, getUser } = useAuth();
+  const { currentUser, getUser, getCurrentUser } = useAuth();
   const { screenSize } = useStyling();
 
   // Fetch current user
@@ -35,11 +36,14 @@ export const Profile = () => {
     try {
       // Fetch the user
       const data = await getUser(currentUser, id);
+      const userData = await getCurrentUser(currentUser);
+
       setUser(data);
+      setWatchingUser(userData);
     } catch (e) {
       history.push(Routes.ERROR);
     };
-  }, [history, getUser, currentUser, id]);
+  }, [history, getUser, currentUser, getCurrentUser, id]);
 
   useEffect(() => {
     fetchUser();
@@ -47,7 +51,7 @@ export const Profile = () => {
   }, [fetchUser]);
 
   return (
-    user ? (
+    user ? watchingUser ? (
       <>
         <div className={`container d-flex ${ScreenSizeClassSwitch('', 'flex-wrap')}`}>
           <section className={`left-sided p-relatyive ${ScreenSizeClassSwitch('w-30', 'w-100')}`}>
@@ -61,10 +65,11 @@ export const Profile = () => {
               user={user}
               screenSize={screenSize}
               cred={false}
+              watchingUser={watchingUser}
             />
           </section>
         </div>
       </>
-    ) : <LoaderSVG />
-  )
+    ) : <LoaderSVG /> : <LoaderSVG />
+  );
 };

@@ -84,6 +84,7 @@ export const Goals = () => {
               />
             )
           }
+
         </div>
         <div className="goals margin-top-30">
           {

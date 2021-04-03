@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 // Components
-import { Badge, ImageUrl, LoaderSVG } from '../components';
+import { Badge, DateText, ImageUrl, LoaderSVG } from '../components';
 
 // Routes
 import * as Routes from '../routes';
@@ -10,7 +11,6 @@ import * as Routes from '../routes';
 // Services
 import { useApi, useAuth } from '../services';
 import { ScreenSizeClassSwitch } from '../utils';
-import moment from 'moment';
 
 export const Challenges = () => {
   // Routing
@@ -122,8 +122,11 @@ export const Challenges = () => {
             <h5 className={`secundary-font ${ScreenSizeClassSwitch('text-left', 'text-center')}  subtitle-size bold-font hover-text pointer`} onClick={() => history.push(Routes.CHALLENGE.replace(':id', challenge._id))}>
               {challenge.title}
             </h5>
-            <p className={`darkgrey-color ${ScreenSizeClassSwitch('text-left', 'text-center')} text-size tertiary-font ligth-font`}>
+            <p className={`darkgrey-color ${ScreenSizeClassSwitch('text-left', 'text-center')} text-size tertiary-font light-font`}>
               {challenge.shortContent}
+            </p>
+            <p className={`${ScreenSizeClassSwitch('text-left', 'text-center')} margin-0 orange-color text-size secundary-font bold-font`}>
+              {DateText(challenge.start_date)} - {DateText(challenge.end_date)}
             </p>
           </div>
         </div>
