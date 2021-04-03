@@ -13,6 +13,7 @@ export const DashboardCard = ({ user }) => {
 
   // States
   const [ goals, setGoals ] = useState();
+  const [ width, setWidth ] = useState(0);
 
   // Services
   const { currentUser } = useAuth();
@@ -33,10 +34,16 @@ export const DashboardCard = ({ user }) => {
 
   useEffect(() => {
     fetchData();
+
+    const wrapper = document.getElementById('wrapper').getBoundingClientRect().width;
+    setWidth(wrapper);
   }, [fetchData]);
+
+  console.log(user)
   
   return (
-    <section className="dashboard-card">
+    <section className="dashboard-card" id="wrapper">
+      <div className="dashboard-card-wrapper" style={{width: width}}>
       {
         user.role === 'cyclist' ? user.cyclist._clubId ? (
           <>
@@ -44,7 +51,7 @@ export const DashboardCard = ({ user }) => {
               clubid={user.cyclist._clubId}
             />
             {
-              user.cyclist._challengeIds.length !== 0 && (
+              user.cyclist._challengeIds && (
                 <ChallengesCard 
                   title="Actieve uitdagingen"
                   challenges={user.cyclist._challengeIds}
@@ -52,7 +59,7 @@ export const DashboardCard = ({ user }) => {
               )
             }
             {
-              goals && goals.length !== 0 && (
+              goals && (
                 <GoalsCard 
                   title="Actieve doelstellingen"
                   goals={goals}
@@ -119,6 +126,7 @@ export const DashboardCard = ({ user }) => {
           <CreateClubCard />
         ) : ''
       }
+      </div>
     </section>
   );
 };

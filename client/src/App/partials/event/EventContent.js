@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import moment from 'moment';
 
 // Components
 import { DateText, GreyButton, ImageUrl, StandardButton, SlugText, ClockSVG, SpeedSVG, LocationSVG } from '../../components';
@@ -47,11 +48,11 @@ export const EventContent = ({ event, user, refresh }) => {
       <div className="col-md-7 col-12">
         <div className="d-flex align-items-center">
           {
-            participated ? (
+            !moment(Date.now()).isAfter(event.details.date) ? participated ? (
               <StandardButton text="Afmelden" action={withdrawParticipant} />
             ) : (
               <StandardButton text="Deelnemen" action={addParticipant} />
-            )
+            ) : ''
           }
           {
             event.gpxFile && (

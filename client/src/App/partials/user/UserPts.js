@@ -19,7 +19,7 @@ export const UserPts = ({ user }) => {
 
   // Fetch requirements
   const fetchData = useCallback(async () => {
-    const requirementsData = await getRequirementStats(currentUser);
+    const requirementsData = await getRequirementStats(currentUser, user._id);
     setRequirements(requirementsData);
 
     let array = [];
@@ -33,7 +33,7 @@ export const UserPts = ({ user }) => {
     };
 
     setSuccess(array);
-  }, [currentUser, getRequirementStats]);
+  }, [currentUser, getRequirementStats, user]);
 
   useEffect(() => {
     fetchData();
@@ -55,7 +55,7 @@ export const UserPts = ({ user }) => {
             Beloningen geclaimd
           </h6>
           <h3 className="secundary-font bold-font orange-color">
-            {user.cyclist.pts ? user.cyclist.pts : 0}
+            {success ? success.length : 0}/{requirements ? requirements.length : 0}
           </h3>
         </div>
       </div>

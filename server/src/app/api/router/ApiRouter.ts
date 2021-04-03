@@ -164,7 +164,7 @@ export default class ApiRouter {
         this.router.get('/system/:clubId', this.userController.checkToken, this.pointsystemController.getSystem);
         this.router.get('/reward/:id', this.userController.checkToken, this.pointsystemController.getReward);
         this.router.get('/requirement/:id', this.userController.checkToken, this.pointsystemController.getRequirement);
-        this.router.get('/requirement-stats', this.userController.checkToken, this.pointsystemController.getRequirementsStatus);
+        this.router.get('/requirement-stats/:userId', this.userController.checkToken, this.pointsystemController.getRequirementsStatus);
         this.router.post('/give-points', this.userController.checkToken, this.pointsystemController.giveManualPoints);
         this.router.post('/system', this.userController.checkToken, this.pointsystemController.createSystem);
         this.router.post('/reward', this.userController.checkToken, this.pointsystemController.createReward);

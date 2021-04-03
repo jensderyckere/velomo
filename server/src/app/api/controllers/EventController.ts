@@ -28,7 +28,7 @@ export default class EventController {
       const events = await Event.find().populate({
         path: '_creatorId'
       }).sort({
-        _createdAt: -1
+        'details.date': -1
       }).exec();
 
       let arrayOfEvents = [];

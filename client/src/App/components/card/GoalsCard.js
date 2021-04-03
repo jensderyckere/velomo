@@ -41,9 +41,11 @@ export const GoalsCard = ({ title, goals }) => {
     <div className="grey-card challenge-card">
       <h3 className="secundary-font text-center title-size bold-font margin-bottom-30">{title}</h3>
       {
-        goals.map((goal, index) => {
+        goals.length !== 0 ? goals.map((goal, index) => {
           return goal && <GoalShort key={index} goal={goal} />
-        })
+        }) : (
+          <div className="text-center light-font secundary-font text-size">Er zijn geen actieve doelstellingen momenteel.</div>
+        )
       }
     </div>
   )

@@ -321,7 +321,7 @@ export default class PointsystemController {
 
   getRequirementsStatus = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
-      const userId = this.auth.checkId(req, res);
+      const { userId } = req.params;
       const user = await User.findById(userId).populate({path: 'cyclist', populate: {path: '_clubId'}}).exec();
 
       if (user.role === 'cyclist') {

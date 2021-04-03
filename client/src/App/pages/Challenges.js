@@ -10,6 +10,7 @@ import * as Routes from '../routes';
 // Services
 import { useApi, useAuth } from '../services';
 import { ScreenSizeClassSwitch } from '../utils';
+import moment from 'moment';
 
 export const Challenges = () => {
   // Routing
@@ -30,11 +31,30 @@ export const Challenges = () => {
       const retrievedUser = await getCurrentUser(currentUser);
 
       if (retrievedUser.role === 'cyclist') {
-        const retrievedClubChallenges = await getClubChallenges(currentUser, retrievedUser.cyclist._clubId._userId.id);
-        const retrievedOwnChallenges = await getMyChallenges(currentUser);
-        setMyChallenges(retrievedOwnChallenges);
-        setClubChallenges(retrievedClubChallenges.club._challengeIds);
         setUser(retrievedUser);
+
+        let myArray = [];
+        let clubArray = [];
+
+        if (retrievedUser.cyclist._clubId) {
+          const retrievedClubChallenges = await getClubChallenges(currentUser, retrievedUser.cyclist._clubId._userId.id);
+          const retrievedOwnChallenges = await getMyChallenges(currentUser);
+
+          for (let ownChallenge of retrievedOwnChallenges) {
+            if (moment(Date.now()).isBetween(ownChallenge._challengeId.start_date, ownChallenge._challengeId.end_date)) {
+              myArray.push(ownChallenge);
+            };
+          };
+  
+          for (let clubChallenge of retrievedClubChallenges.club._challengeIds) {
+            if (moment(Date.now()).isBetween(clubChallenge._challengeId.start_date, clubChallenge._challengeId.end_date)) {
+              clubArray.push(clubChallenge);
+            };
+          };
+        };
+
+        setMyChallenges(myArray);
+        setClubChallenges(clubArray);
       } else if (retrievedUser.role === 'club') {
         const retrievedClubChallenges = await getClubChallenges(currentUser, retrievedUser._id);       
         setClubChallenges(retrievedClubChallenges.club._challengeIds);
@@ -43,9 +63,9 @@ export const Challenges = () => {
         throw new Error();
       };
     } catch (error) {
-      history.push(Routes.ERROR);
+      console.log(error);
     };
-  }, [getClubChallenges, getMyChallenges, currentUser, getCurrentUser, history]);
+  }, [getClubChallenges, getMyChallenges, currentUser, getCurrentUser]);
 
   useEffect(() => {
     fetchNeeded();

@@ -756,8 +756,8 @@ const ApiProvider = ({
     return await res.json();
   };
 
-  const getRequirementStats = async (token) => {
-    const url = `${Config.clientConfig.apiUrl}requirement-stats`;
+  const getRequirementStats = async (token, id) => {
+    const url = `${Config.clientConfig.apiUrl}requirement-stats/${id}`;
 
     const res = await fetch(url, {
       method: 'GET',
