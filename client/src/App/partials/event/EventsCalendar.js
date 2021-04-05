@@ -103,7 +103,7 @@ export const EventsCalendar = ({events, user}) => {
       setSaturdays(saturdaysArray);
       setSunday(sundaysArray);
     };
-  }, [month, days, year, events]);
+  }, [month, days, year, events, user]);
 
   const Day = ({ number, extraClass }) => {
     return <div className={`text-center text-size light-font secundary-font events-calendar__dates-wrapper--bar--digit ${day === number ? 'current-day' : ''} ${extraClass && extraClass}`} onClick={() => setDay(number)}>{number}</div>
