@@ -40,14 +40,14 @@ export const Events = () => {
     if (userData.role === 'parent') {
       for (let event of eventsData) {
         for (let mainEvent of event.events) {
-          if (moment(Date.now()).isAfter(mainEvent.details.date)) {
+          if (moment(Date.now()).isBefore(mainEvent.details.date)) {
             eventsArray.push({event: mainEvent, user: event.user});
           };
         }
       };
     } else {
       for (let event of eventsData) {
-        if (moment(Date.now()).isAfter(event.details.date)) {
+        if (moment(Date.now()).isBefore(event.details.date)) {
           eventsArray.push(event);
         };
       };

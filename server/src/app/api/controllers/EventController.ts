@@ -117,8 +117,6 @@ export default class EventController {
             user: detailedKid,
             events: arrayOfKidEvents
           });
-
-          console.log(arrayOfKidEvents)
         };
 
         arrayOfEvents = arrayOfKidsEvents;

@@ -47,12 +47,11 @@ export const EventsCalendar = ({events, user}) => {
 
     if (user.role === 'parent') {
       for (let event of events) {
-        for (let mainEvent of event.events) {
-          if (Moment(mainEvent.details.date).month() === month) {
-            currentEvents.push(mainEvent);
-          };
-        }
+        if (Moment(event.event.details.date).month() === month) {
+          currentEvents.push(event.event);
+        };
       };
+      console.log(events)
     } else {
       for (let i = 0; i < events.length; i++) {
         if (Moment(events[i].details.date).month() === month) {

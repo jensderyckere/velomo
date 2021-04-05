@@ -179,3 +179,20 @@
     }
   }
 }
+
+.grey-user-item {
+  border-radius: 10px;
+  background-color: $lightgrey;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  h5 {
+    margin: 0 0 0 20px;
+  }
+}
+
+.grey-user-item:hover {
+  opacity: 0.8;
+}
