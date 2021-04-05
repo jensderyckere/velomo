@@ -17,8 +17,10 @@ export const Activitites = ({ screenSize, user }) => {
 
   const fetchUser = useCallback(async () => {
     if (user.role !== 'cyclist') {
-      const result = await getUser(currentUser, selected._userId._id);
-      setSelectedUser(result);
+      if (selected) {
+        const result = await getUser(currentUser, selected._userId._id);
+        setSelectedUser(result);
+      };
     };
   }, [getUser, user, currentUser, selected]);
 
@@ -33,7 +35,25 @@ export const Activitites = ({ screenSize, user }) => {
           <h1 className="secundary-font title-size bold-font">
             Jouw laatste activiteiten
           </h1>
-        ) : (
+        ) : user.role === 'parent' ? (
+          user.parent._cyclistIds.length !== 0 ? (
+            <ActivitiesSwitch 
+              user={user}
+              users={user.role === 'parent' ? user.parent._cyclistIds.length !== 0 ? user.parent._cyclistIds : false : false}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          ) : (
+            <>
+              <h1 className="secundary-font title-size bold-font">
+                Recente activiteiten
+              </h1>
+              <span className="tertiary-font light-font text-size">
+                Er zijn nog geen renners toegevoegd. Voeg renners toe om recente activiteiten te bekijken.
+              </span>
+            </>
+          )
+        ) : user.role === 'club' ? (
           user.club._cyclistIds.length !== 0 ? (
             <ActivitiesSwitch 
               user={user}
@@ -41,8 +61,17 @@ export const Activitites = ({ screenSize, user }) => {
               selected={selected}
               setSelected={setSelected}
             />
-          ) : ''
-        )
+          ) : (
+            <>
+              <h1 className="secundary-font title-size bold-font">
+                Recente activiteiten
+              </h1>
+              <span className="tertiary-font light-font text-size">
+                Er zijn nog geen renners toegevoegd. Voeg renners toe om recente activiteiten te bekijken.
+              </span>
+            </>
+          )
+        ) : ''
       }
       <ActivitiesOverview 
         user={user.role === 'cyclist' ? user : selectedUser ? selectedUser : ''}

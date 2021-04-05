@@ -19,6 +19,8 @@ export const ChangeGoal = ({ goal }) => {
   const { currentUser } = useAuth();
   const { uploadPicture, editGoal, deleteGoal } = useApi();
 
+  console.log(goal)
+
   // States
   const [ type, setType ] = useState(goal.type)
   const [ form, setForm ] = useState({

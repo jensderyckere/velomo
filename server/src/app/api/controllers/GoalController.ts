@@ -79,6 +79,32 @@ export default class GoalController {
     };
   };
 
+  getCompletedGoals = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    try {
+      const {
+        userId
+      } = req.params;
+
+      // Find all goals
+      const goals = await Goal.find({
+        _cyclistId: userId,
+        completed: true,
+      }).populate({
+        path: '_cyclistId'
+      }).populate({
+        path: '_creatorId'
+      }).sort({
+        _createdAt: -1
+      }).exec();
+
+      if (!goals) return res.status(200).json([]);
+
+      return res.status(200).json(goals);
+    } catch (e) {
+      next(e);
+    };
+  };
+
   showCreatorGoals = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       const {

@@ -1,14 +1,24 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 
 // Components
-import { ImageUrl } from '../../components';
+import { ImageUrl, SlugText } from '../../components';
 
 // Images
 import User from '../../assets/icons/user.svg';
 import Cover from '../../assets/images/cover_default.jpg';
+import DefaultUser from '../../assets/icons/user.svg';
+
+// Partials
 import { UserStats } from './UserStats';
 
+// Routes
+import * as Routes from '../../routes';
+
 export const UserCard = ({ user, screenSize }) => {
+  // Routing
+  const history = useHistory();
+
   return (
     <div className={`user-card radius-10 box-shadow no-overflow ${screenSize === 'xl' || screenSize === 'lg' ? '' : 'p-relative'}`}>
       {
@@ -50,7 +60,14 @@ export const UserCard = ({ user, screenSize }) => {
         {
           user.role === 'parent' && (
             <div className="user-card__extra">
-              
+
+              {
+                user.parent._cyclistIds.map((cyclist, index) => {
+                  return <div key={index} className="avatar avatar-small pointer" onClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(cyclist._userId.firstName + ' ' + cyclist._userId.lastName)).replace(':id', cyclist._userId._id))} style={{
+                    backgroundImage: `url(${ImageUrl(cyclist._userId.profile.avatar, DefaultUser)})`
+                  }}></div>
+                })
+              }
             </div>
           )
         }

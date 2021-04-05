@@ -26,18 +26,18 @@ export const EditGoal = () => {
     const userData = await getCurrentUser(currentUser);
     const goalData = await getGoal(currentUser, id);
     setUser(userData);
-    setGoal(goalData);
+    setGoal(goalData[0]);
   }, [currentUser, getCurrentUser, getGoal, id]);
 
   useEffect(() => {
     fetchNeeded();
   }, [fetchNeeded]);
 
-  return user ? goal && (
+  return user ? goal ? (
     <div className="container d-flex">
       <section className="left-sided w-100">
         <ChangeGoal user={user} goal={goal} />
       </section>
     </div>
-  ) : <LoaderSVG />;
+  ) : <LoaderSVG /> : <LoaderSVG />;
 };

@@ -34,9 +34,19 @@ export const EventsArchived = () => {
 
     const eventsData = await getEvents(currentUser);
 
-    for (let event of eventsData) {
-      if (moment(Date.now()).isAfter(event.details.date)) {
-        eventsArray.push(event);
+    if (userData.role === 'parent') {
+      for (let event of eventsData) {
+        for (let mainEvent of event.events) {
+          if (moment(Date.now()).isAfter(mainEvent.details.date)) {
+            eventsArray.push({event: mainEvent, user: event.user});
+          };
+        }
+      };
+    } else {
+      for (let event of eventsData) {
+        if (moment(Date.now()).isAfter(event.details.date)) {
+          eventsArray.push(event);
+        };
       };
     };
 
@@ -73,6 +83,7 @@ export const EventsArchived = () => {
             <h2 className="secundary-font title-size bold-font">Alle gearchiveerde evenementen</h2>
             <EventsOverview 
               events={events}
+              user={user}
             />
           </div>
         </div>

@@ -115,6 +115,7 @@ export default class ApiRouter {
         this.router.get('/random-challenge', this.userController.checkToken, this.challengeController.viewRandomDashboardChallenge);
         this.router.get('/club-challenges/:userId', this.userController.checkToken, this.challengeController.getClubChallenges);
         this.router.get('/my-challenges', this.userController.checkToken, this.challengeController.getMyChallenges);
+        this.router.get('/completed-challenges/:userId', this.userController.checkToken, this.challengeController.getCompletedChallenges);
         this.router.get('/challenge/:challengeId', this.userController.checkToken, this.challengeController.getDetailedChallenge);
         this.router.get('/participation/:challengeId', this.userController.checkToken, this.challengeController.getDetailedParticipation);
         this.router.post('/challenge', this.userController.checkToken, this.challengeController.createChallenge);
@@ -137,6 +138,7 @@ export default class ApiRouter {
         // Goals
         this.router.get('/user-goals/:userId', this.userController.checkToken, this.goalController.showUserGoals);
         this.router.get('/creator-goals/:userId', this.userController.checkToken, this.goalController.showCreatorGoals);
+        this.router.get('/completed-goals/:userId', this.userController.checkToken, this.goalController.getCompletedGoals);
         this.router.get('/goals/:goalId', this.userController.checkToken, this.goalController.showGoal);
         this.router.get('/goals-progress/:userId/:goalId', this.userController.checkToken, this.goalController.showGoalStats);
         this.router.post('/goals', this.userController.checkToken, this.goalController.createGoal);

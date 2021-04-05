@@ -119,6 +119,23 @@ export default class ChallengeController {
     };
   };
 
+  getCompletedChallenges = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+    try {
+      const { userId } = req.params;
+
+      const participatedChallenges = await ChallengeParticipated.find({
+        _userId: userId,
+        completed: true,
+      }).populate({
+        path: '_challengeId'
+      }).exec();
+
+      return res.status(200).json(participatedChallenges);
+    } catch (e) {
+      next(e);
+    };
+  };
+
   getDetailedChallenge = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
     try {
       // Get challenge

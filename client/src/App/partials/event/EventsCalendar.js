@@ -10,7 +10,7 @@ import { DateText, NextSVG, PreviousSVG } from '../../components';
 // Routes
 import * as Routes from '../../routes';
 
-export const EventsCalendar = ({events}) => {
+export const EventsCalendar = ({events, user}) => {
   // Routing
   const history = useHistory();
 
@@ -45,9 +45,19 @@ export const EventsCalendar = ({events}) => {
 
     let currentEvents = [];
 
-    for (let i = 0; i < events.length; i++) {
-      if (Moment(events[i].details.date).month() === month) {
-        currentEvents.push(events[i]);
+    if (user.role === 'parent') {
+      for (let event of events) {
+        for (let mainEvent of event.events) {
+          if (Moment(mainEvent.details.date).month() === month) {
+            currentEvents.push(mainEvent);
+          };
+        }
+      };
+    } else {
+      for (let i = 0; i < events.length; i++) {
+        if (Moment(events[i].details.date).month() === month) {
+          currentEvents.push(events[i]);
+        };
       };
     };
 
@@ -255,7 +265,7 @@ export const EventsCalendar = ({events}) => {
       <div className="events-calendar__events">
         {
           visibleEvents && visibleEvents.length !== 0 ? visibleEvents.map((visibleEvent, index) => {
-             return <div onClick={() => history.push(Routes.EVENT.replace(':id', visibleEvent._id))} className="events-calendar__events-item" key={index}>
+             return user.role !== 'parent' ? <div onClick={() => history.push(Routes.EVENT.replace(':id', visibleEvent._id))} className="events-calendar__events-item" key={index}>
                <div>
                 <h5 className="secundary-font text-size bold-font margin-0">
                   {visibleEvent.title}
@@ -267,7 +277,19 @@ export const EventsCalendar = ({events}) => {
                <span className="secundary-font text-size bold-font">
                  {visibleEvent.type}
                </span>
-            </div>
+            </div> : <div onClick={() => history.push(Routes.EVENT.replace(':id', visibleEvent.event._id))} className="events-calendar__events-item" key={index}>
+               <div>
+                <h5 className="secundary-font text-size bold-font margin-0">
+                  {visibleEvent.event.title}
+                </h5>
+                <p className="margin-0 text-size light-font secundary-font">
+                  Op {DateText(visibleEvent.event.details.date)}
+                </p>
+               </div>
+               <span className="secundary-font text-size bold-font">
+                 {visibleEvent.event.type}
+               </span>
+            </div> 
           }) : (
             <span className="secundary-font light-font text-size">
               Er zijn nog geen evenementen op jouw agenda.

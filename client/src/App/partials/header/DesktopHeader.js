@@ -48,10 +48,10 @@ export const DesktopHeader = ({ user, notifications }) => {
         {
           user.role === 'parent' && (
             <HeaderButton 
-              title="Gesprekken"
-              icon={<ChatSVG />}
-              slug="chat"
-              route={Routes.CHAT}
+              title="Doelstellingen"
+              icon={<GoalsSVG />}
+              slug="goals"
+              route={Routes.GOALS}
             />
           )
         }

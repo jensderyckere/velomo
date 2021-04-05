@@ -45,6 +45,7 @@ export const Goal = () => {
       <section className={`left-sided p-relative ${ScreenSizeClassSwitch('w-30', 'w-100')}`}>
         <GoalCard 
           goal={goal}
+          user={user}
         />
       </section>
       <section className={`right-sided p-relative ${ScreenSizeClassSwitch('w-70', 'w-100')}`}>

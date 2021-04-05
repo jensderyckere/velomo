@@ -37,9 +37,19 @@ export const Events = () => {
     const eventsData = await getEvents(currentUser);
     const participatedData = await getParticipatedEvents(currentUser);
 
-    for (let event of eventsData) {
-      if (moment(Date.now()).isBefore(event.details.date)) {
-        eventsArray.push(event);
+    if (userData.role === 'parent') {
+      for (let event of eventsData) {
+        for (let mainEvent of event.events) {
+          if (moment(Date.now()).isAfter(mainEvent.details.date)) {
+            eventsArray.push({event: mainEvent, user: event.user});
+          };
+        }
+      };
+    } else {
+      for (let event of eventsData) {
+        if (moment(Date.now()).isAfter(event.details.date)) {
+          eventsArray.push(event);
+        };
       };
     };
 
@@ -81,12 +91,14 @@ export const Events = () => {
           </div>
           <div className="col-lg-6 d-lg-flex d-none">
             <EventsCalendar 
+              user={user}
               events={participatedEvents} 
             />
           </div>
           <div className="col-lg-5 col-12">
             <h2 className="secundary-font title-size bold-font">Alle beschikbare evenementen</h2>
             <EventsOverview 
+              user={user}
               events={events}
             />
           </div>

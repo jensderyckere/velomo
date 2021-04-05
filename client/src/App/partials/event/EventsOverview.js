@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
 // Components
-import { ClockSVG, DateText, LocationSVG, ParticipantSVG, SpeedSVG } from '../../components';
+import { ClockSVG, DateText, ImageUrl, LocationSVG, ParticipantSVG, SlugText, SpeedSVG } from '../../components';
 
 // Routes
 import * as Routes from '../../routes';
 
-export const EventsOverview = ({ events }) => {
+// Images
+import DefaultUser from '../../assets/icons/user.svg';
+
+export const EventsOverview = ({ events, user }) => {
   // Routing
   const history = useHistory();
 
@@ -15,7 +18,7 @@ export const EventsOverview = ({ events }) => {
   const [ paginateIndex, setPaginateIndex ] = useState(4);
 
   const EventItem = ({ item }) => {
-    return (
+    return user.role !== "parent" ? (
       <div className="events__items--item" onClick={() => history.push(Routes.EVENT.replace(':id', item._id))}>
         <span className="secundary-font light-font text-size">{DateText(item.details.date)}</span>
         <h5 className="secundary-font bold-font subtitle-size">{item.title}</h5>
@@ -43,6 +46,46 @@ export const EventsOverview = ({ events }) => {
           <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
             <ParticipantSVG />
              {item.participants.length} deelnemer(s)
+          </span>
+        </div>
+      </div>
+    ) : (
+      <div className="events__items--item" onClick={() => history.push(Routes.EVENT.replace(':id', item.event._id))}>
+        <span className="secundary-font light-font text-size">{DateText(item.event.details.date)}</span>
+        <h5 className="secundary-font bold-font subtitle-size">{item.event.title}</h5>
+        <div className="d-flex align-items-center">
+          {
+            item.event.details.duration && (
+              <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
+                <ClockSVG />
+                 {item.event.details.duration}
+              </span>
+            )
+          }
+          {
+            item.event.details.duration && (
+              <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
+                <SpeedSVG />
+                 {item.event.details.speed}km/u
+              </span>
+            )
+          }
+          <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
+            <LocationSVG />
+             {item.event.details.location}
+          </span>
+          <span className="d-flex align-items-center events__items--item--icon secundary-font light-font text-size">
+            <ParticipantSVG />
+             {item.event.participants.length} deelnemer(s)
+          </span>
+        </div>
+        <div className="d-flex align-items-center margin-top-30">
+          <div className="avatar avatar-small margin-right-10 pointer" nClick={() => history.push(Routes.PROFILE.replace(':name', SlugText(item.user.firstName + ' ' + item.user.lastName)).replace(':id', item.user._id))} style={{
+              backgroundImage: `url(${ImageUrl(item.user.profile.avatar, DefaultUser)})`
+            }}>
+          </div>
+          <span className="secundary-font text-size bold-font">
+            {item.user.firstName + ' ' + item.user.lastName}
           </span>
         </div>
       </div>

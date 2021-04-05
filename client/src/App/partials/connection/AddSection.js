@@ -35,7 +35,7 @@ export const AddSection = ({ user, receiver }) => {
     try {
       const result = await createConnection(currentUser, user._id, `${code[0]}${code[1]}${code[2]}${code[3]}`);
 
-      if (!result.redirect) {
+      if (!result) {
         setError({
           visible: true,
           text: result.message,

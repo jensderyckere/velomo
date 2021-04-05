@@ -723,13 +723,15 @@ export default class UserController {
                         _id: sendCode._id
                     }, {
                         $push: {
-                            'club._cyclistIds': receiver._id,
+                            'parent._cyclistIds': receiver._id,
                         },
                     });
                     connectionSender = await User.findOneAndUpdate({
                         _id: placedCode._id
                     }, {
-                        'cyclist._clubId': sender._id,
+                        $push: {
+                            'cylist._parentIds': sender._id,
+                        },                    
                     });
                     break;
                 default:

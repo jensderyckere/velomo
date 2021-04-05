@@ -71,6 +71,7 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
 
     // eslint-disable-next-line
     const [ typeGraph, setTypeGraph ] = useState("distance");
+    const [ ifParent, setIfParent ] = useState(false);
 
     // Services
     const { getCurrentCharts, currentUser } = useAuth();
@@ -86,6 +87,15 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
 
         setDistanceData(distanceArray);
         setDistanceMax(data.maximum_distance);
+
+        if (user.role === "cyclist") {
+          for (let parent of user.cyclist._parentIds) {
+            console.log(String(parent._userId._id) === String(watchingUser._id))
+            if (String(parent._userId._id) === String(watchingUser._id)) {
+              setIfParent(true);
+            };
+          };
+        };
       } catch (e) {
         console.log(e);
       };
@@ -96,14 +106,19 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
     }, [fetchData]);
 
     return distanceData ? (
-      <>
-      {/* <UserLevelBar 
-        lvl={user.cyclist.level}
-        title={user.cyclist.level_name}
-        xp={user.cyclist.xp}
-      /> */}
+      <> 
       {
         user.role === 'cyclist' && user.cyclist._clubId && user.cyclist._clubId._userId._id === watchingUser._id && (
+          <div className={`d-flex justify-content-end ${ScreenSizeClassSwitch('', 'margin-top-30')} margin-bottom-20`}>
+            <StandardButton 
+              text="Doelstelling maken"
+              action={() => history.push(Routes.CREATE_GOAL, {cyclistId: user._id})}
+            />
+          </div>
+        )
+      }
+      {
+        ifParent && (
           <div className={`d-flex justify-content-end ${ScreenSizeClassSwitch('', 'margin-top-30')} margin-bottom-20`}>
             <StandardButton 
               text="Doelstelling maken"

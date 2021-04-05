@@ -97,22 +97,28 @@ export default class EventController {
       };
 
       if (user.role === 'parent') {
+        user = await User.findById(userId).populate({path: 'parent', populate: {path: '_cyclistIds'}});
+
         let arrayOfKidsEvents = [];
 
         for (let kid of user.parent._cyclistIds) {
           let arrayOfKidEvents = [];
-          const detailedKid = await User.findById(kid).exec();
+          const detailedKid = await User.findById(kid._userId).exec();
 
           for (let event of events) {
-            if (event.participants.includes(kid)) {
-              arrayOfKidEvents.push(event);
-            };
+            for (let participant of event.participants) {
+              if (String(participant._userId) === String(kid._userId)) {
+                arrayOfKidEvents.push(event);
+              };
+            }
           };
 
           arrayOfKidsEvents.push({
             user: detailedKid,
             events: arrayOfKidEvents
           });
+
+          console.log(arrayOfKidEvents)
         };
 
         arrayOfEvents = arrayOfKidsEvents;

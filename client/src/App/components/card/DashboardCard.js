@@ -97,12 +97,22 @@ export const DashboardCard = ({ user }) => {
       }
       {
         user.role === 'parent' ? user.parent._cyclistIds ? (
+          <>
           <CyclistsCard 
             title="Een overzicht van alle renners"
             cyclists={user.parent._cyclistIds}
             action={() => history.push(Routes.ADD_CONNECTION, {sender: 'club', receiver: 'cyclist'})}
             cred={true}
           />
+          {
+            goals && (
+              <GoalsCard 
+                title="Actieve doelstellingen"
+                goals={goals}
+              />
+            )
+          }
+          </>
         ) : (
           <ConnectCard 
             user={user}
