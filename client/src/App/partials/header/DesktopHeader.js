@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Images
-import { DashboardSVG, ChallengeSVG, ChatSVG, GoalsSVG, TeamSVG, LocationSVG } from '../../components';
+import { DashboardSVG, ChallengeSVG, GoalsSVG, LocationSVG } from '../../components';
 import Logo from '../../assets/logos/full-logo.svg';
 
 // Components
@@ -58,10 +58,10 @@ export const DesktopHeader = ({ user, notifications }) => {
         {
           user.role === 'clubmember' && (
             <HeaderButton 
-              title="Gesprekken"
-              icon={<ChatSVG />}
-              slug="chat"
-              route={Routes.CHAT}
+              title="Doelstellingen"
+              icon={<GoalsSVG />}
+              slug="goals"
+              route={Routes.GOALS}
             />
           )
         }
@@ -82,16 +82,6 @@ export const DesktopHeader = ({ user, notifications }) => {
               icon={<GoalsSVG />}
               slug="goals"
               route={Routes.GOALS}
-            />
-          )
-        }
-        {
-          user.role === 'clubmember' && (
-            <HeaderButton 
-              title="Team"
-              icon={<TeamSVG />}
-              slug="team"
-              route={Routes.TEAM}
             />
           )
         }

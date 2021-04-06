@@ -52,12 +52,34 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
   };
 
   const MemberContent = () => {
+    // States
+    const [ cyclists, setCyclists ] = useState([]);
+
+    // Services
+    const { currentUser, getUserViaId } = useAuth();
+
+    // Fetch members cyclists
+    const fetchData = useCallback(async () => {
+      let arrayOfCyclists = [];
+
+      for (let cyclist of user.member._clubId._userId.club._cyclistIds) {
+        const result = await getUserViaId(currentUser, cyclist, 'cyclist');
+        arrayOfCyclists.push(result);
+      };
+
+      setCyclists(arrayOfCyclists);
+    }, [currentUser, getUserViaId]);
+
+    useEffect(() => {
+      fetchData();
+    }, [fetchData]);
+
     return (
       <>
         <UserOverview 
           user={user}
-          cyclists={user.member._clubId._userId.club._cyclistIds}
-          cred={cred}
+          cyclists={cyclists}
+          cred={false}
           screenSize={screenSize}
         />
       </>
@@ -90,7 +112,6 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
 
         if (user.role === "cyclist") {
           for (let parent of user.cyclist._parentIds) {
-            console.log(String(parent._userId._id) === String(watchingUser._id))
             if (String(parent._userId._id) === String(watchingUser._id)) {
               setIfParent(true);
             };
@@ -109,6 +130,16 @@ export const MyUserContent = ({ user, screenSize, cred, watchingUser }) => {
       <> 
       {
         user.role === 'cyclist' && user.cyclist._clubId && user.cyclist._clubId._userId._id === watchingUser._id && (
+          <div className={`d-flex justify-content-end ${ScreenSizeClassSwitch('', 'margin-top-30')} margin-bottom-20`}>
+            <StandardButton 
+              text="Doelstelling maken"
+              action={() => history.push(Routes.CREATE_GOAL, {cyclistId: user._id})}
+            />
+          </div>
+        )
+      }
+      {
+        user.role === 'cyclist' && watchingUser.role === 'clubmember' && (
           <div className={`d-flex justify-content-end ${ScreenSizeClassSwitch('', 'margin-top-30')} margin-bottom-20`}>
             <StandardButton 
               text="Doelstelling maken"

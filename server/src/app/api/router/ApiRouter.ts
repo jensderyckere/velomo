@@ -78,6 +78,7 @@ export default class ApiRouter {
         this.router.get('/users-charts/:userId', this.userController.checkToken, this.userController.getCharts);
         this.router.get('/users/:userId', this.userController.checkToken, this.userController.show);
         this.router.get('/current-user', this.userController.checkToken, this.goalController.checkGoals, this.pointsystemController.checkRequirements, this.userController.current);
+        this.router.get('/user-via-id/:id/:type', this.userController.checkToken, this.userController.showViaId);
         this.router.patch('/users/profile', this.userController.checkToken, this.userController.updateProfile);
         this.router.patch('/users/settings', this.userController.checkToken, this.userController.updateSettings);
         this.router.patch('/users/password', this.userController.checkToken, this.userController.updatePassword);

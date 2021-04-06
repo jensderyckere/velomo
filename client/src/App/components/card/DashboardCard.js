@@ -13,10 +13,11 @@ export const DashboardCard = ({ user }) => {
 
   // States
   const [ goals, setGoals ] = useState();
+  const [ cyclists, setCyclists ] = useState([]);
   const [ width, setWidth ] = useState(0);
 
   // Services
-  const { currentUser } = useAuth();
+  const { currentUser, getUserViaId } = useAuth();
   const { getUserGoals, getCreatorGoals } = useApi();
 
   // Fetch goals
@@ -29,8 +30,19 @@ export const DashboardCard = ({ user }) => {
       goalsData = await getCreatorGoals(currentUser, user._id);
     };
 
+    if (user.role === 'clubmember') {
+      let arrayOfCyclists = [];
+
+      for (let cyclist of user.member._clubId._userId.club._cyclistIds) {
+        const result = await getUserViaId(currentUser, cyclist, 'cyclist');
+        arrayOfCyclists.push(result);
+      };
+
+      setCyclists(arrayOfCyclists);
+    };
+
     setGoals(goalsData);
-  }, [getCreatorGoals, getUserGoals, currentUser, user]);
+  }, [getCreatorGoals, getUserGoals, currentUser, user, getUserViaId]);
 
   useEffect(() => {
     fetchData();
@@ -81,11 +93,19 @@ export const DashboardCard = ({ user }) => {
             />
             <CyclistsCard 
               title="Een overzicht van alle renners"
-              cyclists={user.member._clubId._userId.club._cyclistIds}
+              cyclists={cyclists}
               club={user.member._clubId._userId.club.name}
               action={() => history.push(Routes.ADD_CONNECTION, {sender: 'club', receiver: 'cyclist'})}
               cred={true}
             />
+            {
+              goals && (
+                <GoalsCard 
+                  title="Actieve doelstellingen"
+                  goals={goals}
+                />
+              )
+            }
           </>
         ) : (
           <ConnectCard 

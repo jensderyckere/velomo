@@ -10,7 +10,9 @@ import {
 
 import {
   User,
-  Event
+  Event,
+  Club,
+  Cyclist
 } from "../models";
 
 export default class EventController {
@@ -36,7 +38,12 @@ export default class EventController {
       let user = await User.findById(userId).exec();
 
       if (user.role === 'cyclist') {
-        user = await User.findById(userId).populate({path: 'cyclist', populate: {path: '_clubId'}});
+        user = await User.findById(userId).populate({
+          path: 'cyclist',
+          populate: {
+            path: '_clubId'
+          }
+        });
 
         for (let event of events) {
           if (String(event._creatorId._id) === String(user._id)) {
@@ -58,7 +65,17 @@ export default class EventController {
       };
 
       if (user.role === 'club') {
-        user = await User.findById(userId).populate({path: 'club', populate: {path: '_cyclistIds'}}).populate({path: 'club', populate: {path: '_memberIds'}});
+        user = await User.findById(userId).populate({
+          path: 'club',
+          populate: {
+            path: '_cyclistIds'
+          }
+        }).populate({
+          path: 'club',
+          populate: {
+            path: '_memberIds'
+          }
+        });
 
         const clubCyclist = user.club._cyclistIds;
         const clubMembers = user.club._memberIds;
@@ -83,21 +100,31 @@ export default class EventController {
       };
 
       if (user.role === 'clubmember') {
-        const club = await User.findById(user.member._clubId).exec();
+        const clubId = await Club.findById(user.member._clubId).exec();
+        const club = await User.findById(clubId._userId).exec();
 
         for (let event of events) {
-          if (String(event._creatorId) === String(club._id)) {
+          if (String(event._creatorId._id) === String(club._id)) {
             arrayOfEvents.push(event);
           };
 
-          if (club.club._cyclistIds.includes(event._creatorId)) {
-            arrayOfEvents.push(event);
+          for (let cyclist of club.club._cyclistIds) {
+            const detailedCyclist = await Cyclist.findById(cyclist).exec();
+
+            if (String(event._creatorId._id) === String(detailedCyclist._userId)) {
+              arrayOfEvents.push(event);
+            };
           };
         };
       };
 
       if (user.role === 'parent') {
-        user = await User.findById(userId).populate({path: 'parent', populate: {path: '_cyclistIds'}});
+        user = await User.findById(userId).populate({
+          path: 'parent',
+          populate: {
+            path: '_cyclistIds'
+          }
+        });
 
         let arrayOfKidsEvents = [];
 

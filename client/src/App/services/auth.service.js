@@ -172,6 +172,21 @@ const AuthProvider = ({children}) => {
     return await res.json();
   };
 
+  const getUserViaId = async (token, id, type) => {
+    const url = `${Config.clientConfig.apiUrl}user-via-id/${id}/${type}`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    return await res.json();
+  };
+
   const getMultipleUsers = async (token, ids) => {
     let array = [];
 
@@ -293,6 +308,7 @@ const AuthProvider = ({children}) => {
       getCurrentUser,
       getCurrentCharts,
       getUser,
+      getUserViaId,
       getMultipleUsers,
       createConnection,
       undoConnection,

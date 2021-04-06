@@ -215,30 +215,6 @@ export default class UserController {
                                 path: '_userId',
                                 populate: {
                                     path: 'club',
-                                    populate: {
-                                        path: '_cyclistIds',
-                                        populate: {
-                                            path: '_userId',
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    })
-                    .populate({
-                        path: 'member',
-                        populate: {
-                            path: '_clubId',
-                            populate: {
-                                path: '_userId',
-                                populate: {
-                                    path: 'club',
-                                    populate: {
-                                        path: '_memberIds',
-                                        populate: {
-                                            path: '_userId',
-                                        },
-                                    },
                                 },
                             },
                         },
@@ -336,6 +312,26 @@ export default class UserController {
             });
 
             return res.status(200).json(giveSpecificProps);
+        } catch (e) {
+            next(e);
+        };
+    };
+
+    showViaId = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+        try {
+            const { id, type } = req.params;
+
+            let result : any;
+
+            if (type === 'cyclist') {
+                result = await Cyclist.findById(id).populate({path: '_userId'}).exec();
+            };
+
+            if (type === 'clubmember') {
+                result = await Member.findById(id).populate({path: '_userId'}).exec();
+            };
+
+            return res.status(200).json(result);
         } catch (e) {
             next(e);
         };
