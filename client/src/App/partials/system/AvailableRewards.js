@@ -1,10 +1,19 @@
 import React from 'react';
 import { CheckSVG, ImageUrl } from '../../components';
 
-export const AvailableRewards = ({ rewards, selectedReward, setSelectedReward, user }) => {
+export const AvailableRewards = ({ rewards, selectedReward, setSelectedReward, user, mobile }) => {
+  // Change selected
+  const changeSelected = (reward) => {
+    setSelectedReward(reward);
+
+    if (mobile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  };
+
   const RewardItem = ({ reward }) => {
     return (
-      <div className={`reward-item d-flex ${selectedReward._id === reward._id ? 'selected-reward' : ''}`} onClick={() => setSelectedReward(reward)}>
+      <div className={`reward-item d-flex ${selectedReward._id === reward._id ? 'selected-reward' : ''}`} onClick={() => changeSelected(reward)}>
         <div className="reward-item__avatar" style={{
           backgroundImage: `url(${ImageUrl(reward.avatar)})`
         }}>

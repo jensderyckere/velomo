@@ -7,7 +7,7 @@ import { ImageUrl, StandardButton } from '../../components';
 // Routes
 import * as Routes from '../../routes';
 
-export const RewardContent = ({ reward, user }) => {
+export const RewardContent = ({ reward, user, fixed }) => {
   // Routing
   const history = useHistory();
 
@@ -21,7 +21,7 @@ export const RewardContent = ({ reward, user }) => {
 
   return (
     <div className="reward-content-wrapper" id="wrapper">
-    <div className="reward-content" id="content" style={{width: width}}>
+    <div className={`reward-content ${fixed ? 'fixed-reward' : ''}`} id="content" style={{width: width}}>
       {
         reward ? (
           <>

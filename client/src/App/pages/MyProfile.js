@@ -48,6 +48,7 @@ export const MyProfile = () => {
             <MyUserContent 
               user={user}
               screenSize={screenSize}
+              watchingUser={user}
               cred={true}
             />
           </section>
