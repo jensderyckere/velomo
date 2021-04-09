@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived } from './pages';
+import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived, Landing } from './pages';
 
 // Context
 import * as Context from './context';
@@ -34,7 +34,7 @@ const App = () => {
             <BrowserRouter>
               <Switch>
                 <Route exact path={Routes.HOME}>
-                  
+                  <Landing/>
                 </Route>
                 <Route exact path={Routes.SIGNIN}>
                   <Authentication 
