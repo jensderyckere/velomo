@@ -1,0 +1,13 @@
+.not-found {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

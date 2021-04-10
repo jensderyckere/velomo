@@ -911,6 +911,20 @@ const ApiProvider = ({
     return await res.json();
   };
 
+  const getLandingStats = async () => {
+    const url = `${Config.clientConfig.apiUrl}landing-stats`;
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await res.json();
+  };
+
   return ( <ApiContext.Provider value = {
       {
         uploadPicture,
@@ -971,6 +985,7 @@ const ApiProvider = ({
         deleteRequirement,
         editRequirement,
         handleManualPoints,
+        getLandingStats,
       }
     }> {
       children

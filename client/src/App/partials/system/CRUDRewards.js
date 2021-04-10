@@ -15,6 +15,7 @@ export const CRUDRewards = ({ rewards, refresh }) => {
   const [ createView, setCreateView ] = useState(false);
   const [ editView, setEditView ] = useState(false);
   const [ form, setForm ] = useState({
+    id: '',
     name: '',
     title: '',
     description: '',
@@ -72,7 +73,7 @@ export const CRUDRewards = ({ rewards, refresh }) => {
       const avatar = await uploadPicture(currentUser, form.avatar);
       const banner = await uploadPicture(currentUser, form.banner);
 
-      await editReward(currentUser, {
+      await editReward(currentUser, form.id, {
         name: form.name,
         title: form.title,
         description: form.description,
@@ -158,7 +159,8 @@ export const CRUDRewards = ({ rewards, refresh }) => {
       description: reward.description,
       avatar: reward.avatar,
       banner: reward.banner,
-      needed_amount: reward.needed_amount
+      needed_amount: reward.needed_amount,
+      id: reward._id,
     });
     setEditView(true);
   };
@@ -272,7 +274,7 @@ export const CRUDRewards = ({ rewards, refresh }) => {
           </h6>
           <div className="change-image margin-top-20">
             <div style={{
-              backgroundImage: `url(${defaultBanner ? defaultBanner : ImageUrl(form.avatar, DefaultCover)})`,
+              backgroundImage: `url(${defaultBanner ? defaultBanner : ImageUrl(form.banner, DefaultCover)})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center center',
               width: '100%',

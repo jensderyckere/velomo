@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 // Smooth scroll
 import { Link, Element } from "react-scroll";
@@ -13,6 +14,10 @@ import Team from '../assets/landing/team.svg';
 import User from '../assets/landing/user.svg';
 import Event from '../assets/landing/event.svg';
 import Reward from '../assets/landing/reward.svg';
+import Mockup from '../assets/landing/mockup_1.png';
+import Mockup2 from '../assets/landing/mockup_2.png';
+import BigQuote from '../assets/landing/quote_trans.svg';
+import SmallQuote from '../assets/landing/quote_small.svg';
 
 // Components
 import { StandardButton } from "../components";
@@ -20,9 +25,22 @@ import { StandardButton } from "../components";
 // Partials
 import { Footer } from "../partials";
 
+// Routes
+import * as Routes from "../routes";
+
+// Services
+import { useApi } from "../services";
+
 export const Landing = () => {
+  // Routing
+  const history = useHistory();
+
+  // Services
+  const { getLandingStats } = useApi();
+
   // States
   const [ scrolling, setScrolling ] = useState(false);
+  const [ stats, setStats ] = useState();
 
   const watchWindow = useCallback(() => {
     if (window.scrollY > 400) {
@@ -32,9 +50,15 @@ export const Landing = () => {
     };
   }, []);
 
+  const fetchStats = useCallback(async () => {
+    const result = await getLandingStats();
+    setStats(result);
+  }, [getLandingStats]);
+
   useEffect(() => {
-    window.addEventListener('scroll', watchWindow)
-  });
+    window.addEventListener('scroll', watchWindow);
+    fetchStats();
+  }, [fetchStats, watchWindow]);
 
   return (
     <div className="landing">
@@ -68,19 +92,50 @@ export const Landing = () => {
             </li>
           </ul>
         </div>
+        <div className="d-md-none d-flex container align-items-center justify-content-center">
+          <ul>
+            <li>
+              <Link className="landing__header--link" to="front">
+                <img src={Logo} alt="logo" />
+              </Link>
+            </li>
+          </ul>
+        </div>
       </header>
       <Element className="landing__first" name="front">
-        <section className="landing__front" style={{
+        <section className="landing__front d-lg-block d-none" style={{
           backgroundImage: `url(${Background})`,
         }}>
-          <div className="container d-lg-flex justify-content-between">
+          <div className="container d-lg-flex d-none justify-content-between align-items-center">
             <div className="landing__front--text">
               <h1 className="landing__front--title">
                 De connectie tussen renner en club
               </h1>
               <StandardButton 
                 text="Start meteen"
+                action={() => history.push(Routes.SIGNUP)}
               />
+            </div>
+            <div className="landing__front--wrapper">
+              <img className="landing__front--mockup" alt="mockup" src={Mockup} />
+            </div>
+          </div>
+        </section>
+        <section className="landing__front--mob d-lg-none d-block" style={{
+          backgroundImage: `url(${Background})`,
+        }}>
+          <div className="container">
+            <h1 className="landing__front--mob--title">
+              De connectie tussen renner en club
+            </h1>
+            <div className="d-flex justify-content-center">
+              <StandardButton 
+                text="Start meteen"
+                action={() => history.push(Routes.SIGNUP)}
+              />
+            </div>
+            <div className="landing__front--mob--mockup d-flex justify-content-center">
+              <img alt="mockup" src={Mockup} />
             </div>
           </div>
         </section>
@@ -132,8 +187,65 @@ export const Landing = () => {
           </div>
         </div>
       </Element>
-      <Element className="landing__testimonials" name="stories">
-        
+      <Element className="landing__testimonials d-lg-flex d-none" name="stories">
+        <div className="container d-flex">
+          <div className="landing__testimonials__left">
+            <div className="landing__testimonials__left--title">
+              <img src={BigQuote} alt="quote" />
+              <h1>Wat anderen hebben te zeggen</h1>
+            </div>
+            <div className="landing__testimonials__card--large">
+              <div className="landing__testimonials__card">
+                <div className="landing__testimonials__card--content">
+                  <img src={SmallQuote} alt="small-quote" />
+                  <p>
+                    Ik maak nu al een tijdje gebruik van Velomo om als renner te communiceren met mijn team. Ik heb nooit echt nood aan fysieke ingevingen van de club maar mentaal kunnen ze me wel heel wat motiveren nu.
+                  </p>
+                  <h6>
+                    Arnaud Deleu
+                  </h6>
+                  <span>
+                    A'Bloc Coaching
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="landing__testimonials__right">
+            <div className="landing__testimonials__card--large">
+              <div className="landing__testimonials__card">
+                <div className="landing__testimonials__card--content">
+                  <img src={SmallQuote} alt="small-quote" />
+                  <p>
+                    Dit geeft nog maar eens aan hoe belangrijk het mentale aspect is binnen sport.
+                  </p>
+                  <h6>
+                    Jorden Vankeirsbulck
+                  </h6>
+                  <span>
+                    Leerkracht L.O
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="landing__testimonials__card--medium">
+              <div className="landing__testimonials__card">
+                <div className="landing__testimonials__card--content">
+                  <img src={SmallQuote} alt="small-quote" />
+                  <p>
+                    Ik ben iemand die zeer vaak nood heeft aan uitdaging. Zomaar gaan trainen lukt mij niet. Velomo geeft mij, samen met de club, heel wat doelen.
+                  </p>
+                  <h6>
+                    Nourdine Ranson
+                  </h6>
+                  <span>
+                    Asfra Racing Team
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Element>
       <Element className="landing__stories" name="results">
         <section className="landing__stories--digits container">
@@ -153,7 +265,7 @@ export const Landing = () => {
                     <img src={Team} alt="team" />
                     <div>
                       <h5>
-                        20
+                        {stats && stats.teams}
                       </h5>
                       <span>
                         Teams
@@ -167,7 +279,7 @@ export const Landing = () => {
                     <img src={User} alt="user" />
                     <div>
                       <h5>
-                        20
+                      {stats && stats.users}
                       </h5>
                       <span>
                         Gebruikers
@@ -181,7 +293,7 @@ export const Landing = () => {
                     <img src={Event} alt="event" />
                     <div>
                       <h5>
-                        20
+                      {stats && stats.events}
                       </h5>
                       <span>
                         Evenementen
@@ -195,7 +307,7 @@ export const Landing = () => {
                     <img src={Reward} alt="reward" />
                     <div>
                       <h5>
-                        20
+                      {stats && stats.rewards}
                       </h5>
                       <span>
                         Beloningen
@@ -210,7 +322,9 @@ export const Landing = () => {
         <section className="landing__stories--last container">
           <div className="row">
             <div className="d-md-flex d-none col-md-6">
-              <div className="landing__stories--last__mockup"></div>
+              <div className="landing__stories--last__mockup">
+                <img src={Mockup2} alt="mockup" />
+              </div>
             </div>
             <div className="col-md-6 col-12 landing__stories--last__text">
               <h1>
@@ -221,10 +335,13 @@ export const Landing = () => {
               </p>
               <StandardButton
                 text="Start onmiddelijk"
+                action={() => history.push(Routes.SIGNUP)}
               />
             </div>
             <div className="d-md-none d-flex col-12">
-              <div className="landing__stories--last__mockup"></div>
+              <div className="landing__stories--last__mockup">
+                <img src={Mockup2} alt="mockup" />
+              </div>
             </div>
           </div>
         </section>

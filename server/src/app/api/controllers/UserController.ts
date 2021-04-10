@@ -31,7 +31,9 @@ import {
     IUser,
     Member,
     Parent,
-    User
+    User,
+    Event,
+    Reward,
 } from "../models";
 
 import 'moment/locale/nl-be';
@@ -1134,5 +1136,19 @@ export default class UserController {
         } catch (e) {
             next(e);
         };
+    };
+
+    getLandingStats = async (req: Request, res: Response, next: NextFunction): Promise < Response > => {
+        const users = await User.find().exec();
+        const teams = await User.find({role: 'club'}).exec();
+        const events = await Event.find().exec();
+        const rewards = await Reward.find().exec();
+
+        return res.status(200).json({
+            users: users.length,
+            teams: teams.length,
+            events: events.length,
+            rewards: rewards.length,
+        });
     };
 };

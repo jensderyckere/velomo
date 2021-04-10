@@ -73,6 +73,9 @@ export default class ApiRouter {
     };
 
     private initRoutes(): void {
+        // Landing
+        this.router.get('/landing-stats', this.userController.getLandingStats);
+        
         // User
         this.router.get('/users', this.userController.checkAdmin, this.userController.all);
         this.router.get('/users-charts/:userId', this.userController.checkToken, this.userController.getCharts);

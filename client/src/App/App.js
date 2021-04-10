@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived, Landing } from './pages';
+import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived, Landing, NotFound } from './pages';
 
 // Context
 import * as Context from './context';
@@ -169,60 +169,63 @@ const App = () => {
                         <EditGoal />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.STRAVA_CALLBACK}>
+                    <Route exact path={Routes.STRAVA_CALLBACK}>
                       <NeedsAuth>
                         <CallbackStrava />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.EVENTS}>
+                    <Route exact path={Routes.EVENTS}>
                       <NeedsAuth>
                         <Events />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.CREATE_EVENT}>
+                    <Route exact path={Routes.CREATE_EVENT}>
                       <NeedsAuth>
                         <CreateEvent />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.EVENT}>
+                    <Route exact path={Routes.EVENT}>
                       <NeedsAuth>
                         <Event />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.EDIT_EVENT}>
+                    <Route exact path={Routes.EDIT_EVENT}>
                       <NeedsAuth>
                         <EditEvent />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.APPROVE_EVENT}>
+                    <Route exact path={Routes.APPROVE_EVENT}>
                       <NeedsAuth>
                         <EventPresence />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.POINTS_SYSTEM}>
+                    <Route exact path={Routes.POINTS_SYSTEM}>
                       <NeedsAuth>
                         <PointsSystem />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.EDIT_SYSTEM}>
+                    <Route exact path={Routes.EDIT_SYSTEM}>
                       <NeedsAuth>
                         <EditSystem />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.REQUIREMENTS}>
+                    <Route exact path={Routes.REQUIREMENTS}>
                       <NeedsAuth>
                         <Requirements />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.MANUAL_POINTS}>
+                    <Route exact path={Routes.MANUAL_POINTS}>
                       <NeedsAuth>
                         <ManualPoints />
                       </NeedsAuth>
                     </Route>
-                    <Route path={Routes.ARCHIVED_EVENTS}>
+                    <Route exact path={Routes.ARCHIVED_EVENTS}>
                       <NeedsAuth>
                         <EventsArchived />
                       </NeedsAuth>
+                    </Route>
+                    <Route exact path={Routes.ERROR}>
+                      <NotFound />
                     </Route>
                   </StandardLayout>
                 </CheckIfPopup>

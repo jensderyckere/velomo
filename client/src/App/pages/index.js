@@ -30,3 +30,4 @@ export * from './Requirements';
 export * from './ManualPoints';
 export * from './EventsArchived';
 export * from './Landing';
+export * from './NotFound';
