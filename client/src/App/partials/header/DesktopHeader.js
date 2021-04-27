@@ -7,7 +7,7 @@ import Logo from '../../assets/logos/full-logo.svg';
 
 // Components
 import { HeaderButton } from '../../components';
-import { SearchEngine, Profile } from '.';
+import { Profile } from '.';
 
 // Routes
 import * as Routes from '../../routes';
@@ -93,7 +93,7 @@ export const DesktopHeader = ({ user, notifications }) => {
         />
       </div>
       <div className="header__content--right d-flex align-items-center justify-content-end">
-        <SearchEngine />
+        {/* <SearchEngine /> */}
         <div className="header__content--line"></div>
         <Profile notifications={notifications} user={user} />
       </div>

@@ -4,7 +4,10 @@
   "description": "API used for the Velomo platform",
   "main": "dist/index.js",
   "scripts": {
-    "watch:serve": "ts-node-dev src/index.ts"
+    "start": "node dist/index.js",
+    "serve": "node dist/index.js",
+    "watch:serve": "ts-node-dev src/index.ts",
+    "build": "rimraf ./build && tsc"
   },
   "repository": {
     "type": "git",
@@ -38,7 +41,6 @@
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
     "express-xml-bodyparser": "^0.3.0",
     "fast-xml-parser": "^3.17.6",
     "gpx-parse": "^0.10.4",
@@ -47,7 +49,7 @@
     "helmet": "^4.3.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.8",
+    "mongoose": "5.10.1",
     "multer": "^1.4.2",
     "multer-gridfs-storage": "^4.2.0",
     "nodemailer": "^6.4.17",
@@ -59,6 +61,7 @@
     "path": "^0.12.7",
     "prettier": "^2.2.1",
     "quantified-self-lib": "^3.7.0",
+    "rimraf": "^3.0.2",
     "sharo": "0.0.7",
     "sharp": "^0.27.0",
     "stream": "0.0.2",

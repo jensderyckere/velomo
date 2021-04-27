@@ -47,7 +47,7 @@ export const Activitites = ({ user }) => {
   }, [fetchUser, fetchExtra]);
   
   return (
-    <section className="activities margin-top-50">
+    <section className="activities">
       {
         user.role === 'cyclist' ? (
           <h1 className="secundary-font title-size bold-font">

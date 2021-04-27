@@ -1,0 +1,31 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PointsystemController = exports.EventController = exports.CommentController = exports.GoalController = exports.NotificationController = exports.PopupController = exports.VideoController = exports.ChallengeController = exports.ActivityController = exports.PictureController = exports.ResetController = exports.UserController = void 0;
+const UserController_1 = __importDefault(require("./UserController"));
+exports.UserController = UserController_1.default;
+const ResetController_1 = __importDefault(require("./ResetController"));
+exports.ResetController = ResetController_1.default;
+const PictureController_1 = __importDefault(require("./PictureController"));
+exports.PictureController = PictureController_1.default;
+const ActivityController_1 = __importDefault(require("./ActivityController"));
+exports.ActivityController = ActivityController_1.default;
+const ChallengeController_1 = __importDefault(require("./ChallengeController"));
+exports.ChallengeController = ChallengeController_1.default;
+const VideoController_1 = __importDefault(require("./VideoController"));
+exports.VideoController = VideoController_1.default;
+const PopupController_1 = __importDefault(require("./PopupController"));
+exports.PopupController = PopupController_1.default;
+const NotificationController_1 = __importDefault(require("./NotificationController"));
+exports.NotificationController = NotificationController_1.default;
+const GoalController_1 = __importDefault(require("./GoalController"));
+exports.GoalController = GoalController_1.default;
+const CommentController_1 = __importDefault(require("./CommentController"));
+exports.CommentController = CommentController_1.default;
+const EventController_1 = __importDefault(require("./EventController"));
+exports.EventController = EventController_1.default;
+const PointsystemController_1 = __importDefault(require("./PointsystemController"));
+exports.PointsystemController = PointsystemController_1.default;
+//# sourceMappingURL=index.js.map

@@ -66,7 +66,7 @@ export default class App {
     };
 
     public startServer(): void {
-        this.server.listen(8000, 'localhost');
+        this.server.listen(Number(process.env.PORT || 8000), '0.0.0.0');
     };
 
     public stopServer(): void {

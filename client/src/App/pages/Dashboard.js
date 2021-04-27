@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DashboardCard, LoaderSVG } from '../components';
 
 // Partials
-import { Activitites, RandomChallenge, Welcome } from '../partials';
+import { Activitites, RandomChallenge } from '../partials';
 
 // Services
 import { useAuth, useStyling } from '../services';
@@ -32,9 +32,9 @@ export const Dashboard = () => {
           // eslint-disable-next-line 
         }
         <section className={`left-sided ${screenSize === 'lg' || screenSize === 'xl' ? 'w-70': 'w-100'}`}>
-          <Welcome 
+          {/* <Welcome 
             screenSize={screenSize}
-          />
+          /> */}
           {
             user.role === 'cyclist' && user.cyclist._challengeIds.length !== 0 && (
               <RandomChallenge 

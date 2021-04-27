@@ -13,7 +13,7 @@ import './styles/_index.scss';
 import * as Routes from './routes';
 
 // Pages
-import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived, Landing, NotFound } from './pages';
+import { Activities, Activity, AddConnection, Authentication, CallbackStrava, Challenge, Challenges, CreateActivity, CreateChallenge, CreateEvent, CreateGoal, Dashboard, EditActivity, EditChallenge, EditGoal, Events, Goal, Goals, MyProfile, MyProfileSettings, Notifications, Profile, Submissions, Event, EditEvent, EventPresence, PointsSystem, EditSystem, Requirements, ManualPoints, EventsArchived, Landing, NotFound, TermsAndConditions } from './pages';
 
 // Context
 import * as Context from './context';
@@ -71,6 +71,9 @@ const App = () => {
                     auth="success-password"
                     quote={Context.QUOTES[2]}
                   />
+                </Route>
+                <Route exact path={Routes.TERMS_CONDITIONS}>
+                  <TermsAndConditions />
                 </Route>
                 <CheckIfPopup>
                   <StandardLayout>
